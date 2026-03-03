@@ -1,0 +1,5 @@
+{
+  "name": "ClawBot Security Guide",
+  "description": "A comprehensive, DevSecOps-focused landing page guide for installing and securing OpenClaw (ClawBot) on a VPS.",
+  "requestFramePermissions": []
+}

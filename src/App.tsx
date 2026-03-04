@@ -156,7 +156,7 @@ function ArchDiagram() {
 
 /* ─── TOC ─── */
 const TOC = [
-  {id:"comprendre",   label:"1. Comprendre ClawBot"},
+  {id:"comprendre",   label:"1. Comprendre OpenClaw"},
   {id:"securite",     label:"2. La sécurité avant tout"},
   {id:"architecture", label:"3. Architecture recommandée"},
   {id:"etape1",       label:"Étape 1 : Sécurisation SSH"},
@@ -179,7 +179,7 @@ function GuideContent({activeId, onTocClick}) {
       <article>
         <div style={{marginBottom:48}}>
           <div style={S.badge}>⚙️ DevSecOps · VPS Hostinger + Coolify</div>
-          <h1 style={S.h1}>Installer ClawBot<br/><span style={S.grad}>Correctement & Sécurisé.</span></h1>
+          <h1 style={S.h1}>Installer OpenClaw<br/><span style={S.grad}>Correctement & Sécurisé.</span></h1>
           <p style={{...S.p,fontSize:16,maxWidth:560,fontWeight:300}}>Version : VPS Hostinger + Coolify + Caddy + Multi-Applications.<br/>Enrichi avec la documentation officielle OpenClaw.</p>
         </div>
 
@@ -187,10 +187,10 @@ function GuideContent({activeId, onTocClick}) {
         <div style={S.bqW}><p style={{...S.p,margin:0}}><B c="Avant de commencer."/> Des dizaines de guides YouTube sont dangereux. Celui-ci t'explique <B c="pourquoi"/>, pas seulement quoi faire.</p></div>
 
         <hr style={S.hr}/>
-        <h2 id="comprendre" style={S.h2}>1. Comprendre ce qu'est vraiment ClawBot</h2>
-        <p style={S.p}><B c="ClawBot n'est pas une IA."/> C'est un logiciel open-source qui joue le rôle d'un <B c="chef d'orchestre"/> entre toi et les modèles d'IA (GPT, Claude, DeepSeek…).</p>
+        <h2 id="comprendre" style={S.h2}>1. Comprendre ce qu'est vraiment OpenClaw</h2>
+        <p style={S.p}><B c="OpenClaw n'est pas une IA."/> C'est un logiciel open-source qui joue le rôle d'un <B c="chef d'orchestre"/> entre toi et les modèles d'IA (GPT, Claude, DeepSeek…).</p>
         <ul style={S.ul}>
-          <li style={S.li}>ClawBot = le <B c="cerveau organisationnel"/></li>
+          <li style={S.li}>OpenClaw = le <B c="cerveau organisationnel"/></li>
           <li style={S.li}>GPT-4 / Claude = le <B c="cerveau pensant"/></li>
           <li style={S.li}>L'un sans l'autre ne fait rien d'intéressant</li>
         </ul>
@@ -198,7 +198,7 @@ function GuideContent({activeId, onTocClick}) {
 
         <hr style={S.hr}/>
         <h2 id="securite" style={S.h2}>2. Pourquoi la sécurité est non-négociable</h2>
-        <div style={S.bq}><p style={{...S.p,margin:0,fontStyle:"italic"}}>💬 "Il existe en ce moment des dizaines de milliers d'instances ClawBot accessibles sur internet. Un développeur compétent peut en prendre le contrôle en 2 à 3 minutes."</p></div>
+        <div style={S.bq}><p style={{...S.p,margin:0,fontStyle:"italic"}}>💬 "Il existe en ce moment des dizaines de milliers d'instances OpenClaw accessibles sur internet. Un développeur compétent peut en prendre le contrôle en 2 à 3 minutes."</p></div>
         <div style={{overflowX:"auto"}}>
           <table style={S.tbl}>
             <thead><tr><th style={S.th}>Risque</th><th style={S.th}>Ce qui peut arriver</th></tr></thead>

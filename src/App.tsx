@@ -509,18 +509,17 @@ export default function App() {
 const bounceScrollTo = (target) => {
   const start = window.scrollY;
   const dist  = target - start;
-  const dur   = 800;
+  const dur   = 700;
   let t0 = null;
 
   const ease = (t) => {
-    if (t < 0.82) {
-      // Ease-out cubique rapide vers la cible
-      return 1 - Math.pow(1 - t / 0.82, 3);
-    } else {
-      // Micro-rebond à la fin
-      const bt = (t - 0.82) / 0.18;
-      return 1 + 0.012 * Math.sin(bt * Math.PI);
+    // Démarre à pleine vitesse, décélère à la fin + micro-rebond
+    const base = 1 - Math.pow(1 - t, 3);
+    if (t > 0.85) {
+      const bt = (t - 0.85) / 0.15;
+      return base + 0.01 * Math.sin(bt * Math.PI);
     }
+    return base;
   };
 
   const step = (ts) => {
@@ -535,7 +534,7 @@ const bounceScrollTo = (target) => {
   const handleTocClick = (id) => {
     setActiveId(id);
     const el = document.getElementById(id);
-    if (el) bounceScrollTo(el.getBoundingClientRect().top + window.scrollY - 24);
+    if (el) bounceScrollTo(el.getBoundingClientRect().top + window.scrollY - 80);
   };
 
   return (

@@ -506,24 +506,31 @@ export default function App() {
   const [tab, setTab] = useState("guide");
   const [activeId, setActiveId] = useState(null);
 
-  const bounceScrollTo = (target) => {
-    const start = window.scrollY;
-    const dist  = target - start;
-    const dur   = 2400;
-    let t0 = null;
-    const ease = t => {
-      const io = p => p < 0.5 ? 2*p*p : -1+(4-2*p)*p;
-      if (t < 0.70) return io(t/0.70)*1.008;
-      return 1.008 - io((t-0.70)/0.30)*0.008;
-    };
-    const step = (ts) => {
-      if (!t0) t0 = ts;
-      const e = Math.min((ts-t0)/dur, 1);
-      window.scrollTo(0, start + dist * ease(e));
-      if (e < 1) requestAnimationFrame(step);
-    };
-    requestAnimationFrame(step);
+const bounceScrollTo = (target) => {
+  const start = window.scrollY;
+  const dist  = target - start;
+  const dur   = 800;
+  let t0 = null;
+
+  const ease = (t) => {
+    if (t < 0.82) {
+      // Ease-out cubique rapide vers la cible
+      return 1 - Math.pow(1 - t / 0.82, 3);
+    } else {
+      // Micro-rebond à la fin
+      const bt = (t - 0.82) / 0.18;
+      return 1 + 0.012 * Math.sin(bt * Math.PI);
+    }
   };
+
+  const step = (ts) => {
+    if (!t0) t0 = ts;
+    const e = Math.min((ts - t0) / dur, 1);
+    window.scrollTo(0, start + dist * ease(e));
+    if (e < 1) requestAnimationFrame(step);
+  };
+  requestAnimationFrame(step);
+};
 
   const handleTocClick = (id) => {
     setActiveId(id);

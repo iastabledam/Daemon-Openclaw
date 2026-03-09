@@ -824,29 +824,27 @@ export default function App() {
   const [activeId, setActiveId] = useState(null);
 
   const bounceScrollTo = (target) => {
-    const start = window.scrollY, dist = target - start, dur = 2400;
-    let t0 = null;
-    const ease = t => {
-      const io = p => p < 0.5 ? 2*p*p : -1+(4-2*p)*p;
-      return t < 0.70 ? io(t/0.70)*1.008 : 1.008 - io((t-0.70)/0.30)*0.008;
-    };
-    const step = ts => {
-      if (!t0) t0 = ts;
-      const e = Math.min((ts-t0)/dur, 1);
-      window.scrollTo(0, start + dist * ease(e));
-      if (e < 1) requestAnimationFrame(step);
-    };
-    requestAnimationFrame(step);
+  const start = window.scrollY;
+  const dist = target - start;
+  const dur = Math.min(Math.abs(dist) * 0.6 + 300, 900);
+  let t0 = null;
+  const ease = t => 1 - Math.pow(1 - t, 3); // ease-out cubic : rapide au départ, doux à l'arrivée
+  const step = ts => {
+    if (!t0) t0 = ts;
+    const e = Math.min((ts - t0) / dur, 1);
+    window.scrollTo(0, start + dist * ease(e));
+    if (e < 1) requestAnimationFrame(step);
   };
+  requestAnimationFrame(step);
+};
 
-  // ✅ FIX 2 : utilise offsetTop au lieu de getBoundingClientRect().top + scrollY
-  const handleTocClick = id => {
-    setActiveId(id);
-    const el = document.getElementById(id);
-    if (el) {
-      bounceScrollTo(el.offsetTop - 80);
-    }
-  };
+const handleTocClick = id => {
+  setActiveId(id);
+  const el = document.getElementById(id);
+  if (el) {
+    bounceScrollTo(el.getBoundingClientRect().top + window.scrollY - 80);
+  }
+};
 
   return (
     <div style={S.app}>

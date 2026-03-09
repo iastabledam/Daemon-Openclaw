@@ -331,6 +331,7 @@ function GuideContent({activeId, onTocClick}) {
 
         <h4 style={S.h4}>Connecter un autre ordinateur</h4>
         <p style={S.p}>Génère une nouvelle clé sur le nouvel ordi, puis ajoute-la avec <Cd c=">>"/> (sans écraser l'ancienne) :</p>
+        {/* ✅ FIX 1 : >> escaped via template string */}
         <Pre>{"echo \"NOUVELLE-CLE-PUBLIQUE\" >> /home/[PRENOM]/.ssh/authorized_keys"}</Pre>
 
         <h4 style={S.h4}>⚠️ Erreurs fréquentes</h4>
@@ -434,7 +435,6 @@ function GuideContent({activeId, onTocClick}) {
         <h3 style={S.h3}>4.2 — Configurer le domaine HTTPS</h3>
         <p style={S.p}>Paramètres du service → <B c="Domains"/> → ajoute <Cd c="https://openclaw.ton-domaine.com"/>. Coolify via Caddy génère automatiquement un certificat SSL.</p>
 
-
         <h3 style={S.h3}>4.3 — Variables d'environnement</h3>
         <div style={S.bqW}><p style={{...S.p,margin:0}}>⚠️ <B c="Règle absolue : aucune clé API ne doit jamais transiter par une conversation, un email, ou être saisie dans l'interface OpenClaw."/> Tout doit être dans les variables d'environnement Coolify.</p></div>
         <div style={{overflowX:"auto"}}>
@@ -465,7 +465,6 @@ function GuideContent({activeId, onTocClick}) {
         <h3 style={S.h3}>4.4 — Démarrage et vérification</h3>
         <p style={S.p}>Clique sur <B c="Deploy"/> puis surveille l'onglet <B c="Logs"/>. Le conteneur est prêt quand le statut passe en <B c="Running (healthy)"/>.</p>
         <div style={S.bqW}><p style={{...S.p,margin:0}}>⚠️ <B c="Container Degraded (unhealthy)"/> : log <Cd c="API key env var is required"/> → ajoute <Cd c="ANTHROPIC_API_KEY"/> dans env vars → Save → Restart.</p></div>
-
 
         <hr style={S.hr}/>
 
@@ -533,8 +532,6 @@ function GuideContent({activeId, onTocClick}) {
         <div style={S.bqW}><p style={{...S.p,margin:0}}><B c="Cause 2"/> — ID avec guillemets dans <Cd c="allowFrom"/> : utilise un nombre entier, pas une string.</p></div>
         <div style={S.bqW}><p style={{...S.p,margin:0}}><B c="Cause 3"/> — Token révoqué ou exposé : @BotFather → <Cd c="/revoke"/> → nouveau token → Coolify env vars → supprime l'ancien du JSON → Restart.</p></div>
         <div style={S.bqW}><p style={{...S.p,margin:0}}><B c="Cause 4"/> — Token encore dans le JSON : <Cd c="grep botToken openclaw.json"/> → si trouvé → <Cd c="sed -i"/> → Restart.</p></div>
-
-        <hr style={S.hr}/>
 
         <hr style={S.hr}/>
 
@@ -842,10 +839,13 @@ export default function App() {
     requestAnimationFrame(step);
   };
 
+  // ✅ FIX 2 : utilise offsetTop au lieu de getBoundingClientRect().top + scrollY
   const handleTocClick = id => {
     setActiveId(id);
     const el = document.getElementById(id);
-    if (el) bounceScrollTo(el.getBoundingClientRect().top + window.scrollY - 80);
+    if (el) {
+      bounceScrollTo(el.offsetTop - 80);
+    }
   };
 
   return (

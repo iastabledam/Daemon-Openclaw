@@ -332,7 +332,7 @@ function GuideContent({activeId, onTocClick}) {
 
         <h4 style={S.h4}>Connecter un autre ordinateur</h4>
         <p style={S.p}>Génère une nouvelle clé sur le nouvel ordi, puis ajoute-la avec <Cd c=">>"/> (sans écraser l'ancienne) :</p>
-        <Pre>{`echo "NOUVELLE-CLE-PUBLIQUE" >> /home/[PRENOM]/.ssh/authorized_keys`}</Pre>
+       <Pre>{`echo "NOUVELLE-CLE-PUBLIQUE" >> /home/[PRENOM]/.ssh/authorized_keys`}</Pre>
 
         <h4 style={S.h4}>⚠️ Erreurs fréquentes</h4>
         <div style={S.bqW}><p style={{...S.p,margin:0}}><B c="Permission denied (publickey)"/> : clé générée sur le serveur au lieu de ton ordi, ou mauvaises permissions → <Cd c="chmod 700 .ssh && chmod 600 .ssh/authorized_keys"/>.</p></div>
@@ -483,6 +483,14 @@ function GuideContent({activeId, onTocClick}) {
         <hr style={S.hr}/>
 
         <h2 id="telegram" style={S.h2}>6. Configuration Telegram</h2>
+        <p style={S.p}>Telegram est la <B c="porte d'entrée principale"/> de ton bot OpenClaw. C'est par là que tu lui envoies des instructions, que tu déclenches des actions et que tu reçois ses réponses. C'est donc aussi le vecteur d'attaque le plus direct.</p>
+        <p style={S.p}>Ce qu'on sécurise ici :</p>
+        <ul style={S.ul}>
+          <li style={S.li}><B c="Le token du bot"/> — s'il est exposé, n'importe qui peut envoyer des commandes à ta place et déclencher des actions réelles sur ton serveur</li>
+          <li style={S.li}><B c="L'accès aux DMs"/> — sans restriction, n'importe quel utilisateur Telegram peut écrire à ton bot et l'utiliser comme s'il était le sien</li>
+          <li style={S.li}><B c="L'accès aux groupes"/> — un attaquant peut ajouter ton bot dans un groupe piégé et lui envoyer des injections de prompt pour manipuler ses actions</li>
+        </ul>
+        <div style={S.bqW}><p style={{...S.p,margin:0}}>⚠️ Un bot Telegram mal configuré avec des outils activés (fichiers, shell, navigateur) est une <B c="faille critique"/>. L'objectif de cette section est de s'assurer que seul toi peux lui parler.</p></div>
         <h3 style={S.h3}>6.1 — Créer le bot via @BotFather</h3>
         <p style={S.p}>Dans Telegram, recherche <B c="@BotFather"/> (badge ✅ officiel). Envoie <Cd c="/newbot"/> et suis les instructions. Tu reçois un token :</p>
         <Pre>123456789:ABCDEFGHIJKLMNOPxxxxxxxxxxxxxxxx</Pre>
@@ -502,22 +510,24 @@ function GuideContent({activeId, onTocClick}) {
 
         <h3 style={S.h3}>6.5 — Configurer dmPolicy et allowFrom</h3>
         <p style={S.p}>OpenClaw → <B c="Settings → Config → Raw mode"/> :</p>
-        <Pre>{'{\n  "channels": {\n    "telegram": {\n      "enabled": true,\n      "dmPolicy": "allowlist",\n      "allowFrom": [6125640105],\n      "groupPolicy": "allowlist",\n      "streamMode": "partial",\n      "actions": {\n        "sendMessage": true,\n        "deleteMessage": true\n      }\n    }\n  }\n}'}</Pre>
-        <div style={S.bqW}><p style={{...S.p,margin:0}}>⚠️ L'ID doit être un <B c="nombre entier"/> (sans guillemets). <Cd c="[6125640105]"/> ✅ — <Cd c='["6125640105"]'/> ❌</p></div>
+        <Pre>{'{\n  "channels": {\n    "telegram": {\n      "enabled": true,\n      "dmPolicy": "allowlist",\n      "allowFrom": [987654321],\n      "groupPolicy": "allowlist",\n      "streamMode": "partial",\n      "actions": {\n        "sendMessage": true,\n        "deleteMessage": true\n      }\n    }\n  }\n}'}</Pre>
+        <div style={S.bqW}><p style={{...S.p,margin:0}}>⚠️ L'ID doit être un <B c="nombre entier"/> (sans guillemets). <Cd c="[987654321]"/> ✅ — <Cd c='["987654321"]'/> ❌</p></div>
         <div style={{overflowX:"auto"}}>
           <table style={S.tbl}>
             <thead><tr><th style={S.th}>Paramètre</th><th style={S.th}>Valeur</th><th style={S.th}>Effet</th></tr></thead>
             <tbody>{[
               ["dmPolicy","allowlist","Seuls les IDs dans allowFrom peuvent écrire au bot en privé"],
-              ["allowFrom","[6125640105]","Liste des Telegram user IDs autorisés"],
+              ["allowFrom","[987654321]","Liste des Telegram user IDs autorisés"],
               ["groupPolicy","allowlist","Le bot ne répond pas dans des groupes non autorisés"],
             ].map(([p,v,e],i)=><tr key={i}><td style={S.td}><Cd c={p}/></td><td style={S.td}><Cd c={v}/></td><td style={S.td}>{e}</td></tr>)}</tbody>
           </table>
         </div>
 
         <h3 style={S.h3}>6.6 — Test de connexion Telegram</h3>
-        <p style={S.p}>Envoie un message à ton bot depuis Telegram. Il doit répondre.</p>
-        <Img label="conversation Telegram avec le bot qui répond"/>
+        <p style={S.p}>Ouvre Telegram et recherche ton bot par son username. Avant d'envoyer un message, tu dois d'abord cliquer sur le bouton <B c="Start"/> pour initier la conversation.</p>
+        <img src="https://i.imgur.com/wsQMrGY.jpeg" alt="Bouton Start du bot Telegram" style={{width:"100%",borderRadius:12,border:"1px solid #1e2235",display:"block",margin:"16px 0"}}/>
+        <p style={S.p}>Envoie ensuite un message comme <Cd c="Salut !"/> — le bot doit te répondre dans les secondes qui suivent.</p>
+        <img src="https://i.imgur.com/UUBHSh3.jpeg" alt="Conversation Telegram avec le bot qui répond" style={{width:"100%",borderRadius:12,border:"1px solid #1e2235",display:"block",margin:"16px 0"}}/>
 
         <h4 style={S.h4}>⚠️ Erreurs fréquentes — Bot muet</h4>
         <div style={S.bqW}><p style={{...S.p,margin:0}}><B c="Cause 1"/> — <Cd c="dmPolicy: pairing"/> avec <Cd c="allowFrom"/> configuré : incompatibles. Passe sur <Cd c="allowlist"/>.</p></div>

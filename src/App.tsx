@@ -692,10 +692,26 @@ function OfferPage() {
     <div style={{maxWidth:860,margin:"0 auto",display:"flex",flexDirection:"column",gap:"5rem",paddingBottom:"6rem",paddingTop:"1rem"}}>
       <section style={{textAlign:"center"}}>
         <div style={{display:"inline-flex",alignItems:"center",gap:8,padding:"4px 14px",borderRadius:9999,background:"rgba(99,102,241,0.1)",border:"1px solid rgba(99,102,241,0.2)",color:"#a5b4fc",fontSize:12,fontFamily:"monospace",marginBottom:28}}>🤖 Service OpenClaw + API LinkedIn</div>
-        <h1 style={S.h1}>Ton agent IA LinkedIn qui prospecte{" "}<span style={S.gradI}>pendant que tu dors</span></h1>
+        <h1 style={S.h1}>OpenClaw prospecte.<br/><span style={S.gradI}>Toi tu closes.</span></h1>
+        <img
+          src="https://i.imgur.com/DTiUIVP.jpeg"
+          alt="Agent LinkedIn IA — avale la pilule"
+          style={{width:"100%",maxWidth:720,borderRadius:20,border:"1px solid #1e2235",display:"block",margin:"28px auto 32px"}}
+        />
         <p style={{fontSize:17,color:"#a1a1aa",lineHeight:1.8,marginBottom:36}}><B c="Setup clé en main. 100% sécurisé. Zéro technique."/><br/>Tu te concentres sur les conversations. L'agent gère tout le reste.</p>
         <button style={{padding:"14px 32px",borderRadius:12,background:"#f4f4f5",color:"#09090b",fontWeight:"bold",border:"none",cursor:"pointer",fontSize:16}}>Je veux mon agent LinkedIn →</button>
         <div style={{marginTop:12,fontSize:12,color:"#52525b",fontFamily:"monospace"}}>Places limitées — Setup en 48h</div>
+      </section>
+
+      <section style={{textAlign:"center"}}>
+        <h2 style={{...S.h2,marginTop:0,marginBottom:8}}>Finis les abonnements à rallonge</h2>
+        <p style={{...S.p,fontSize:16,marginBottom:28}}>Mon agent remplace une dizaine d'outils payants. <B c="Une seule solution, tout-en-un."/></p>
+        <img
+          src="https://i.imgur.com/pPxwsDZ.png"
+          alt="Outils remplacés par l'agent LinkedIn : Lemlist, Unipile, n8n..."
+          style={{width:"100%",maxWidth:700,borderRadius:16,border:"1px solid #1e2235",display:"block",margin:"0 auto"}}
+        />
+        <p style={{...S.p,fontSize:13,color:"#52525b",marginTop:12,fontStyle:"italic"}}>Lemlist, Unipile, n8n, et bien d'autres — remplacés par ton agent.</p>
       </section>
 
       <section>
@@ -824,27 +840,26 @@ export default function App() {
   const [activeId, setActiveId] = useState(null);
 
   const bounceScrollTo = (target) => {
-  const start = window.scrollY;
-  const dist = target - start;
-  const dur = 600; // durée courte = démarre fort
-  let t0 = null;
-  const ease = t => 1 - Math.pow(1 - t, 4); // ease-out très agressif
-  const step = ts => {
-    if (!t0) t0 = ts;
-    const e = Math.min((ts - t0) / dur, 1);
-    window.scrollTo(0, start + dist * ease(e));
-    if (e < 1) requestAnimationFrame(step);
+    const start = window.scrollY, dist = target - start, dur = 600;
+    let t0 = null;
+    const ease = t => 1 - Math.pow(1 - t, 4);
+    const step = ts => {
+      if (!t0) t0 = ts;
+      const e = Math.min((ts-t0)/dur, 1);
+      window.scrollTo(0, start + dist * ease(e));
+      if (e < 1) requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
   };
-  requestAnimationFrame(step);
-};
 
-const handleTocClick = id => {
-  setActiveId(id);
-  const el = document.getElementById(id);
-  if (el) {
-    bounceScrollTo(el.getBoundingClientRect().top + window.scrollY - 80);
-  }
-};
+  // ✅ FIX 2 : utilise offsetTop au lieu de getBoundingClientRect().top + scrollY
+  const handleTocClick = id => {
+    setActiveId(id);
+    const el = document.getElementById(id);
+    if (el) {
+      bounceScrollTo(el.offsetTop - 80);
+    }
+  };
 
   return (
     <div style={S.app}>
@@ -855,7 +870,7 @@ const handleTocClick = id => {
             {[["guide","📖 Guide d'installation",false],["offer","💼 Service & Offre",true]].map(([id,label,isOffer])=>{
               const on = tab===id;
               const st = isOffer ? (on?S.tOA:S.tOI) : (on?S.tA:S.tI);
-              return <button key={id} onClick={()=>setTab(id)} style={st}>{label}</button>;
+              return <button key={id} onClick={()=>{ setTab(id); window.scrollTo(0,0); }} style={st}>{label}</button>;
             })}
           </div>
         </div>

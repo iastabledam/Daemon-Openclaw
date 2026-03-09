@@ -331,7 +331,7 @@ function GuideContent({activeId, onTocClick}) {
 
         <h4 style={S.h4}>Connecter un autre ordinateur</h4>
         <p style={S.p}>Génère une nouvelle clé sur le nouvel ordi, puis ajoute-la avec <Cd c=">>"/> (sans écraser l'ancienne) :</p>
-        <Pre>echo "NOUVELLE-CLE-PUBLIQUE" >> /home/[PRENOM]/.ssh/authorized_keys</Pre>
+        <Pre>{"echo \"NOUVELLE-CLE-PUBLIQUE\" >> /home/[PRENOM]/.ssh/authorized_keys"}</Pre>
 
         <h4 style={S.h4}>⚠️ Erreurs fréquentes</h4>
         <div style={S.bqW}><p style={{...S.p,margin:0}}><B c="Permission denied (publickey)"/> : clé générée sur le serveur au lieu de ton ordi, ou mauvaises permissions → <Cd c="chmod 700 .ssh && chmod 600 .ssh/authorized_keys"/>.</p></div>

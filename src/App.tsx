@@ -954,7 +954,7 @@ export default function App() {
         </svg>
       </a>
       <button onClick={()=>bounceScrollTo(0)}
-        style={{position:"fixed",bottom:100,right:32,width:44,height:44,borderRadius:"50%",background:"#10b981",border:"none",cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",boxShadow:"0 4px 20px rgba(16,185,129,0.35)",zIndex:100,fontSize:20,color:"#09090b",fontWeight:"bold"}}>↑</button>
+        style={{position:"fixed",bottom:32,right:100,width:44,height:44,borderRadius:"50%",background:"#10b981",border:"none",cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",boxShadow:"0 4px 20px rgba(16,185,129,0.35)",zIndex:100,fontSize:20,color:"#09090b",fontWeight:"bold"}}>↑</button>
     </div>
   );
 }

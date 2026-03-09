@@ -826,9 +826,9 @@ export default function App() {
   const bounceScrollTo = (target) => {
   const start = window.scrollY;
   const dist = target - start;
-  const dur = Math.min(Math.abs(dist) * 0.6 + 300, 900);
+  const dur = 600; // durée courte = démarre fort
   let t0 = null;
-  const ease = t => 1 - Math.pow(1 - t, 3); // ease-out cubic : rapide au départ, doux à l'arrivée
+  const ease = t => 1 - Math.pow(1 - t, 4); // ease-out très agressif
   const step = ts => {
     if (!t0) t0 = ts;
     const e = Math.min((ts - t0) / dur, 1);

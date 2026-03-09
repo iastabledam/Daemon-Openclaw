@@ -172,10 +172,9 @@ const TOC = [
   {id:"deploy",    label:"4. Déploiement OpenClaw"},
   {id:"connexion", label:"5. Première connexion"},
   {id:"telegram",  label:"6. Configuration Telegram"},
-  {id:"audit",     label:"7. Audit de sécurité"},
-  {id:"checklist", label:"8. Checklist finale"},
-  {id:"depannage", label:"9. En cas de problème"},
-  {id:"pratiques", label:"10. Bonnes pratiques"},
+  {id:"checklist", label:"7. Checklist finale"},
+  {id:"depannage", label:"8. En cas de problème"},
+  {id:"pratiques", label:"9. Bonnes pratiques"},
 ];
 
 function GuideContent({activeId, onTocClick}) {
@@ -190,7 +189,7 @@ function GuideContent({activeId, onTocClick}) {
           <p style={{...S.p,fontSize:13,color:"#52525b",fontStyle:"italic"}}>Tuto rédigé par Daemon IA — daemon-ia.fr · Version 3 · Mars 2026</p>
         </div>
 
-        <hr style={S.hr}/>
+
 
         <h2 id="intro" style={S.h2}>0. Introduction</h2>
         <h3 style={S.h3}>Qu'est-ce qu'OpenClaw ?</h3>
@@ -332,7 +331,7 @@ function GuideContent({activeId, onTocClick}) {
 
         <h4 style={S.h4}>Connecter un autre ordinateur</h4>
         <p style={S.p}>Génère une nouvelle clé sur le nouvel ordi, puis ajoute-la avec <Cd c=">>"/> (sans écraser l'ancienne) :</p>
-       <Pre>{`echo "NOUVELLE-CLE-PUBLIQUE" >> /home/[PRENOM]/.ssh/authorized_keys`}</Pre>
+        <Pre>echo "NOUVELLE-CLE-PUBLIQUE" >> /home/[PRENOM]/.ssh/authorized_keys</Pre>
 
         <h4 style={S.h4}>⚠️ Erreurs fréquentes</h4>
         <div style={S.bqW}><p style={{...S.p,margin:0}}><B c="Permission denied (publickey)"/> : clé générée sur le serveur au lieu de ton ordi, ou mauvaises permissions → <Cd c="chmod 700 .ssh && chmod 600 .ssh/authorized_keys"/>.</p></div>
@@ -536,36 +535,6 @@ function GuideContent({activeId, onTocClick}) {
         <div style={S.bqW}><p style={{...S.p,margin:0}}><B c="Cause 4"/> — Token encore dans le JSON : <Cd c="grep botToken openclaw.json"/> → si trouvé → <Cd c="sed -i"/> → Restart.</p></div>
 
         <hr style={S.hr}/>
-
-        <h2 id="audit" style={S.h2}>7. Audit de sécurité OpenClaw</h2>
-        <h3 style={S.h3}>7.1 — Lancer l'audit</h3>
-        <p style={S.p}>Dans le terminal Coolify (service OpenClaw → Terminal) :</p>
-        <Pre>{"openclaw security audit\nopenclaw security audit --deep\nopenclaw security audit --fix\nopenclaw security audit --json"}</Pre>
-        <Img label="résultat brut de l'audit avec les findings"/>
-
-        <h3 style={S.h3}>7.2 — Corriger les findings</h3>
-        <h4 style={S.h4}>CRITICAL — groupPolicy open avec outils activés</h4>
-        <div style={S.bqW}><p style={{...S.p,margin:0}}><B c="Risque :"/> N'importe qui peut ajouter ton bot à un groupe et déclencher des actions réelles via injection de prompt.</p></div>
-        <Pre>{"// Raw mode OpenClaw :\n\"groupPolicy\": \"allowlist\""}</Pre>
-
-        <h4 style={S.h4}>CRITICAL — Credentials dir permissions</h4>
-        <Pre>chmod 700 /data/.openclaw/credentials</Pre>
-
-        <h4 style={S.h4}>WARN — trustedProxies manquants</h4>
-        <Pre>{'{\n  "gateway": {\n    "port": 18789,\n    "mode": "local",\n    "trustedProxies": ["127.0.0.1"],\n    "controlUi": { }\n  }\n}'}</Pre>
-        <p style={S.p}>Save → Restart dans Coolify.</p>
-
-        <h4 style={S.h4}>CRITICAL — allowInsecureAuth</h4>
-        <div style={S.bqI}><p style={{...S.p,margin:0}}>On laisse <Cd c="allowInsecureAuth: true"/> — Caddy termine le SSL et OpenClaw voit du HTTP en interne. La connexion est protégée par HTTPS via Caddy ✅ et le Gateway Token est requis ✅.</p></div>
-        <div style={S.bq}><p style={{...S.p,margin:0}}>💡 <B c="Option avancée — Tailscale :"/> VPN mesh gratuit (jusqu'à 100 appareils). L'interface OpenClaw ne serait accessible que depuis tes appareils. Résout complètement ce CRITICAL.</p></div>
-
-        <h4 style={S.h4}>WARN — CDP HTTP</h4>
-        <p style={S.p}><Cd c="http://browser:9223"/> est du trafic interne Docker entre conteneurs. Jamais exposé à l'extérieur. <B c="Faux positif"/> — pas d'action requise.</p>
-
-        <h3 style={S.h3}>7.3 — Résultat cible</h3>
-        <Pre>Summary: 1 critical · 1 warn · 1 info</Pre>
-        <div style={S.bq}><p style={{...S.p,margin:0}}>Le 1 critical résiduel (<Cd c="allowInsecureAuth"/>) est <B c="acceptable"/> avec HTTPS + Gateway Token en place.</p></div>
-        <Img label="résultat de l'audit après corrections"/>
 
         <hr style={S.hr}/>
 
@@ -876,7 +845,7 @@ export default function App() {
   const handleTocClick = id => {
     setActiveId(id);
     const el = document.getElementById(id);
-    if (el) bounceScrollTo(el.getBoundingClientRect().top + window.scrollY - 24);
+    if (el) bounceScrollTo(el.getBoundingClientRect().top + window.scrollY - 80);
   };
 
   return (

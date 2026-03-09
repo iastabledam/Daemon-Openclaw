@@ -185,7 +185,30 @@ function GuideContent({activeId, onTocClick}) {
         <div style={{marginBottom:48}}>
           <div style={S.badge}>⚙️ VPS Hostinger · Coolify · Docker · Telegram</div>
           <h1 style={S.h1}>Sécurisation complète<br/><span style={S.grad}>d'OpenClaw sur VPS.</span></h1>
-          <p style={{...S.p,fontSize:16,maxWidth:580,fontWeight:300}}>Ce guide te permet de déployer et sécuriser OpenClaw de A à Z, en totale autonomie.<br/>Setup cible : <B c="VPS Hostinger KVM → Coolify → OpenClaw (conteneur Docker)"/>.</p>
+          <p style={{...S.p,fontSize:16,maxWidth:580,fontWeight:300}}>Ce guide te permet de déployer et sécuriser OpenClaw de A à Z, en totale autonomie.</p>
+          {/* Logos setup cible */}
+          <div style={{display:"flex",alignItems:"center",gap:12,flexWrap:"wrap",margin:"16px 0 8px"}}>
+            <span style={{color:"#71717a",fontSize:13}}>Setup cible :</span>
+            <div style={{display:"flex",alignItems:"center",gap:8}}>
+              <img src="https://i.imgur.com/OXd7cgk.png" alt="Hostinger" style={{width:24,height:24,objectFit:"contain",borderRadius:4}}/>
+              <span style={{color:"#a1a1aa",fontSize:13,fontWeight:600}}>Hostinger KVM</span>
+            </div>
+            <span style={{color:"#3f3f46",fontSize:16}}>→</span>
+            <div style={{display:"flex",alignItems:"center",gap:8}}>
+              <img src="https://i.imgur.com/ucMrveh.png" alt="Coolify" style={{width:24,height:24,objectFit:"contain",borderRadius:4}}/>
+              <span style={{color:"#a1a1aa",fontSize:13,fontWeight:600}}>Coolify</span>
+            </div>
+            <span style={{color:"#3f3f46",fontSize:16}}>→</span>
+            <div style={{display:"flex",alignItems:"center",gap:8}}>
+              <img src="https://i.imgur.com/YPq9o8G.png" alt="OpenClaw" style={{width:24,height:24,objectFit:"contain",borderRadius:4,background:"#1a0000",borderRadius:6}}/>
+              <span style={{color:"#a1a1aa",fontSize:13,fontWeight:600}}>OpenClaw</span>
+            </div>
+          </div>
+          <img
+            src="https://i.imgur.com/Qok8B8L.jpeg"
+            alt="OpenClaw sécurisé — Firewall, SSH, Coolify"
+            style={{width:"100%",borderRadius:16,border:"1px solid #1e2235",display:"block",margin:"24px 0 8px"}}
+          />
           <p style={{...S.p,fontSize:13,color:"#52525b",fontStyle:"italic"}}>Tuto rédigé par Daemon IA — daemon-ia.fr · Version 3 · Mars 2026</p>
         </div>
 
@@ -698,7 +721,7 @@ function OfferPage() {
           alt="Agent LinkedIn IA — avale la pilule"
           style={{width:"100%",maxWidth:720,borderRadius:20,border:"1px solid #1e2235",display:"block",margin:"28px auto 32px"}}
         />
-        <p style={{fontSize:17,color:"#a1a1aa",lineHeight:1.8,marginBottom:36}}><B c="Setup clé en main. 100% sécurisé. Zéro technique."/><br/>Tu te concentres sur les conversations. L'agent gère tout le reste.</p>
+        <p style={{fontSize:22,color:"#e4e4e7",lineHeight:1.7,marginBottom:36,fontWeight:500,maxWidth:620,margin:"0 auto 36px"}}><B c="Setup clé en main. 100% sécurisé. Zéro technique."/><br/><span style={{color:"#a1a1aa",fontSize:18}}>Tu te concentres sur les conversations. L'agent gère tout le reste.</span></p>
         <button style={{padding:"14px 32px",borderRadius:12,background:"#f4f4f5",color:"#09090b",fontWeight:"bold",border:"none",cursor:"pointer",fontSize:16}}>Je veux mon agent LinkedIn →</button>
         <div style={{marginTop:12,fontSize:12,color:"#52525b",fontFamily:"monospace"}}>Places limitées — Setup en 48h</div>
       </section>
@@ -756,8 +779,6 @@ function OfferPage() {
         <div style={{display:"flex",flexDirection:"column",gap:18}}>
           {[
             {icon:"🔒",color:"#34d399",title:"1. OpenClaw installé et sécurisé sur ton VPS",desc:"Ton agent tourne 24h/24 sur ton propre serveur, pas sur un SaaS partagé.",items:["Installation VPS Hostinger + Coolify","Sécurisation complète (firewall, SSH, env vars)","Clés API protégées, jamais exposées","Redémarrages automatiques"],quote:"Pendant que d'autres utilisent des outils SaaS qui peuvent fermer du jour au lendemain, toi tu possèdes ton infrastructure."},
-            {icon:"🤖",color:"#818cf8",title:"2. Ton agent LinkedIn opérationnel",desc:"API spécialisée sur les signaux chauds, utilisée par 500+ professionnels.",items:["Surveille les posts LinkedIn de tes concurrents","Extrait les profils ayant liké ou commenté","Envoie des demandes personnalisées avec contexte","Simule un comportement humain (rate limiting)"],quote:null},
-            {icon:"⚙️",color:"#22d3ee",title:"3. Intégration n8n",desc:"Templates n8n prêts à l'emploi pour connecter ton CRM automatiquement.",items:["Alimenter ton CRM","Séquences de follow-up","Notifications Telegram"],quote:null},
           ].map((p,i)=>(
             <div key={i} style={{...S.card,display:"flex",gap:22,flexWrap:"wrap"}}>
               <div style={{fontSize:28,flexShrink:0,marginTop:4}}>{p.icon}</div>
@@ -769,6 +790,39 @@ function OfferPage() {
               </div>
             </div>
           ))}
+
+          {/* Section 2 — Agent LinkedIn détaillé */}
+          <div style={{...S.card}}>
+            <div style={{display:"flex",gap:22,flexWrap:"wrap",marginBottom:20}}>
+              <div style={{fontSize:28,flexShrink:0,marginTop:4}}>🤖</div>
+              <div style={{flex:1,minWidth:200}}>
+                <h3 style={{...S.h3,marginTop:0,color:"#818cf8"}}>2. Ton agent LinkedIn opérationnel</h3>
+                <p style={{...S.p,marginTop:0}}>API spécialisée LinkedIn — 8 modules de scraping et de recherche, utilisée par 500+ professionnels.</p>
+              </div>
+            </div>
+            <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(280px,1fr))",gap:10}}>
+              {[
+                {icon:"🔍",name:"Search Scraper",desc:"Recherche de posts par mot-clé ou URL, filtres par date et type de média, export CSV"},
+                {icon:"👤",name:"People Search",desc:"Recherche de profils par nom, titre, entreprise, localisation"},
+                {icon:"🏢",name:"Companies Search",desc:"Recherche d'entreprises par industrie, taille, localisation"},
+                {icon:"💼",name:"Jobs Search",desc:"Recherche d'offres d'emploi par titre, lieu, type de contrat"},
+                {icon:"🔗",name:"URL Search",desc:"Coller une URL de recherche LinkedIn et export automatique"},
+                {icon:"❤️",name:"Likes Scraper",desc:"Extraire tous les profils ayant liké un post"},
+                {icon:"💬",name:"Comments Scraper",desc:"Capturer tous les commentateurs avec données de profil complètes"},
+                {icon:"📄",name:"Posts Scraper",desc:"Scraper les posts d'un profil ou d'une page entreprise"},
+              ].map((f,i)=>(
+                <div key={i} style={{padding:"12px 16px",borderRadius:10,background:"rgba(129,140,248,0.05)",border:"1px solid rgba(129,140,248,0.15)",display:"flex",gap:12,alignItems:"flex-start"}}>
+                  <span style={{fontSize:18,flexShrink:0}}>{f.icon}</span>
+                  <div>
+                    <div style={{color:"#a5b4fc",fontWeight:700,fontSize:13,marginBottom:3}}>{f.name}</div>
+                    <div style={{color:"#71717a",fontSize:12,lineHeight:1.5}}>{f.desc}</div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+
         </div>
       </section>
 

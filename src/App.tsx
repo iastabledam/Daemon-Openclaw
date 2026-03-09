@@ -88,18 +88,18 @@ function ArchDiagram() {
   return (
     <div style={{margin:"20px 0",padding:"32px 24px",borderRadius:20,background:"#06080f",border:"1px solid #1a1d2e",display:"flex",flexDirection:"column",alignItems:"center",gap:0}}>
 
-      {/* Row 1 — Sources */}
-      <div style={{display:"flex",alignItems:"flex-end",gap:40,flexWrap:"wrap",justifyContent:"center"}}>
-        <Node icon="💻" title="TON PC" sub="IP fixe" color="#a5b4fc"/>
-        <Node icon={<Logo src="https://i.imgur.com/ZZat8GP.png"/>} title="TELEGRAM" sub="@TonBot" color="#0088cc"/>
-        <Node icon="🌐" title="INTERNET" sub="HTTP / HTTPS" color="#94a3b8"/>
-      </div>
-
-      {/* Arrows */}
-      <div style={{display:"flex",gap:40,flexWrap:"wrap",justifyContent:"center"}}>
-        <Arrow label="SSH · port 22 · ton IP" color="#a5b4fc"/>
-        <Arrow label="Telegram API" color="#0088cc"/>
-        <Arrow label="ports 80 / 443" color="#94a3b8"/>
+      {/* Row 1 — Sources + Arrows alignés en colonnes */}
+      <div style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:8,width:"100%",maxWidth:680,marginBottom:0}}>
+        {[
+          {icon:"💻",          title:"TON PC",    sub:"IP fixe",      color:"#a5b4fc"},
+          {icon:<Logo src="https://i.imgur.com/ZZat8GP.png"/>, title:"TELEGRAM",  sub:"@TonBot",    color:"#0088cc"},
+          {icon:"🌐",          title:"INTERNET",  sub:"HTTP / HTTPS", color:"#94a3b8"},
+        ].map((n,i)=>(
+          <div key={i} style={{display:"flex",flexDirection:"column",alignItems:"center",gap:0}}>
+            <Node icon={n.icon} title={n.title} sub={n.sub} color={n.color}/>
+            <Arrow label={["SSH · port 22 · ton IP","Telegram API","ports 80 / 443"][i]} color={n.color}/>
+          </div>
+        ))}
       </div>
 
       {/* Row 2 — Firewall */}
@@ -133,7 +133,7 @@ function ArchDiagram() {
           </div>
           <div style={{display:"flex",gap:10,justifyContent:"center",flexWrap:"wrap"}}>
             {[
-              {logo:"https://i.imgur.com/99QFA4k.png", name:"Caddy",   sub:"SSL auto",        color:"#00c65e"},
+              {logo:"https://i.imgur.com/y9qnRhU.png", name:"Caddy",   sub:"SSL auto",        color:"#00c65e"},
               {logo:"https://i.imgur.com/YPq9o8G.png", name:"OpenClaw",sub:":18789 loopback",  color:"#ef4444", glow:true},
               {logo:"https://i.imgur.com/i2QBvBM.png", name:"n8n",     sub:"automation",       color:"#ea4b00"},
               {logo:"https://i.imgur.com/JkdpQUc.jpeg",name:"Supabase",sub:"database",         color:"#3ecf8e"},
@@ -156,7 +156,7 @@ function ArchDiagram() {
       <div style={{display:"flex",gap:12,flexWrap:"wrap",justifyContent:"center"}}>
         {[
           {logo:"https://i.imgur.com/c70pItt.png",  name:"Anthropic",  sub:"Claude",    color:"#c9693a"},
-          {logo:"https://i.imgur.com/Wawbyqs.jpeg", name:"OpenAI",     sub:"GPT-4",     color:"#10a37f"},
+          {logo:"https://i.imgur.com/Wawbyqs.jpeg", name:"OpenAI",     sub:"GPT-4",     color:"#f4f4f5"},
           {logo:"https://i.imgur.com/6B9O2hA.jpeg", name:"OpenRouter", sub:"Multi-LLM", color:"#6366f1"},
         ].map((llm,i)=>(
           <div key={i} style={{padding:"10px 18px",borderRadius:12,background:`${llm.color}0d`,border:`1px solid ${llm.color}28`,display:"flex",alignItems:"center",gap:10}}>

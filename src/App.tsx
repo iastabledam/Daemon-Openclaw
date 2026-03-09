@@ -73,11 +73,15 @@ function Node({icon, title, sub, color, glow=false, badge=null}) {
   return (
     <div style={{display:"inline-flex",flexDirection:"column",alignItems:"center",gap:6,padding:"14px 20px",borderRadius:14,background:`${color}0d`,border:`1px solid ${color}33`,boxShadow:glow?`0 0 24px ${color}22`:"none",minWidth:130,position:"relative"}}>
       {badge && <div style={{position:"absolute",top:-10,left:"50%",transform:"translateX(-50%)",padding:"2px 10px",borderRadius:9999,background:color,color:"#09090b",fontSize:10,fontWeight:700,whiteSpace:"nowrap"}}>{badge}</div>}
-      <span style={{fontSize:24}}>{icon}</span>
+      <div style={{fontSize:24,display:"flex",alignItems:"center",justifyContent:"center"}}>{typeof icon === "string" ? icon : icon}</div>
       <div style={{color,fontWeight:700,fontSize:13,textAlign:"center"}}>{title}</div>
       {sub && <div style={{color:`${color}88`,fontSize:11,fontFamily:"monospace",textAlign:"center"}}>{sub}</div>}
     </div>
   );
+}
+
+function Logo({src, size=28}) {
+  return <img src={src} alt="" style={{width:size,height:size,objectFit:"contain",borderRadius:6,flexShrink:0}}/>;
 }
 
 function ArchDiagram() {
@@ -87,21 +91,24 @@ function ArchDiagram() {
       {/* Row 1 — Sources */}
       <div style={{display:"flex",alignItems:"flex-end",gap:40,flexWrap:"wrap",justifyContent:"center"}}>
         <Node icon="💻" title="TON PC" sub="IP fixe" color="#a5b4fc"/>
-        <Node icon="📱" title="TELEGRAM" sub="@TonBot" color="#38bdf8"/>
+        <Node icon={<Logo src="https://i.imgur.com/ZZat8GP.png"/>} title="TELEGRAM" sub="@TonBot" color="#0088cc"/>
         <Node icon="🌐" title="INTERNET" sub="HTTP / HTTPS" color="#94a3b8"/>
       </div>
 
-      {/* Arrows row 1 → firewall */}
+      {/* Arrows */}
       <div style={{display:"flex",gap:40,flexWrap:"wrap",justifyContent:"center"}}>
         <Arrow label="SSH · port 22 · ton IP" color="#a5b4fc"/>
-        <Arrow label="Telegram API" color="#38bdf8"/>
+        <Arrow label="Telegram API" color="#0088cc"/>
         <Arrow label="ports 80 / 443" color="#94a3b8"/>
       </div>
 
       {/* Row 2 — Firewall */}
       <div style={{width:"100%",maxWidth:680,padding:"16px 24px",borderRadius:14,background:"rgba(239,68,68,0.04)",border:"1px solid rgba(239,68,68,0.2)",display:"flex",alignItems:"center",justifyContent:"center",gap:16,flexWrap:"wrap"}}>
         <span style={{fontSize:20}}>🛡️</span>
-        <span style={{color:"#f87171",fontWeight:700,fontSize:14,fontFamily:"monospace"}}>FIREWALL HOSTINGER</span>
+        <div style={{display:"flex",alignItems:"center",gap:8}}>
+          <Logo src="https://i.imgur.com/OXd7cgk.png" size={20}/>
+          <span style={{color:"#f87171",fontWeight:700,fontSize:14,fontFamily:"monospace"}}>FIREWALL HOSTINGER</span>
+        </div>
         <div style={{display:"flex",gap:8,flexWrap:"wrap",justifyContent:"center"}}>
           {[["22","ton IP","#34d399"],["80","public","#34d399"],["443","public","#34d399"],["*","drop","#f87171"]].map(([p,s,c],i)=>(
             <div key={i} style={{padding:"3px 10px",borderRadius:6,background:`${c}14`,border:`1px solid ${c}33`,fontSize:11,color:c,fontFamily:"monospace"}}>:{p} <span style={{opacity:0.6}}>{s}</span></div>
@@ -112,29 +119,31 @@ function ArchDiagram() {
       <Arrow label="" color="#334155"/>
 
       {/* Row 3 — VPS */}
-      <div style={{width:"100%",maxWidth:680,borderRadius:20,border:"1px solid rgba(251,191,36,0.2)",background:"rgba(251,191,36,0.02)",padding:"20px"}}>
+      <div style={{width:"100%",maxWidth:680,borderRadius:20,border:"1px solid rgba(124,58,237,0.3)",background:"rgba(124,58,237,0.03)",padding:"20px"}}>
         <div style={{display:"flex",alignItems:"center",justifyContent:"center",gap:8,marginBottom:16}}>
-          <span style={{fontSize:18}}>🖥️</span>
-          <span style={{color:"#fbbf24",fontWeight:700,fontSize:13,fontFamily:"monospace",letterSpacing:"0.05em"}}>VPS HOSTINGER</span>
+          <Logo src="https://i.imgur.com/OXd7cgk.png" size={20}/>
+          <span style={{color:"#a78bfa",fontWeight:700,fontSize:13,fontFamily:"monospace",letterSpacing:"0.05em"}}>VPS HOSTINGER</span>
         </div>
 
         {/* Coolify box */}
-        <div style={{borderRadius:14,border:"1px solid rgba(99,102,241,0.2)",background:"rgba(99,102,241,0.03)",padding:"16px"}}>
+        <div style={{borderRadius:14,border:"1px solid rgba(124,58,237,0.2)",background:"rgba(124,58,237,0.04)",padding:"16px"}}>
           <div style={{display:"flex",alignItems:"center",justifyContent:"center",gap:8,marginBottom:16}}>
-            <span style={{fontSize:16}}>⚡</span>
-            <span style={{color:"#a5b4fc",fontWeight:700,fontSize:13,fontFamily:"monospace"}}>COOLIFY</span>
+            <Logo src="https://i.imgur.com/ucMrveh.png" size={18}/>
+            <span style={{color:"#a78bfa",fontWeight:700,fontSize:13,fontFamily:"monospace"}}>COOLIFY</span>
           </div>
           <div style={{display:"flex",gap:10,justifyContent:"center",flexWrap:"wrap"}}>
             {[
-              {icon:"🔒",name:"Caddy",sub:"SSL auto",color:"#34d399"},
-              {icon:"🤖",name:"OpenClaw",sub:":18789 loopback",color:"#f59e0b",glow:true},
-              {icon:"🔄",name:"n8n",sub:"automation",color:"#818cf8"},
-              {icon:"🗄️",name:"Supabase",sub:"database",color:"#38bdf8"},
+              {logo:"https://i.imgur.com/99QFA4k.png", name:"Caddy",   sub:"SSL auto",        color:"#00c65e"},
+              {logo:"https://i.imgur.com/YPq9o8G.png", name:"OpenClaw",sub:":18789 loopback",  color:"#ef4444", glow:true},
+              {logo:"https://i.imgur.com/i2QBvBM.png", name:"n8n",     sub:"automation",       color:"#ea4b00"},
+              {logo:"https://i.imgur.com/JkdpQUc.jpeg",name:"Supabase",sub:"database",         color:"#3ecf8e"},
             ].map((app,i)=>(
-              <div key={i} style={{flex:"1 1 110px",maxWidth:140,padding:"12px 10px",borderRadius:12,background:`${app.color}0d`,border:`1px solid ${app.color}28`,textAlign:"center",boxShadow:app.glow?`0 0 16px ${app.color}22`:"none"}}>
-                <div style={{fontSize:18,marginBottom:4}}>{app.icon}</div>
+              <div key={i} style={{flex:"1 1 110px",maxWidth:140,padding:"12px 10px",borderRadius:12,background:`${app.color}0d`,border:`1px solid ${app.color}28`,textAlign:"center",boxShadow:app.glow?`0 0 16px ${app.color}33`:"none"}}>
+                <div style={{display:"flex",justifyContent:"center",marginBottom:6}}>
+                  <Logo src={app.logo} size={28}/>
+                </div>
                 <div style={{color:app.color,fontWeight:700,fontSize:12}}>{app.name}</div>
-                <div style={{color:`${app.color}66`,fontSize:10,fontFamily:"monospace",marginTop:2}}>{app.sub}</div>
+                <div style={{color:`${app.color}77`,fontSize:10,fontFamily:"monospace",marginTop:2}}>{app.sub}</div>
               </div>
             ))}
           </div>
@@ -146,15 +155,15 @@ function ArchDiagram() {
       {/* Row 4 — LLM providers */}
       <div style={{display:"flex",gap:12,flexWrap:"wrap",justifyContent:"center"}}>
         {[
-          {icon:"🟣",name:"Anthropic",sub:"Claude",color:"#a78bfa"},
-          {icon:"🟢",name:"OpenAI",sub:"GPT-4",color:"#34d399"},
-          {icon:"🔵",name:"OpenRouter",sub:"Multi-LLM",color:"#38bdf8"},
+          {logo:"https://i.imgur.com/c70pItt.png",  name:"Anthropic",  sub:"Claude",    color:"#c9693a"},
+          {logo:"https://i.imgur.com/Wawbyqs.jpeg", name:"OpenAI",     sub:"GPT-4",     color:"#10a37f"},
+          {logo:"https://i.imgur.com/6B9O2hA.jpeg", name:"OpenRouter", sub:"Multi-LLM", color:"#6366f1"},
         ].map((llm,i)=>(
           <div key={i} style={{padding:"10px 18px",borderRadius:12,background:`${llm.color}0d`,border:`1px solid ${llm.color}28`,display:"flex",alignItems:"center",gap:10}}>
-            <span style={{fontSize:18}}>{llm.icon}</span>
+            <Logo src={llm.logo} size={26}/>
             <div>
               <div style={{color:llm.color,fontWeight:700,fontSize:12}}>{llm.name}</div>
-              <div style={{color:`${llm.color}66`,fontSize:10,fontFamily:"monospace"}}>{llm.sub}</div>
+              <div style={{color:`${llm.color}77`,fontSize:10,fontFamily:"monospace"}}>{llm.sub}</div>
             </div>
           </div>
         ))}

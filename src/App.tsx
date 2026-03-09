@@ -269,7 +269,7 @@ function GuideContent({activeId, onTocClick}) {
         <h4 style={S.h4}>Mot de passe root — deux cas</h4>
         <p style={S.p}><B c="Cas 1 — Mot de passe défini à la création"/> : visible dans Hostinger → Aperçu → Accès SSH. Utilise <Cd c="ssh root@[IP_VPS]"/> directement.</p>
         <p style={S.p}><B c="Cas 2 — Pas de mot de passe root"/> : utilise le terminal SSH Hostinger (terminal web intégré). Ou réinitialise : Hostinger → Aperçu → Accès SSH → <B c="Réinitialiser le mot de passe root"/>.</p>
-        <Img label="section Accès SSH dans Hostinger avec le bouton réinitialiser le mot de passe root"/>
+        <img src="https://i.imgur.com/8ljAMI7.jpeg" alt="Accès SSH dans Hostinger" style={{width:"100%",borderRadius:12,border:"1px solid #1e2235",display:"block",margin:"16px 0"}}/>
 
         <hr style={S.hr}/>
 
@@ -286,7 +286,7 @@ function GuideContent({activeId, onTocClick}) {
         <h4 style={S.h4}>Option A — Terminal web Hostinger</h4>
         <p style={S.p}>Hostinger → ton VPS → <B c="Terminal"/>. Tu arrives directement en root.</p>
         <Pre>root@srv1349787:~#</Pre>
-        <Img label="terminal web Hostinger ouvert"/>
+        <img src="https://i.imgur.com/L4TAykj.jpeg" alt="Terminal web Hostinger ouvert" style={{width:"100%",borderRadius:12,border:"1px solid #1e2235",display:"block",margin:"16px 0"}}/>
         <div style={S.bqI}><p style={{...S.p,margin:0}}>💡 Accessible depuis n'importe où. ⚠️ Passe par les serveurs Hostinger — si ton compte est compromis, l'accès est compromis.</p></div>
 
         <h4 style={S.h4}>Option B — PowerShell / Terminal local (recommandé)</h4>
@@ -301,7 +301,7 @@ function GuideContent({activeId, onTocClick}) {
         <p style={S.p}>Ajoute au groupe sudo et vérifie :</p>
         <Pre>{"usermod -aG sudo [PRENOM]\nid [PRENOM]"}</Pre>
         <p style={S.p}>Tu dois voir : <Cd c="groups=1001([PRENOM]),27(sudo)"/></p>
-        <Img label="résultat de la commande id avec sudo dans les groupes"/>
+
         <h4 style={S.h4}>Commandes utiles</h4>
         <Pre>{"# Retrouver les utilisateurs existants\ncat /etc/passwd | grep /home\n\n# Basculer sur un utilisateur (depuis root)\nsu - [PRENOM]\n\n# Retour en root\nexit"}</Pre>
         <div style={S.bqW}><p style={{...S.p,margin:0}}>⚠️ <B c="Erreur fréquente"/> — Si tu obtiens <Cd c="user does not exist"/>, relance <Cd c="adduser [PRENOM]"/> depuis le début.</p></div>
@@ -327,13 +327,13 @@ function GuideContent({activeId, onTocClick}) {
         <h4 style={S.h4}>Étape 4 — Tester la connexion SSH (sur ton ordi)</h4>
         <Pre>ssh [PRENOM]@[IP_VPS]</Pre>
         <p style={S.p}>Réponds <Cd c="yes"/> au fingerprint. Tu dois arriver sur <Cd c="[PRENOM]@srv...:~$"/>.</p>
-        <Img label="connexion SSH réussie dans le Terminal Mac / PowerShell Windows"/>
+
         <div style={S.bq}><p style={{...S.p,margin:0}}>✅ <B c="Ne ferme pas cette fenêtre"/> — garde-la ouverte comme filet de sécurité pour la suite.</p></div>
 
         <h4 style={S.h4}>Connecter un autre ordinateur</h4>
         <p style={S.p}>Génère une nouvelle clé sur le nouvel ordi, puis ajoute-la avec <Cd c=">>"/> (sans écraser l'ancienne) :</p>
-        <Pre>echo "NOUVELLE-CLE-PUBLIQUE" {">>"} /home/[PRENOM]/.ssh/authorized_keys</Pre>
-        
+        <Pre>echo "NOUVELLE-CLE-PUBLIQUE" >> /home/[PRENOM]/.ssh/authorized_keys</Pre>
+
         <h4 style={S.h4}>⚠️ Erreurs fréquentes</h4>
         <div style={S.bqW}><p style={{...S.p,margin:0}}><B c="Permission denied (publickey)"/> : clé générée sur le serveur au lieu de ton ordi, ou mauvaises permissions → <Cd c="chmod 700 .ssh && chmod 600 .ssh/authorized_keys"/>.</p></div>
         <div style={S.bqW}><p style={{...S.p,margin:0}}><B c="Le serveur demande un mot de passe"/> : la clé dans <Cd c="authorized_keys"/> ne correspond pas à celle de ton ordi local.</p></div>
@@ -359,7 +359,7 @@ function GuideContent({activeId, onTocClick}) {
         <div style={S.bqY}><p style={{...S.p,margin:0}}>⚠️ Coolify se connecte en interne via SSH en tant que <B c="root"/> pour gérer Docker. Si on bloque root, Coolify affiche "Server is unreachable".</p></div>
         <Pre>{"# Depuis PowerShell, connecté avec ton utilisateur :\nssh [PRENOM]@[IP_VPS]\n\nsudo sed -i 's/PermitRootLogin no/PermitRootLogin prohibit-password/' /etc/ssh/sshd_config\nsudo sed -i 's/AllowUsers [PRENOM]/AllowUsers [PRENOM] root/' /etc/ssh/sshd_config\nsudo systemctl restart ssh"}</Pre>
         <p style={S.p}>Vérifie dans Coolify → <B c="Servers"/> → <B c="Validate"/> que le serveur repasse en vert.</p>
-        <Img label="Coolify Servers → Validate → statut vert"/>
+        <img src="https://i.imgur.com/sB0fLhT.jpeg" alt="Coolify Servers → Validate → statut vert" style={{width:"100%",borderRadius:12,border:"1px solid #1e2235",display:"block",margin:"16px 0"}}/>
 
         <h3 style={S.h3}>2.6 — Résumé</h3>
         <div style={{overflowX:"auto"}}>
@@ -390,21 +390,21 @@ function GuideContent({activeId, onTocClick}) {
 
         <h3 style={S.h3}>3.1 — Création du firewall</h3>
         <p style={S.p}>Hostinger → <B c="Sécurité"/> → <B c="Pare-feu"/> → <B c="+ Ajouter un pare-feu"/>. Donne-lui un nom (ex: <Cd c="mon-vps"/>).</p>
-        <Img label="création du pare-feu dans Hostinger"/>
+        <img src="https://i.imgur.com/vY6ehrN.jpeg" alt="Création du pare-feu dans Hostinger" style={{width:"100%",borderRadius:12,border:"1px solid #1e2235",display:"block",margin:"16px 0"}}/>
 
         <h3 style={S.h3}>3.2 — Configuration des règles</h3>
         <div style={{overflowX:"auto"}}>
           <table style={S.tbl}>
-            <thead><tr><th style={S.th}>Règle</th><th style={S.th}>Action</th><th style={S.th}>Port</th><th style={S.th}>Source</th></tr></thead>
+            <thead><tr><th style={S.th}>Action</th><th style={S.th}>Protocole</th><th style={S.th}>Port (ou plage)</th><th style={S.th}>Source</th><th style={S.th}>Détail de la source</th></tr></thead>
             <tbody>{[
-              ["SSH (accès admin)","✅ Accepter","22","Ton IP fixe"],
-              ["HTTP","✅ Accepter","80","Anywhere"],
-              ["HTTPS","✅ Accepter","443","Anywhere"],
-              ["Tout le reste","❌ Drop","Any","Anywhere"],
-            ].map(([r,a,p,s],i)=><tr key={i}><td style={S.td}><B c={r}/></td><td style={S.td}>{a}</td><td style={S.td}><Cd c={p}/></td><td style={S.td}>{s}</td></tr>)}</tbody>
+              ["accept","TCP","22","any","any"],
+              ["accept","HTTP","80","any","any"],
+              ["accept","HTTPS","443","any","any"],
+              ["drop","any","any","any","any"],
+            ].map(([a,p,po,s,d],i)=><tr key={i}><td style={{...S.td,color:a==="drop"?"#f87171":"#34d399",fontWeight:600}}>{a}</td><td style={S.td}>{p}</td><td style={S.td}><Cd c={po}/></td><td style={S.td}>{s}</td><td style={S.td}>{d}</td></tr>)}</tbody>
           </table>
         </div>
-        <Img label="les 4 règles configurées dans le pare-feu Hostinger"/>
+        <img src="https://i.imgur.com/0OpKFeZ.jpeg" alt="Les 4 règles configurées dans le pare-feu Hostinger" style={{width:"100%",borderRadius:12,border:"1px solid #1e2235",display:"block",margin:"16px 0"}}/>
 
         <h3 style={S.h3}>3.3 — IP fixe vs Anywhere pour le port 22</h3>
         <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:16}}>
@@ -422,7 +422,7 @@ function GuideContent({activeId, onTocClick}) {
 
         <h3 style={S.h3}>3.4 — Activation</h3>
         <p style={S.p}>Page principale Pare-feu → active le <B c="toggle"/> à côté de ton pare-feu.</p>
-        <Img label="toggle du pare-feu activé dans Hostinger"/>
+        <img src="https://i.imgur.com/uO7IKrg.jpeg" alt="Toggle du pare-feu activé dans Hostinger" style={{width:"100%",borderRadius:12,border:"1px solid #1e2235",display:"block",margin:"16px 0"}}/>
 
         <hr style={S.hr}/>
 
@@ -430,11 +430,11 @@ function GuideContent({activeId, onTocClick}) {
 
         <h3 style={S.h3}>4.1 — Créer le service OpenClaw</h3>
         <p style={S.p}>Coolify → ton projet → <B c="+ New"/> → <B c="Service"/> → cherche <B c="OpenClaw"/> → déploie.</p>
-        <Img label="ajout du service OpenClaw dans Coolify"/>
+        <img src="https://i.imgur.com/hLQGNG4.jpeg" alt="Ajout du service OpenClaw dans Coolify" style={{width:"100%",borderRadius:12,border:"1px solid #1e2235",display:"block",margin:"16px 0"}}/>
 
         <h3 style={S.h3}>4.2 — Configurer le domaine HTTPS</h3>
         <p style={S.p}>Paramètres du service → <B c="Domains"/> → ajoute <Cd c="https://openclaw.ton-domaine.com"/>. Coolify via Caddy génère automatiquement un certificat SSL.</p>
-        <Img label="configuration du domaine dans Coolify"/>
+
 
         <h3 style={S.h3}>4.3 — Variables d'environnement</h3>
         <div style={S.bqW}><p style={{...S.p,margin:0}}>⚠️ <B c="Règle absolue : aucune clé API ne doit jamais transiter par une conversation, un email, ou être saisie dans l'interface OpenClaw."/> Tout doit être dans les variables d'environnement Coolify.</p></div>
@@ -443,6 +443,8 @@ function GuideContent({activeId, onTocClick}) {
             <thead><tr><th style={S.th}>Variable</th><th style={S.th}>Description</th></tr></thead>
             <tbody>{[
               ["ANTHROPIC_API_KEY","Clé API Anthropic (sk-ant-xxxxxxxx)"],
+              ["OPENAI_API_KEY","Clé API OpenAI (sk-xxxxxxxx)"],
+              ["OPENROUTER_API_KEY","Clé API OpenRouter (sk-or-xxxxxxxx)"],
               ["TELEGRAM_BOT_TOKEN","Token du bot Telegram (123456789:ABCDEFxxxxxxxx)"],
               ["OPENCLAW_GATEWAY_TOKEN","Token d'accès à l'interface (32+ caractères aléatoires)"],
             ].map(([v,d],i)=><tr key={i}><td style={S.td}><Cd c={v}/></td><td style={S.td}>{d}</td></tr>)}</tbody>
@@ -459,12 +461,12 @@ function GuideContent({activeId, onTocClick}) {
             ].map(([m,s,v],i)=><tr key={i}><td style={S.td}>{m}</td><td style={S.td}>{s}</td><td style={S.td}><B c={v}/></td></tr>)}</tbody>
           </table>
         </div>
-        <Img label="variables d'environnement dans Coolify"/>
+        <img src="https://i.imgur.com/TdPbmNm.jpeg" alt="Variables d'environnement dans Coolify" style={{width:"100%",borderRadius:12,border:"1px solid #1e2235",display:"block",margin:"16px 0"}}/>
 
         <h3 style={S.h3}>4.4 — Démarrage et vérification</h3>
         <p style={S.p}>Clique sur <B c="Deploy"/> puis surveille l'onglet <B c="Logs"/>. Le conteneur est prêt quand le statut passe en <B c="Running (healthy)"/>.</p>
         <div style={S.bqW}><p style={{...S.p,margin:0}}>⚠️ <B c="Container Degraded (unhealthy)"/> : log <Cd c="API key env var is required"/> → ajoute <Cd c="ANTHROPIC_API_KEY"/> dans env vars → Save → Restart.</p></div>
-        <Img label="logs d'erreur dans Coolify + variables corrigées"/>
+
 
         <hr style={S.hr}/>
 
@@ -473,10 +475,10 @@ function GuideContent({activeId, onTocClick}) {
         <Pre>https://openclaw.ton-domaine.com</Pre>
         <h3 style={S.h3}>5.2 — Connexion avec le Gateway Token</h3>
         <p style={S.p}><B c="Control → Overview"/> → champ <B c="Gateway Token"/> → colle la valeur de ton <Cd c="OPENCLAW_GATEWAY_TOKEN"/> → <B c="Connect"/>.</p>
-        <Img label="Overview OpenClaw avec le champ Gateway Token"/>
+        <img src="https://i.imgur.com/XexaOai.jpeg" alt="Overview OpenClaw avec le champ Gateway Token" style={{width:"100%",borderRadius:12,border:"1px solid #1e2235",display:"block",margin:"16px 0"}}/>
         <h3 style={S.h3}>5.3 — Vérification Health OK</h3>
         <p style={S.p}>Le statut doit passer de <B c="Health Offline"/> à <B c="Health OK"/> et afficher <B c="Connected"/>.</p>
-        <Img label="Health OK dans OpenClaw avec Connected"/>
+        <img src="https://i.imgur.com/Q9uykff.jpeg" alt="Health OK dans OpenClaw avec Connected" style={{width:"100%",borderRadius:12,border:"1px solid #1e2235",display:"block",margin:"16px 0"}}/>
 
         <hr style={S.hr}/>
 

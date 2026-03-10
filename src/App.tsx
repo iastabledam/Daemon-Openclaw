@@ -900,6 +900,219 @@ function OfferPage() {
   );
 }
 
+const SC = {
+  wrap:   { maxWidth:900, margin:"0 auto", padding:"0 0 80px" },
+  hdr:    { textAlign:"center", padding:"60px 0 50px", borderBottom:"1px solid #252d4a", marginBottom:50 },
+  logo:   { fontSize:13, letterSpacing:3, textTransform:"uppercase", color:"#4f8ef7", marginBottom:16 },
+  h1c:    { fontSize:"clamp(1.6rem,3vw,2.2rem)", fontWeight:700, background:"linear-gradient(135deg,#4f8ef7,#7c5cfc)", WebkitBackgroundClip:"text", WebkitTextFillColor:"transparent", marginBottom:12 },
+  sub:    { color:"#64748b", fontSize:14 },
+  step:   { background:"#141828", border:"1px solid #252d4a", borderRadius:12, padding:32, marginBottom:28, position:"relative", overflow:"hidden" },
+  stepL:  { position:"absolute", top:0, left:0, right:0, height:3, background:"linear-gradient(90deg,#4f8ef7,#7c5cfc)" },
+  sHdr:   { display:"flex", alignItems:"center", gap:14, marginBottom:20 },
+  sNum:   { width:36, height:36, background:"linear-gradient(135deg,#4f8ef7,#7c5cfc)", borderRadius:"50%", display:"flex", alignItems:"center", justifyContent:"center", fontWeight:700, fontSize:14, color:"white", flexShrink:0 },
+  h2c:    { fontSize:18, fontWeight:700, color:"#e2e8f0" },
+  h3c:    { fontSize:15, fontWeight:600, color:"#4f8ef7", margin:"20px 0 10px" },
+  pc:     { color:"#94a3b8", marginBottom:14, fontSize:14, lineHeight:1.7 },
+  cBlock: { background:"#0a0c14", border:"1px solid #252d4a", borderRadius:8, margin:"14px 0", overflow:"hidden" },
+  cHead:  { display:"flex", alignItems:"center", justifyContent:"space-between", padding:"8px 14px", background:"#1a1f35", borderBottom:"1px solid #252d4a" },
+  cLabel: { fontSize:11, color:"#64748b", letterSpacing:1, textTransform:"uppercase", fontFamily:"monospace" },
+  preC2:  { padding:16, fontFamily:"monospace", fontSize:12, color:"#a5b4fc", overflowX:"auto", whiteSpace:"pre-wrap", wordBreak:"break-all", lineHeight:1.6, margin:0 },
+  note:   { background:"rgba(245,158,11,0.08)", borderLeft:"3px solid #f59e0b", padding:"12px 16px", borderRadius:"0 6px 6px 0", margin:"12px 0", fontSize:13, color:"#fcd34d" },
+  tip:    { background:"rgba(61,214,140,0.08)", borderLeft:"3px solid #3dd68c", padding:"12px 16px", borderRadius:"0 6px 6px 0", margin:"12px 0", fontSize:13, color:"#6ee7b7" },
+  tbl:    { width:"100%", borderCollapse:"collapse", margin:"14px 0", fontSize:13 },
+  thc:    { background:"#1a1f35", color:"#4f8ef7", padding:"10px 14px", textAlign:"left", fontWeight:600, borderBottom:"1px solid #252d4a" },
+  tdc:    { padding:"10px 14px", borderBottom:"1px solid #252d4a", color:"#94a3b8" },
+  sectT:  { fontSize:13, letterSpacing:2, textTransform:"uppercase", color:"#7c5cfc", margin:"50px 0 20px", fontWeight:600 },
+  ftc:    { textAlign:"center", padding:"40px 0", color:"#64748b", fontSize:12, borderTop:"1px solid #252d4a", marginTop:50 },
+};
+
+function CopyBtn({text}) {
+  const [copied, setCopied] = useState(false);
+  return (
+    <button
+      onClick={()=>{ navigator.clipboard.writeText(text.trim()); setCopied(true); setTimeout(()=>setCopied(false),2000); }}
+      style={{background:copied?"#3dd68c":"#141828", border:`1px solid ${copied?"#3dd68c":"#252d4a"}`, color:copied?"white":"#64748b", padding:"4px 12px", borderRadius:5, fontSize:11, cursor:"pointer", transition:"all 0.2s"}}
+    >{copied?"✓ Copié":"Copier"}</button>
+  );
+}
+
+function CBlock({label, code}) {
+  return (
+    <div style={SC.cBlock}>
+      <div style={SC.cHead}>
+        <span style={SC.cLabel}>{label}</span>
+        <CopyBtn text={code}/>
+      </div>
+      <pre style={SC.preC2}>{code}</pre>
+    </div>
+  );
+}
+
+function Cd2({c}) {
+  return <code style={{fontFamily:"monospace",background:"#1a1f35",padding:"2px 7px",borderRadius:4,fontSize:12,color:"#a5b4fc"}}>{c}</code>;
+}
+
+function Badge({t, type="green"}) {
+  const colors = {green:["rgba(61,214,140,0.15)","#3dd68c"], orange:["rgba(245,158,11,0.15)","#f59e0b"], red:["rgba(248,113,113,0.15)","#f87171"]};
+  const [bg,col] = colors[type]||colors.green;
+  return <span style={{display:"inline-block",padding:"2px 8px",borderRadius:99,fontSize:11,fontWeight:600,background:bg,color:col}}>{t}</span>;
+}
+
+function StepBox({num, title, children}) {
+  return (
+    <div style={SC.step}>
+      <div style={SC.stepL}/>
+      <div style={SC.sHdr}>
+        <div style={SC.sNum}>{num}</div>
+        <h2 style={SC.h2c}>{title}</h2>
+      </div>
+      {children}
+    </div>
+  );
+}
+
+function CostGuide() {
+  return (
+    <div style={SC.wrap}>
+      <div style={SC.hdr}>
+        <div style={SC.logo}>🦞 Daemon IA</div>
+        <h1 style={SC.h1c}>OpenClaw — Optimisation des Coûts</h1>
+        <p style={SC.sub}>Configuration OpenRouter sur VPS Hostinger / Coolify · Mars 2026</p>
+      </div>
+
+      {/* INTRO */}
+      <StepBox num="📋" title="Introduction">
+        <p style={SC.pc}>Ce guide explique comment connecter <strong style={{color:"#e2e8f0"}}>OpenRouter</strong> à votre instance OpenClaw pour réduire drastiquement vos coûts en tokens.</p>
+        <p style={SC.pc}>Par défaut, OpenClaw utilise <strong style={{color:"#e2e8f0"}}>Claude Opus</strong> pour toutes les requêtes. Résultat : une facture pouvant dépasser <Badge t="$2 500/mois" type="red"/> pour un usage actif.</p>
+        <table style={SC.tbl}>
+          <thead><tr><th style={SC.thc}>Optimisation</th><th style={SC.thc}>Coût avant</th><th style={SC.thc}>Coût après</th><th style={SC.thc}>Économie</th></tr></thead>
+          <tbody>
+            <tr><td style={SC.tdc}>Modèle par défaut → DeepSeek V3.2</td><td style={SC.tdc}><Badge t="$2 550/mois" type="red"/></td><td style={SC.tdc}><Badge t="$680/mois"/></td><td style={SC.tdc}><Badge t="-73%"/></td></tr>
+            <tr><td style={SC.tdc}>Heartbeats → Gemini Flash-Lite</td><td style={SC.tdc}><Badge t="$1 022/mois" type="red"/></td><td style={SC.tdc}><Badge t="$7/mois"/></td><td style={SC.tdc}><Badge t="-99%"/></td></tr>
+            <tr><td style={SC.tdc}>Gestion de session + cache</td><td style={SC.tdc}>—</td><td style={SC.tdc}>—</td><td style={SC.tdc}><Badge t="-$60/mois"/></td></tr>
+            <tr><td style={SC.tdc}><strong style={{color:"#e2e8f0"}}>Total combiné</strong></td><td style={SC.tdc}><Badge t="$2 550/mois" type="red"/></td><td style={SC.tdc}><Badge t="$70–95/mois"/></td><td style={SC.tdc}><Badge t="jusqu'à -96%"/></td></tr>
+          </tbody>
+        </table>
+        <p style={SC.pc}><strong style={{color:"#e2e8f0"}}>Comment utiliser ce guide :</strong> Exécuter les commandes dans l'ordre depuis le <strong style={{color:"#e2e8f0"}}>Terminal Coolify</strong>. Un <strong style={{color:"#e2e8f0"}}>Restart</strong> est nécessaire après toutes les commandes.</p>
+        <div style={SC.note}>⚠️ Ne pas envoyer de message à OpenClaw entre les commandes et le restart — cela pourrait écraser certains paramètres.</div>
+      </StepBox>
+
+      <p style={SC.sectT}>— Configuration OpenRouter —</p>
+
+      <StepBox num="1" title="Enregistrer la clé OpenRouter">
+        <p style={SC.pc}>Créer d'abord une clé API sur <strong style={{color:"#e2e8f0"}}>openrouter.ai → Dashboard → Keys → Créer une nouvelle clé</strong>.</p>
+        <CBlock label="Terminal Coolify" code="openclaw models auth paste-token --provider openrouter"/>
+        <div style={SC.tip}>✅ Succès attendu : Auth profile: openrouter:manual (openrouter/token)</div>
+      </StepBox>
+
+      <StepBox num="2" title="Corriger le profil auth en mode api_key">
+        <p style={SC.pc}>Par défaut le profil est créé en mode <Cd2 c="token"/>. Il faut le passer en <Cd2 c="api_key"/> pour que les modèles OpenRouter soient autorisés.</p>
+        <CBlock label="Terminal Coolify" code={`openclaw config set auth.profiles.openrouter:manual '{"provider":"openrouter","mode":"api_key"}'`}/>
+      </StepBox>
+
+      <StepBox num="3" title="Ajouter les modèles OpenRouter">
+        <p style={SC.pc}>Enregistre tous les modèles disponibles. Cette commande remplace toute la liste.</p>
+        <div style={SC.note}>⚠️ À relancer si vous voulez ajouter un modèle ultérieurement.</div>
+        <CBlock label="Terminal Coolify" code={`openclaw config set models.providers.openrouter '{"baseUrl":"https://openrouter.ai/api/v1","api":"openai-completions","models":[{"id":"google/gemini-2.5-flash-lite","name":"Gemini Flash-Lite","contextWindow":1000000,"maxTokens":8192},{"id":"google/gemini-2.5-flash","name":"Gemini Flash","contextWindow":1000000,"maxTokens":8192},{"id":"anthropic/claude-haiku-4-5","name":"Claude Haiku 4.5","contextWindow":200000,"maxTokens":8192},{"id":"anthropic/claude-sonnet-4-6","name":"Claude Sonnet 4.6","contextWindow":1000000,"maxTokens":8192},{"id":"anthropic/claude-opus-4-6","name":"Claude Opus 4.6","contextWindow":1000000,"maxTokens":8192},{"id":"deepseek/deepseek-v3.2","name":"DeepSeek V3.2","contextWindow":164000,"maxTokens":8192},{"id":"moonshotai/kimi-k2.5","name":"Kimi K2.5","contextWindow":262000,"maxTokens":8192},{"id":"z-ai/glm-5","name":"GLM-5","contextWindow":205000,"maxTokens":8192},{"id":"openai/gpt-5-mini","name":"GPT-5 Mini","contextWindow":128000,"maxTokens":8192},{"id":"openai/gpt-5-nano","name":"GPT-5 Nano","contextWindow":128000,"maxTokens":8192},{"id":"meta-llama/llama-3.1-8b-instruct","name":"Llama 3.1 8B","contextWindow":131000,"maxTokens":8192},{"id":"meta-llama/llama-3.3-70b-instruct","name":"Llama 3.3 70B","contextWindow":131000,"maxTokens":8192},{"id":"meta-llama/llama-4-scout","name":"Llama 4 Scout","contextWindow":512000,"maxTokens":8192}]}'`}/>
+      </StepBox>
+
+      <StepBox num="4" title="Définir le modèle par défaut">
+        <p style={SC.pc}>DeepSeek V3.2 est le modèle économique recommandé <Badge t="$0.31/M tokens"/>.</p>
+        <CBlock label="Terminal Coolify" code="openclaw config set agents.defaults.model.primary openrouter/deepseek/deepseek-v3.2"/>
+      </StepBox>
+
+      <StepBox num="5" title="Configurer les alias de modèles">
+        <p style={SC.pc}>Les alias permettent de changer de modèle depuis Telegram avec <Cd2 c="/model deepseek"/>, <Cd2 c="/model sonnet"/>, etc.</p>
+        <CBlock label="Terminal Coolify" code={`openclaw config set agents.defaults.models '{"openrouter/deepseek/deepseek-v3.2":{"alias":"deepseek"},"openrouter/google/gemini-2.5-flash-lite":{"alias":"flashlite"},"openrouter/google/gemini-2.5-flash":{"alias":"flash"},"openrouter/anthropic/claude-haiku-4-5":{"alias":"haiku"},"openrouter/anthropic/claude-sonnet-4-6":{"alias":"sonnet"},"openrouter/anthropic/claude-opus-4-6":{"alias":"opus"},"openrouter/moonshotai/kimi-k2.5":{"alias":"kimi"},"openrouter/z-ai/glm-5":{"alias":"glm"},"openrouter/openai/gpt-5-mini":{"alias":"gpt"},"openrouter/openai/gpt-5-nano":{"alias":"nano"},"meta-llama/llama-3.1-8b-instruct":{"alias":"llama8b"},"meta-llama/llama-3.3-70b-instruct":{"alias":"llama70b"},"meta-llama/llama-4-scout":{"alias":"llama4"}}'`}/>
+      </StepBox>
+
+      <p style={SC.sectT}>— Optimisations des coûts —</p>
+
+      <StepBox num="6" title="Heartbeat économique">
+        <p style={SC.pc}>Par défaut les heartbeats tournent sur Opus toutes les 30 minutes — soit <Badge t="$1 022/mois" type="red"/> sans rien faire d'utile. En les passant sur Gemini Flash-Lite toutes les 55 minutes, on tombe à <Badge t="~$1/mois"/>.</p>
+        <p style={SC.pc}>Pourquoi 55 minutes ? Le cache de prompt expire après ~1 heure. Le heartbeat rafraîchit le cache juste avant son expiration.</p>
+        <CBlock label="Terminal Coolify" code={`openclaw config set agents.defaults.heartbeat '{"every":"55m","model":"openrouter/google/gemini-2.5-flash-lite","target":"last"}'`}/>
+        <div style={SC.tip}>✅ Économie estimée : $178/mois sur cette seule optimisation.</div>
+      </StepBox>
+
+      <StepBox num="7" title="Compaction mémoire">
+        <p style={SC.pc}>Chaque échange ajoute des tokens au contexte. La compaction mémoire nettoie automatiquement le contexte avant qu'il ne gonfle trop.</p>
+        <CBlock label="Terminal Coolify" code={`openclaw config set agents.defaults.compaction '{"memoryFlush":{"enabled":true,"softThresholdTokens":4000}}'`}/>
+      </StepBox>
+
+      <StepBox num="8" title="Cache de prompts">
+        <p style={SC.pc}>Anthropic offre une réduction de 90% sur les tokens mis en cache. Google offre 75%. À vérifier/activer depuis le chat OpenClaw :</p>
+        <CBlock label="Chat OpenClaw (Telegram ou WebUI)" code={`Confirme : le cache de prompts est-il activé pour ma configuration de modèles actuelle ? Sinon, active-le. Vérifie également que mon TTL de cache est configuré de manière optimale (doit être 3600 secondes / 1 heure pour les meilleures économies).`}/>
+      </StepBox>
+
+      <StepBox num="9" title="Garde-fous budgétaires">
+        <p style={SC.pc}>À envoyer dans le chat OpenClaw pour ajouter des limites automatiques :</p>
+        <CBlock label="Chat OpenClaw (Telegram ou WebUI)" code={`Ajoute ces garde-fous budgétaires à mon prompt système :\n\n## Politique de Coûts et Limites API\n- Maximum 10 appels API par message utilisateur\n- Maximum 100K tokens de sortie par jour\n\nAvant d'appeler des outils : demande "Cet appel est-il nécessaire ?"\n\nBudget journalier : 5$ (préviens-moi à 3,75$)\nBudget mensuel : 100$ (préviens-moi à 75$)\n\nSi une tâche dépasse 1$ en tokens : indique-moi le coût et demande mon accord.\n\nEn cas d'erreurs de limite (429) : STOP, attends 5 minutes, réessaie une fois.\n\nConfirme que ces règles sont maintenant dans mon prompt système.`}/>
+      </StepBox>
+
+      <StepBox num="10" title="Restart et vérification finale">
+        <p style={SC.pc}>Faire un <strong style={{color:"#e2e8f0"}}>Restart depuis Coolify</strong>, attendre 30 secondes, puis vérifier.</p>
+        <CBlock label="Vérifier le modèle actif (Telegram)" code="/status full"/>
+        <CBlock label="Vérifier la config providers (Terminal Coolify)" code={`cat /data/.openclaw/openclaw.json | grep -A3 "providers"`}/>
+        <CBlock label="Voir les coûts et l'usage (Telegram)" code="/usage"/>
+        <div style={SC.note}>⚠️ Si providers: {"{}"} → relancer l'étape 3 puis restart immédiatement sans envoyer de message.</div>
+      </StepBox>
+
+      <p style={SC.sectT}>— Référence —</p>
+
+      <StepBox num="★" title="Arbre de décision — Quel modèle utiliser ?">
+        <table style={SC.tbl}>
+          <thead><tr><th style={SC.thc}>Si vous faites…</th><th style={SC.thc}>Alias</th><th style={SC.thc}>Modèle</th><th style={SC.thc}>Coût</th></tr></thead>
+          <tbody>
+            {[
+              ["Heartbeat / cron / ping","flashlite","Gemini Flash-Lite","$0.18/M","green"],
+              ["Question du quotidien","deepseek","DeepSeek V3.2 ⭐","$0.31/M","green"],
+              ["Code simple","deepseek","DeepSeek V3.2","$0.31/M","green"],
+              ["Contexte très long","kimi","Kimi K2.5","$1.08/M","green"],
+              ["Code complexe","glm","GLM-5","$1.35/M","orange"],
+              ["Rédaction qualité / recherche","sonnet","Claude Sonnet 4.6","$6/M","orange"],
+              ["Tâche critique / raisonnement complexe","opus","Claude Opus 4.6","$10/M","red"],
+              ["Open-source économique","llama8b","Llama 3.1 8B","très faible","green"],
+              ["Open-source qualité","llama70b","Llama 3.3 70B","faible","green"],
+              ["Contexte 512K open-source","llama4","Llama 4 Scout","faible","green"],
+            ].map(([use,alias,model,cost,type],i)=>(
+              <tr key={i}><td style={SC.tdc}>{use}</td><td style={SC.tdc}><Cd2 c={alias}/></td><td style={SC.tdc}>{model}</td><td style={SC.tdc}><Badge t={cost} type={type}/></td></tr>
+            ))}
+          </tbody>
+        </table>
+        <h3 style={SC.h3c}>Changer de modèle depuis Telegram</h3>
+        <p style={SC.pc}><strong style={{color:"#e2e8f0"}}>Méthode 1 — Via alias (rapide)</strong></p>
+        <CBlock label="Telegram" code="/model deepseek"/>
+        <p style={SC.pc}><strong style={{color:"#e2e8f0"}}>Méthode 2 — Via le menu interactif</strong></p>
+        <p style={SC.pc}>Taper <Cd2 c="/models"/> → cliquer sur <strong style={{color:"#e2e8f0"}}>openrouter</strong> → choisir le modèle dans la liste.</p>
+        <CBlock label="Telegram" code="/models"/>
+      </StepBox>
+
+      <StepBox num="💬" title="Prompts utiles — Contrôle des coûts">
+        <h3 style={SC.h3c}>Audit des coûts</h3>
+        <CBlock label="Chat OpenClaw" code={`/status full\n/usage\n\nEnsuite demande-moi : "Quels patterns vois-tu dans mon utilisation API ? Où puis-je encore réduire les coûts ?"`}/>
+        <h3 style={SC.h3c}>Règle d'efficacité des sorties d'outils</h3>
+        <CBlock label="Chat OpenClaw" code={`Ajoute cette règle à mon prompt système :\n\n## Gardez les Sorties d'Outils Légères\n\nAvant de retourner une sortie d'outil :\n1. Filtre pour la pertinence\n2. Résume les grandes réponses JSON\n3. Demande : "L'utilisateur a-t-il besoin des 500 lignes, ou juste de l'erreur ?"\n\nConfirme l'ajout.`}/>
+        <h3 style={SC.h3c}>Arrêt d'urgence</h3>
+        <CBlock label="Telegram — pause tous les appels API pendant 1h" code="/ratelimit pause"/>
+      </StepBox>
+
+      <StepBox num="🔧" title="Dépannage">
+        <h3 style={SC.h3c}>Erreur : Unknown model: openrouter/...</h3>
+        <p style={SC.pc}>Le bloc providers a été écrasé. Vérifier :</p>
+        <CBlock label="Terminal Coolify" code={`cat /data/.openclaw/openclaw.json | grep -A3 "providers"`}/>
+        <p style={SC.pc}>Si le résultat affiche <Cd2 c="providers: {}"/> → relancer l'étape 3 puis restart immédiatement.</p>
+        <h3 style={SC.h3c}>Heartbeats toujours chers</h3>
+        <CBlock label="Terminal Coolify" code={`# */55 * * * * /usr/bin/curl -X POST http://localhost:3000/api/agent/main -H "Content-Type: application/json" -d '{"message":"ping","sessionId":"isolated"}' >/dev/null 2>&1`}/>
+        <h3 style={SC.h3c}>Coût toujours élevé après optimisation</h3>
+        <CBlock label="Telegram" code="/status full"/>
+      </StepBox>
+
+      <div style={SC.ftc}>Daemon IA — daemon-ia.fr — Mars 2026</div>
+    </div>
+  );
+}
+
 export default function App() {
   const [tab, setTab] = useState("guide");
   const [activeId, setActiveId] = useState(null);
@@ -932,7 +1145,7 @@ export default function App() {
       <div style={S.nav}>
         <div style={S.navI}>
           <div style={S.navB}>
-            {[["guide","📖 Guide d'installation",false],["offer","💼 Service & Offre",true]].map(([id,label,isOffer])=>{
+            {[["guide","📖 Guide d'installation",false],["offer","💼 Service & Offre",true],["costs","💰 Optimisation des Coûts",false]].map(([id,label,isOffer])=>{
               const on = tab===id;
               const st = isOffer ? (on?S.tOA:S.tOI) : (on?S.tA:S.tI);
               return <button key={id} onClick={()=>{ setTab(id); window.scrollTo(0,0); }} style={st}>{label}</button>;
@@ -940,9 +1153,10 @@ export default function App() {
           </div>
         </div>
       </div>
-      <div style={S.main}>
-        {tab==="guide" ? <GuideContent activeId={activeId} onTocClick={handleTocClick}/> : <OfferPage/>}
+      <div style={tab==="costs" ? {padding:0} : S.main}>
+        {tab==="guide" ? <GuideContent activeId={activeId} onTocClick={handleTocClick}/> : tab==="offer" ? <OfferPage/> : <CostGuide/>}
       </div>
+      {tab !== "costs" && <>
       <a
         href="https://wa.me/33628500314?text=Bonjour%2C%20je%20suis%20int%C3%A9ress%C3%A9%20par%20ton%20service%20OpenClaw%20LinkedIn%20!"
         target="_blank"
@@ -955,6 +1169,7 @@ export default function App() {
       </a>
       <button onClick={()=>bounceScrollTo(0)}
         style={{position:"fixed",bottom:32,right:280,width:56,height:56,borderRadius:"50%",background:"#10b981",border:"none",cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",boxShadow:"0 4px 20px rgba(16,185,129,0.35)",zIndex:100,fontSize:20,color:"#09090b",fontWeight:"bold"}}>↑</button>
+      </>}
     </div>
   );
 }

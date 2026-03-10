@@ -1012,7 +1012,6 @@ function CostGuide() {
         <p style={SC.pc}>Créer d'abord une clé API sur <strong style={{color:"#e2e8f0"}}>openrouter.ai → Dashboard → Keys → Créer une nouvelle clé</strong>.</p>
         <CBlock label="Terminal Coolify" code="openclaw models auth paste-token --provider openrouter"/>
         <div style={SC.tip}>✅ Succès attendu : Auth profile: openrouter:manual (openrouter/token)</div>
-        <ImgScreen src="https://i.imgur.com/XOetcN9.jpeg" caption="Résultat attendu dans le terminal Coolify après paste-token"/>
       </StepBox>
 
       <StepBox num="2" title="Corriger le profil auth en mode api_key">
@@ -1063,7 +1062,6 @@ function CostGuide() {
       <StepBox num="10" title="Restart et vérification finale">
         <p style={SC.pc}>Faire un <strong style={{color:"#e2e8f0"}}>Restart depuis Coolify</strong>, attendre 30 secondes, puis vérifier.</p>
         <CBlock label="Vérifier le modèle actif (Telegram)" code="/status full"/>
-        <ImgScreen src="https://i.imgur.com/91iNLiC.jpeg" caption="Résultat de /status full — vérifier que le modèle actif est bien openrouter/deepseek/deepseek-v3.2"/>
         <CBlock label="Vérifier la config providers (Terminal Coolify)" code={`cat /data/.openclaw/openclaw.json | grep -A3 "providers"`}/>
         <CBlock label="Voir les coûts et l'usage (Telegram)" code="/usage"/>
         <div style={SC.note}>⚠️ Si providers: {"{}"} → relancer l'étape 3 puis restart immédiatement sans envoyer de message.</div>
@@ -1097,7 +1095,11 @@ function CostGuide() {
         <p style={SC.pc}><strong style={{color:"#e2e8f0"}}>Méthode 2 — Via le menu interactif</strong></p>
         <p style={SC.pc}>Taper <Cd2 c="/models"/> → cliquer sur <strong style={{color:"#e2e8f0"}}>openrouter</strong> → choisir le modèle dans la liste.</p>
         <CBlock label="Telegram" code="/models"/>
-        <ImgScreen src="https://i.imgur.com/VFXDM32.jpeg" caption="Menu /models dans Telegram — cliquer sur openrouter puis choisir le modèle"/>
+        <div style={{display:"flex", gap:12, flexWrap:"wrap", justifyContent:"center", margin:"18px 0"}}>
+          <ImgScreen src="https://i.imgur.com/XOetcN9.jpeg" caption="Étape 1 — liste des providers"/>
+          <ImgScreen src="https://i.imgur.com/VFXDM32.jpeg" caption="Étape 2 — modèles OpenRouter"/>
+          <ImgScreen src="https://i.imgur.com/91iNLiC.jpeg" caption="Étape 3 — confirmation du modèle actif"/>
+        </div>
       </StepBox>
 
       <StepBox num="💬" title="Prompts utiles — Contrôle des coûts">

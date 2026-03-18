@@ -1175,6 +1175,7 @@ function ClaudeCodeGuide({ activeId, onTocClick }) {
           <li style={S.li}><B c="Gérer Git"/> — le système de versionnage de fichiers</li>
         </ul>
         <div style={S.bq}><p style={{ ...S.p, margin:0 }}>💡 <B c="Analogie :"/> Si Claude sur claude.ai est un conseiller, Claude Code est un ouvrier qui entre dans votre atelier et construit ce que vous lui demandez.</p></div>
+        <ImgScreen src="https://i.imgur.com/9dNbnCr.jpeg" caption="Vue d'ensemble des outils Claude Code disponibles"/>
         <hr style={S.hr}/>
         <h2 id="cc2" style={S.h2}>2. Quel abonnement choisir ?</h2>
         <div style={S.bqW}><p style={{ ...S.p, margin:0 }}>⚠️ <B c="Claude Code n'est PAS disponible avec le plan gratuit."/></p></div>
@@ -1197,12 +1198,19 @@ function ClaudeCodeGuide({ activeId, onTocClick }) {
           <li style={S.li}>Téléchargez l'installateur 64-bit</li>
           <li style={S.li}>Cliquez Next à chaque étape puis Install</li>
         </ol>
+        <div style={{display:"flex",gap:12,flexWrap:"wrap",justifyContent:"center",margin:"18px 0"}}>
+          <ImgScreen src="https://i.imgur.com/lShklwG.jpeg" caption="Configuration requise et dépendances pour Claude Code"/>
+          <ImgScreen src="https://i.imgur.com/LY5Y1Ks.jpeg" caption="Documentation des prérequis système"/>
+          <ImgScreen src="https://i.imgur.com/JiFTDBY.jpeg" caption="Installation de Git sous Windows avec licence GNU"/>
+        </div>
         <PreO>git --version</PreO>
         <p style={{ ...S.p, fontWeight:600, color:"#e4e4e7" }}>🍎 macOS / 🐧 Linux :</p>
         <PreO>{`brew install git\n# ou\nsudo apt install git -y`}</PreO>
         <h3 style={S.h3}>3.2 — Node.js (fortement recommandé)</h3>
         <p style={S.p}>Nécessaire pour les projets web (React, Next.js, Vite…) et les serveurs MCP.</p>
+        <ImgScreen src="https://i.imgur.com/WdEYfkA.jpeg" caption="Page de téléchargement Node.js avec instructions d'installation"/>
         <PreO>{`node -v   # ex: v24.x.x\nnpm -v    # ex: 11.x.x`}</PreO>
+        <ImgScreen src="https://i.imgur.com/7EzV6gg.jpeg" caption="Vérification des versions Node.js et npm dans PowerShell"/>
         <h3 style={S.h3}>3.3 — Récapitulatif</h3>
         <div style={{ overflowX:"auto" }}>
           <table style={S.tbl}>
@@ -1214,14 +1222,27 @@ function ClaudeCodeGuide({ activeId, onTocClick }) {
         </div>
         <hr style={S.hr}/>
         <h2 id="cc4" style={S.h2}>4. Installer Claude Code</h2>
+        <div style={{display:"flex",gap:12,flexWrap:"wrap",justifyContent:"center",margin:"0 0 18px"}}>
+          <ImgScreen src="https://i.imgur.com/DTNJdfg.jpeg" caption="Méthodes d'installation natives pour macOS, Linux, WSL et Windows"/>
+          <ImgScreen src="https://i.imgur.com/UJqSQ8v.jpeg" caption="Méthodes d'installation de Claude Code selon votre système"/>
+        </div>
+        <p style={{ ...S.p, fontWeight:600, color:"#e4e4e7" }}>🪟 Windows — Git (pré-requis) :</p>
+        <div style={{display:"flex",gap:12,flexWrap:"wrap",justifyContent:"center",margin:"0 0 18px"}}>
+          <ImgScreen src="https://i.imgur.com/JYeGsVc.jpeg" caption="Page de téléchargement Git pour Windows"/>
+          <ImgScreen src="https://i.imgur.com/oLApFa1.jpeg" caption="Page d'installation Git pour Windows avec options"/>
+          <ImgScreen src="https://i.imgur.com/NCSak8c.jpeg" caption="Écran d'installation Git affichant la licence GPL"/>
+        </div>
         <p style={{ ...S.p, fontWeight:600, color:"#e4e4e7" }}>🪟 Windows — PowerShell :</p>
         <PreO>irm https://claude.ai/install.ps1 | iex</PreO>
+        <ImgScreen src="https://i.imgur.com/kMO9F7Y.jpeg" caption="Exécution de la commande d'installation dans Windows PowerShell"/>
         <p style={{ ...S.p, fontWeight:600, color:"#e4e4e7" }}>🪟 Windows — CMD :</p>
         <PreO>curl -fsSL https://claude.ai/install.cmd -o install.cmd && install.cmd && del install.cmd</PreO>
         <p style={{ ...S.p, fontWeight:600, color:"#e4e4e7" }}>🍎 macOS / 🐧 Linux :</p>
         <PreO>curl -fsSL https://claude.ai/install.sh | bash</PreO>
+        <ImgScreen src="https://i.imgur.com/ikbOve4.jpeg" caption="Commandes d'installation pour macOS, Linux, WSL et Windows"/>
         <h3 style={S.h3}>Vérifier l'installation</h3>
         <PreO>claude --version</PreO>
+        <ImgScreen src="https://i.imgur.com/3USY6II.jpeg" caption="Confirmation d'installation réussie de Claude Code v2.1.77"/>
         <hr style={S.hr}/>
         <h2 id="cc5" style={S.h2}>5. Premier lancement et authentification</h2>
         <PreO>claude</PreO>
@@ -1232,12 +1253,29 @@ function ClaudeCodeGuide({ activeId, onTocClick }) {
           <li style={S.li}>Retour dans le terminal → <CdO c="Login successful"/></li>
           <li style={S.li}>Lisez les notes de sécurité → appuyez sur Entrée</li>
         </ol>
+        <ImgScreen src="https://i.imgur.com/wdm2WOl.jpeg" caption="Écran de connexion avec méthodes d'authentification disponibles"/>
+        <ImgScreen src="https://i.imgur.com/VuZZULx.jpeg" caption="Fenêtre d'autorisation pour connecter Claude Code à votre compte"/>
+        <ImgScreen src="https://i.imgur.com/Nfu3yqK.jpeg" caption="Connexion réussie — email de l'utilisateur affiché"/>
+        <ImgScreen src="https://i.imgur.com/lX06oHP.jpeg" caption="Confirmation de la configuration réussie de Claude Code"/>
+        <ImgScreen src="https://i.imgur.com/UQ2wzvn.jpeg" caption="Notes de sécurité importantes avant de continuer"/>
         <hr style={S.hr}/>
         <h2 id="cc6" style={S.h2}>6. Travailler dans un dossier projet</h2>
         <p style={S.p}><B c="Bonne pratique :"/> Créez un dossier dédié pour chaque projet, naviguez dedans avant de lancer Claude Code.</p>
+        <div style={{display:"flex",gap:12,flexWrap:"wrap",justifyContent:"center",margin:"0 0 18px"}}>
+          <ImgScreen src="https://i.imgur.com/QOBFhBb.jpeg" caption="Création du dossier projet dans l'explorateur Windows"/>
+          <ImgScreen src="https://i.imgur.com/RLzZPEp.jpeg" caption="Création d'un nouveau dossier pour le projet"/>
+        </div>
         <PreO>{`# Windows\nmkdir C:\\Users\\VotreNom\\Documents\\MesProjetsClaude\\MonProjet\ncd C:\\Users\\VotreNom\\Documents\\MesProjetsClaude\\MonProjet\n\n# macOS / Linux\nmkdir -p ~/Documents/MesProjetsClaude/MonProjet\ncd ~/Documents/MesProjetsClaude/MonProjet`}</PreO>
+        <div style={{display:"flex",gap:12,flexWrap:"wrap",justifyContent:"center",margin:"18px 0"}}>
+          <ImgScreen src="https://i.imgur.com/1wk8QP0.jpeg" caption="Navigation vers le dossier du projet dans l'explorateur"/>
+          <ImgScreen src="https://i.imgur.com/41E95J5.jpeg" caption="Commande cd pour naviguer vers le dossier du projet"/>
+        </div>
         <PreO>claude</PreO>
         <p style={S.p}>Choisissez <B c="1 — Yes, I trust this folder"/> puisque c'est votre propre dossier.</p>
+        <div style={{display:"flex",gap:12,flexWrap:"wrap",justifyContent:"center",margin:"18px 0"}}>
+          <ImgScreen src="https://i.imgur.com/tc0Dg3E.jpeg" caption="Vérification de sécurité — confirmer la confiance du dossier"/>
+          <ImgScreen src="https://i.imgur.com/t74GK6X.jpeg" caption="Vérification de sécurité lors de l'accès au dossier"/>
+        </div>
         <hr style={S.hr}/>
         <h2 id="cc7" style={S.h2}>7. Utiliser Claude Code dans VS Code</h2>
         <ol style={{ ...S.ul, listStyleType:"decimal" }}>
@@ -1246,6 +1284,9 @@ function ClaudeCodeGuide({ activeId, onTocClick }) {
           <li style={S.li}>Ouvrez le terminal intégré : Terminal → New Terminal (ou Ctrl + backtick)</li>
           <li style={S.li}>Tapez <CdO c="claude"/> dans le terminal</li>
         </ol>
+        <ImgScreen src="https://i.imgur.com/RT6tS1P.jpeg" caption="Ouverture du dossier projet dans Visual Studio Code"/>
+        <ImgScreen src="https://i.imgur.com/y5elErI.jpeg" caption="Structure du projet visible dans l'explorateur VS Code"/>
+        <ImgScreen src="https://i.imgur.com/8L7uOIt.jpeg" caption="Terminal intégré VS Code dans le dossier du projet"/>
         <hr style={S.hr}/>
         <h2 id="cc8" style={S.h2}>8. Commandes essentielles</h2>
         <div style={{ overflowX:"auto" }}>
@@ -1257,6 +1298,10 @@ function ClaudeCodeGuide({ activeId, onTocClick }) {
           </table>
         </div>
         <div style={S.bq}><p style={{ ...S.p, margin:0 }}>💡 <B c="Conseil débutants :"/> Activez le <B c="plan mode"/> (Shift+Tab). Claude explique ce qu'il va faire avant de le faire.</p></div>
+        <div style={{display:"flex",gap:12,flexWrap:"wrap",justifyContent:"center",margin:"18px 0"}}>
+          <ImgScreen src="https://i.imgur.com/oqRgb8T.jpeg" caption="Commandes disponibles et recherche web dans Claude Code"/>
+          <ImgScreen src="https://i.imgur.com/PmOBjOJ.jpeg" caption="Commande /exit pour quitter la session Claude Code"/>
+        </div>
         <h3 style={S.h3}>Reprendre une session</h3>
         <PreO>claude --resume 760af073-4f3c-4cbc-9ba0-34fd3bc66592</PreO>
         <hr style={S.hr}/>
@@ -1274,7 +1319,26 @@ function ClaudeCodeGuide({ activeId, onTocClick }) {
         </div>
         <hr style={S.hr}/>
         <h2 id="cc10" style={S.h2}>10. Écrire son premier prompt de projet</h2>
+        <div style={{display:"flex",gap:12,flexWrap:"wrap",justifyContent:"center",margin:"0 0 18px"}}>
+          <ImgScreen src="https://i.imgur.com/8NrSxQA.jpeg" caption="Écran d'accueil avec choix de thème de couleur"/>
+          <ImgScreen src="https://i.imgur.com/9Zt29Fl.jpeg" caption="Interface principale de Claude Code avec message de bienvenue"/>
+          <ImgScreen src="https://i.imgur.com/5wzzNH9.jpeg" caption="Interface d'accueil après authentification réussie"/>
+        </div>
         <PreO>{`Dans ce dossier, crée une application web avec ViteJS et React qui \npermet de [décrire votre besoin ici].\n\nL'utilisateur peut entrer :\n- [champ 1]\n- [champ 2]\n\nL'application génère automatiquement :\n- [fonctionnalité 1]\n- [fonctionnalité 2]\n\nUtilise une architecture propre avec :\n- components (UI)\n- hooks (logique)\n- services (génération)\n- utils (helpers)\n- types (TypeScript)\n\nCommence par faire des recherches web pour trouver les commandes \nà jour pour installer les dépendances.`}</PreO>
+        <div style={{display:"flex",gap:12,flexWrap:"wrap",justifyContent:"center",margin:"18px 0"}}>
+          <ImgScreen src="https://i.imgur.com/OKn3hhD.jpeg" caption="Interface Claude Code après installation avec message de bienvenue"/>
+          <ImgScreen src="https://i.imgur.com/hNLEUzd.jpeg" caption="Claude Code lancé — prêt à recevoir votre premier prompt"/>
+          <ImgScreen src="https://i.imgur.com/iClefhx.jpeg" caption="Claude Code se présente et explique ses capacités"/>
+        </div>
+        <div style={{display:"flex",gap:12,flexWrap:"wrap",justifyContent:"center",margin:"18px 0"}}>
+          <ImgScreen src="https://i.imgur.com/n9S5k5H.jpeg" caption="Réponse de Claude avec proposition d'aide pour le développement"/>
+          <ImgScreen src="https://i.imgur.com/EBPNNeI.jpeg" caption="Claude Code en cours d'exécution d'une première demande"/>
+          <ImgScreen src="https://i.imgur.com/N3vKRJP.jpeg" caption="Vérification de sécurité au premier lancement"/>
+        </div>
+        <div style={{display:"flex",gap:12,flexWrap:"wrap",justifyContent:"center",margin:"18px 0"}}>
+          <ImgScreen src="https://i.imgur.com/OBWSanj.jpeg" caption="Interface avec mode acceptation d'édits activé"/>
+          <ImgScreen src="https://i.imgur.com/lHkMIID.jpeg" caption="Mode plan activé dans Claude Code terminal"/>
+        </div>
         <div style={S.bq}><p style={{ ...S.p, margin:0 }}>💡 Quand Claude Code demande l'autorisation, choisissez "Yes, and don't ask again" pour les recherches web et commandes courantes.</p></div>
         <hr style={S.hr}/>
         <h2 id="cc11" style={S.h2}>11. FAQ & Dépannage</h2>

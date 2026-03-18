@@ -188,6 +188,43 @@ const TOC = [
   {id:"pratiques", label:"9. Bonnes pratiques"},
 ];
 
+const CC_TOC = [
+  {id:"cc1",  label:"1. C'est quoi Claude Code ?"},
+  {id:"cc2",  label:"2. Quel abonnement ?"},
+  {id:"cc3",  label:"3. Prérequis"},
+  {id:"cc4",  label:"4. Installer Claude Code"},
+  {id:"cc5",  label:"5. Premier lancement"},
+  {id:"cc6",  label:"6. Dossier projet"},
+  {id:"cc7",  label:"7. VS Code"},
+  {id:"cc8",  label:"8. Commandes essentielles"},
+  {id:"cc9",  label:"9. Outils avancés"},
+  {id:"cc10", label:"10. Premier prompt"},
+  {id:"cc11", label:"11. FAQ & Dépannage"},
+];
+
+function Toc({items, activeId, onTocClick, accentColor="#34d399"}) {
+  return (
+    <aside style={{position:"sticky",top:0,height:"100vh",display:"flex",alignItems:"center"}}>
+      <div>
+        <div style={{fontSize:13,textTransform:"uppercase",letterSpacing:"0.12em",color:accentColor,fontWeight:700,marginBottom:18}}>Sommaire</div>
+        <nav style={{display:"flex",flexDirection:"column",borderLeft:"1px solid rgba(39,39,42,0.5)"}}>
+          {items.map(({id,label})=>{
+            const isA = activeId===id;
+            return (
+              <a key={id} href={"#"+id}
+                onClick={e=>{e.preventDefault();onTocClick(id);}}
+                style={{display:"block",fontSize:13,padding:"7px 0 7px 16px",marginLeft:-1,borderLeft:"1px solid "+(isA?accentColor:"transparent"),color:isA?accentColor:"#71717a",fontWeight:isA?600:400,textDecoration:"none",lineHeight:1.5,transition:"all 0.15s",cursor:"pointer"}}
+                onMouseEnter={e=>{if(!isA){e.currentTarget.style.color=accentColor;e.currentTarget.style.borderLeftColor=accentColor;}}}
+                onMouseLeave={e=>{if(!isA){e.currentTarget.style.color="#71717a";e.currentTarget.style.borderLeftColor="transparent";}}}
+              >{label}</a>
+            );
+          })}
+        </nav>
+      </div>
+    </aside>
+  );
+}
+
 function GuideContent({activeId, onTocClick}) {
   return (
     <div style={{display:"grid",gridTemplateColumns:"1fr 210px",gap:56,alignItems:"start"}}>
@@ -699,24 +736,7 @@ function GuideContent({activeId, onTocClick}) {
 
       </article>
 
-      <aside style={{position:"sticky",top:0,height:"100vh",display:"flex",alignItems:"center"}}>
-        <div>
-          <div style={{fontSize:13,textTransform:"uppercase",letterSpacing:"0.12em",color:"#34d399",fontWeight:700,marginBottom:18}}>Sommaire</div>
-          <nav style={{display:"flex",flexDirection:"column",borderLeft:"1px solid rgba(39,39,42,0.5)"}}>
-            {TOC.map(({id,label})=>{
-              const isA = activeId===id;
-              return (
-                <a key={id} href={"#"+id}
-                  onClick={e=>{e.preventDefault();onTocClick(id);}}
-                  style={{display:"block",fontSize:13,padding:"7px 0 7px 16px",marginLeft:-1,borderLeft:"1px solid "+(isA?"#34d399":"transparent"),color:isA?"#34d399":"#71717a",fontWeight:isA?600:400,textDecoration:"none",lineHeight:1.5,transition:"all 0.15s",cursor:"pointer"}}
-                  onMouseEnter={e=>{if(!isA){e.currentTarget.style.color="#34d399";e.currentTarget.style.borderLeftColor="#34d399";}}}
-                  onMouseLeave={e=>{if(!isA){e.currentTarget.style.color="#71717a";e.currentTarget.style.borderLeftColor="transparent";}}}
-                >{label}</a>
-              );
-            })}
-          </nav>
-        </div>
-      </aside>
+      <Toc items={TOC} activeId={activeId} onTocClick={onTocClick}/>
     </div>
   );
 }
@@ -971,10 +991,10 @@ function StepBox({num, title, children}) {
   );
 }
 
-function ImgScreen({src, caption}) {
+function ImgScreen({src, caption, solo=false}) {
   return (
     <div style={{margin:"18px 0", textAlign:"center"}}>
-      <img src={src} alt={caption} style={{maxWidth:"100%", width:360, borderRadius:12, border:"1px solid #252d4a", boxShadow:"0 4px 24px rgba(0,0,0,0.5)", display:"inline-block"}}/>
+      <img src={src} alt={caption} style={{maxWidth:"100%", width: solo ? "100%" : 560, borderRadius:12, border:"1px solid #252d4a", boxShadow:"0 4px 24px rgba(0,0,0,0.5)", display:"inline-block"}}/>
       {caption && <p style={{fontSize:12, color:"#64748b", marginTop:8, fontStyle:"italic"}}>{caption}</p>}
     </div>
   );
@@ -1127,6 +1147,253 @@ function CostGuide() {
   );
 }
 
+const ChkO = () => <span style={{display:"inline-flex",alignItems:"center",justifyContent:"center",width:20,height:20,borderRadius:"50%",background:"rgba(217,119,87,0.15)",border:"1px solid rgba(217,119,87,0.4)",flexShrink:0}}>
+  <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M1.5 5L4 7.5L8.5 2.5" stroke="#D97757" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/></svg>
+</span>;
+
+const CdO = ({c}) => <code style={{background:"rgba(217,119,87,0.12)",color:"#f0a882",padding:"2px 7px",borderRadius:4,fontFamily:"monospace",fontSize:"0.85em"}}>{c}</code>;
+const PreO = ({children}) => <pre style={S.pre}><code style={{...S.preC,color:"#f0a882"}}>{children}</code></pre>;
+
+function ClaudeCodeGuide({ activeId, onTocClick }) {
+  return (
+    <div style={{ display:"grid", gridTemplateColumns:"1fr 220px", gap:72, alignItems:"start" }}>
+      <article>
+        <div style={{ marginBottom:48 }}>
+          <div style={S.badge}>📘 Guide · Mars 2026 · Windows / macOS / Linux</div>
+          <h1 style={S.h1}>Guide Complet :<br/><span style={{background:"linear-gradient(135deg,#D97757,#f0a882)",WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent"}}>Installer et Utiliser Claude Code</span></h1>
+          <p style={{ ...S.p, fontSize:16, fontWeight:300 }}>Par <B c="Daemon IA"/> — daemon-ia.fr · Pas besoin de savoir coder.</p>
+          <img src="https://i.imgur.com/likKxCp.jpeg" alt="Guide Claude Code" style={{ width:"100%", borderRadius:12, margin:"24px 0 0", border:"1px solid #1e2235" }}/>
+        </div>
+        <hr style={S.hr}/>
+
+        {/* ── SECTION 1 ── */}
+        <h2 id="cc1" style={S.h2}>1. C'est quoi Claude Code ?</h2>
+        <p style={S.p}>Claude Code est un <B c="assistant IA qui vit dans votre terminal"/>. Contrairement au chat Claude sur claude.ai, il travaille <B c="directement sur les fichiers de votre ordinateur"/>.</p>
+        <ul style={S.ul}>
+          <li style={S.li}><B c="Lire vos fichiers"/> et comprendre la structure de votre projet</li>
+          <li style={S.li}><B c="Écrire du code"/> et créer de nouveaux fichiers automatiquement</li>
+          <li style={S.li}><B c="Exécuter des commandes"/> — installer des outils, lancer un site en local</li>
+          <li style={S.li}><B c="Corriger des bugs"/> en analysant votre code</li>
+          <li style={S.li}><B c="Gérer Git"/> — le système de versionnage de fichiers</li>
+        </ul>
+        <div style={S.bq}><p style={{ ...S.p, margin:0 }}>💡 <B c="Analogie :"/> Si Claude sur claude.ai est un conseiller, Claude Code est un ouvrier qui entre dans votre atelier et construit ce que vous lui demandez.</p></div>
+        <ImgScreen solo={true} src="https://i.imgur.com/9dNbnCr.jpeg" caption="Tous les outils disponibles dans Claude Code"/>
+
+        {/* ── SECTION 2 ── */}
+        <hr style={S.hr}/>
+        <h2 id="cc2" style={S.h2}>2. Quel abonnement choisir ?</h2>
+        <div style={S.bqW}><p style={{ ...S.p, margin:0 }}>⚠️ <B c="Claude Code n'est PAS disponible avec le plan gratuit."/></p></div>
+        <div style={{ overflowX:"auto" }}>
+          <table style={S.tbl}>
+            <thead><tr><th style={S.th}>Plan</th><th style={S.th}>Prix</th><th style={{ ...S.th, textAlign:"center" }}>Claude Code ?</th><th style={S.th}>Idéal pour</th></tr></thead>
+            <tbody>{[["Gratuit","0 $",<span style={{color:"#f87171"}}>❌ Non</span>,"Tester le chat seulement"],["Pro","20 $/mois",<ChkO/>,"Débutants, petits projets"],["Max 5x","100 $/mois",<ChkO/>,"Utilisation régulière"],["Max 20x","200 $/mois",<ChkO/>,"Développeurs pro"]].map(([n,p,c,id],i) => (
+              <tr key={i}><td style={S.td}><B c={n}/></td><td style={S.td}>{p}</td><td style={{ ...S.td, textAlign:"center" }}>{c}</td><td style={S.td}>{id}</td></tr>
+            ))}</tbody>
+          </table>
+        </div>
+        <div style={S.bqW}><p style={{ ...S.p, margin:0 }}>⚠️ <B c="Ne choisissez PAS Anthropic Console account"/> — c'est la facturation API qui peut dépasser <B c="5 000 $ en un mois"/> d'utilisation intensive. Choisissez toujours <B c="Option 1 : Claude account with subscription"/>.</p></div>
+
+        {/* ── SECTION 3 ── */}
+        <hr style={S.hr}/>
+        <h2 id="cc3" style={S.h2}>3. Prérequis : ce qu'il faut installer AVANT</h2>
+        <h3 style={S.h3}>3.1 — Git (obligatoire sur Windows)</h3>
+        <p style={S.p}>Sur Windows, Claude Code utilise Git Bash en interne. Sans Git, Claude Code ne peut pas fonctionner.</p>
+        <p style={{ ...S.p, fontWeight:600, color:"#e4e4e7" }}>🪟 Windows :</p>
+        <ol style={{ ...S.ul, listStyleType:"decimal" }}>
+          <li style={S.li}>Allez sur <a href="https://git-scm.com/downloads/win" target="_blank" rel="noopener noreferrer" style={{color:"#D97757",fontFamily:"monospace",textDecoration:"none"}}>git-scm.com/downloads/win</a></li>
+          <li style={S.li}>Téléchargez l'installateur 64-bit</li>
+          <li style={S.li}>Cliquez Next à chaque étape puis Install</li>
+        </ol>
+        <div style={{display:"flex",gap:12,flexWrap:"wrap",justifyContent:"center",margin:"14px 0"}}>
+          <ImgScreen src="https://i.imgur.com/JYeGsVc.jpeg" caption="Page de téléchargement Git pour Windows"/>
+          <ImgScreen src="https://i.imgur.com/NCSak8c.jpeg" caption="Installateur Git — écran licence GNU"/>
+        </div>
+        <PreO>git --version</PreO>
+        <p style={{ ...S.p, fontWeight:600, color:"#e4e4e7" }}>🍎 macOS / 🐧 Linux :</p>
+        <PreO>{`brew install git\n# ou\nsudo apt install git -y`}</PreO>
+        <h3 style={S.h3}>3.2 — Node.js (fortement recommandé)</h3>
+        <p style={S.p}>Nécessaire pour les projets web (React, Next.js, Vite…) et les serveurs MCP.</p>
+        <ImgScreen solo={true} src="https://i.imgur.com/WdEYfkA.jpeg" caption="Page de téléchargement Node.js — nodejs.org/en/download"/>
+        <PreO>{`node -v   # ex: v24.x.x\nnpm -v    # ex: 11.x.x`}</PreO>
+        <ImgScreen solo={true} src="https://i.imgur.com/7EzV6gg.jpeg" caption="Vérification des versions Node.js et npm dans PowerShell"/>
+
+        {/* ── SECTION 4 ── */}
+        <hr style={S.hr}/>
+        <h2 id="cc4" style={S.h2}>4. Installer Claude Code</h2>
+        <p style={S.p}>Rendez-vous sur <a href="https://code.claude.com/docs/fr/setup" target="_blank" rel="noopener noreferrer" style={{color:"#D97757",fontFamily:"monospace",textDecoration:"none"}}>code.claude.com/docs/fr/setup</a> pour la documentation officielle.</p>
+        <ImgScreen solo={true} src="https://i.imgur.com/DTNJdfg.jpeg" caption="Page officielle — méthodes d'installation natives (Recommended), Homebrew, WinGet"/>
+        <p style={{ ...S.p, fontWeight:600, color:"#e4e4e7" }}>🍎 macOS / 🐧 Linux / WSL :</p>
+        <PreO>curl -fsSL https://claude.ai/install.sh | bash</PreO>
+        <p style={{ ...S.p, fontWeight:600, color:"#e4e4e7" }}>🪟 Windows — PowerShell :</p>
+        <PreO>irm https://claude.ai/install.ps1 | iex</PreO>
+        <ImgScreen solo={true} src="https://i.imgur.com/kMO9F7Y.jpeg" caption="Exécution de la commande d'installation dans Windows PowerShell"/>
+        <p style={{ ...S.p, fontWeight:600, color:"#e4e4e7" }}>🪟 Windows — CMD :</p>
+        <PreO>curl -fsSL https://claude.ai/install.cmd -o install.cmd && install.cmd && del install.cmd</PreO>
+        <div style={S.bqY}><p style={{ ...S.p, margin:0 }}>⚠️ <B c="Windows nécessite Git for Windows."/> Installez-le en premier si ce n'est pas fait (voir section 3.1).</p></div>
+        <h3 style={S.h3}>Vérifier l'installation</h3>
+        <PreO>claude --version</PreO>
+        <ImgScreen solo={true} src="https://i.imgur.com/3USY6II.jpeg" caption="Installation réussie — Claude Code v2.1.77 confirmé"/>
+
+        {/* ── SECTION 5 ── */}
+        <hr style={S.hr}/>
+        <h2 id="cc5" style={S.h2}>5. Premier lancement et authentification</h2>
+        <PreO>claude</PreO>
+        <ImgScreen solo={true} src="https://i.imgur.com/8NrSxQA.jpeg" caption="Premier lancement — choix du thème (Dark/Light mode)"/>
+        <p style={S.p}>Claude vous propose de choisir un thème. Ensuite, l'écran de connexion s'affiche :</p>
+        <ImgScreen solo={true} src="https://i.imgur.com/wdm2WOl.jpeg" caption="Écran de sélection de la méthode de connexion"/>
+        <div style={S.bqW}><p style={{ ...S.p, margin:0 }}>⛔ <B c="Choisissez toujours l'Option 1 : Claude account with subscription"/><br/>N'utilisez jamais "Anthropic Console account" (Option 2) — facturation API à l'usage, peut dépasser 5 000 $ en un mois.</p></div>
+        <ImgScreen solo={true} src="https://i.imgur.com/VuZZULx.jpeg" caption="Fenêtre d'autorisation — Claude Code demande accès à votre compte Claude"/>
+        <p style={S.p}>Votre navigateur s'ouvre. Cliquez <B c="Autoriser"/>. Une fois validé :</p>
+        <ImgScreen solo={true} src="https://i.imgur.com/lX06oHP.jpeg" caption="Build something great — configuration réussie, fermez la fenêtre"/>
+        <ImgScreen solo={true} src="https://i.imgur.com/Nfu3yqK.jpeg" caption="Retour dans le terminal — Login successful, email affiché"/>
+        <p style={S.p}>Claude affiche ensuite les <B c="Security notes"/> — lisez-les et appuyez sur Entrée :</p>
+        <ImgScreen solo={true} src="https://i.imgur.com/UQ2wzvn.jpeg" caption="Notes de sécurité importantes — Claude peut faire des erreurs, relisez toujours"/>
+        <p style={S.p}>Vous pouvez maintenant discuter avec Claude Code. Testez avec <CdO c="Qui es-tu ?"/> :</p>
+        <div style={{display:"flex",gap:12,flexWrap:"wrap",justifyContent:"center",margin:"14px 0"}}>
+          <ImgScreen src="https://i.imgur.com/iClefhx.jpeg" caption="Interface Claude Code opérationnelle — bienvenue !"/>
+          <ImgScreen src="https://i.imgur.com/n9S5k5H.jpeg" caption='Claude répond à "Qui es-tu ?" — se présente comme interface CLI Anthropic'/>
+        </div>
+        <h3 style={S.h3}>Si vous avez déjà un compte — /logout puis re-connexion</h3>
+        <p style={S.p}>Si Claude Code était déjà installé avec un autre compte, faites d'abord <CdO c="/logout"/>, puis retapez <CdO c="claude"/> et choisissez votre thème :</p>
+        <ImgScreen solo={true} src="https://i.imgur.com/8NrSxQA.jpeg" caption="Écran de sélection du thème après /logout — choisissez Dark mode"/>
+
+        {/* ── SECTION 6 ── */}
+        <hr style={S.hr}/>
+        <h2 id="cc6" style={S.h2}>6. Travailler dans un dossier projet</h2>
+        <p style={S.p}><B c="Règle d'or :"/> Claude Code fonctionne dans le dossier courant. Créez toujours un dossier dédié par projet, et naviguez dedans <B c="avant"/> de lancer Claude Code.</p>
+        <p style={S.p}>Créez votre dossier via l'Explorateur Windows :</p>
+        <div style={{display:"flex",gap:12,flexWrap:"wrap",justifyContent:"center",margin:"14px 0"}}>
+          <ImgScreen src="https://i.imgur.com/QOBFhBb.jpeg" caption="Créer un nouveau dossier dans l'Explorateur Windows"/>
+          <ImgScreen src="https://i.imgur.com/RLzZPEp.jpeg" caption="Dossier créé et nommé pour votre projet Claude Code"/>
+        </div>
+        <p style={S.p}>Ensuite dans PowerShell, naviguez dans ce dossier :</p>
+        <PreO>{`cd C:\\Users\\VotreNom\\Documents\\IA\\CLAUDE\\MonProjet\n\n# macOS / Linux\nmkdir -p ~/Documents/IA/CLAUDE/MonProjet\ncd ~/Documents/IA/CLAUDE/MonProjet`}</PreO>
+        <div style={{display:"flex",gap:12,flexWrap:"wrap",justifyContent:"center",margin:"14px 0"}}>
+          <ImgScreen src="https://i.imgur.com/1wk8QP0.jpeg" caption="Navigation vers le dossier projet dans PowerShell"/>
+          <ImgScreen src="https://i.imgur.com/41E95J5.jpeg" caption="Commande cd exécutée — vous êtes dans le dossier projet"/>
+        </div>
+        <p style={S.p}>Tapez <CdO c="claude"/> — Claude vous demande si vous faites confiance au dossier :</p>
+        <ImgScreen solo={true} src="https://i.imgur.com/tc0Dg3E.jpeg" caption="Security check — choisissez 1. Yes, I trust this folder"/>
+        <p style={S.p}>Choisissez <B c="1 — Yes, I trust this folder"/>. Claude Code est maintenant actif <B c="dans votre projet uniquement"/> :</p>
+        <ImgScreen solo={true} src="https://i.imgur.com/t74GK6X.jpeg" caption="Claude Code lancé dans le dossier projet — prêt à coder"/>
+
+        {/* ── SECTION 7 ── */}
+        <hr style={S.hr}/>
+        <h2 id="cc7" style={S.h2}>7. Utiliser Claude Code dans VS Code</h2>
+        <p style={S.p}>VS Code est l'éditeur recommandé. Ouvrez votre dossier projet avec <B c="File → Open Folder"/> :</p>
+        <ImgScreen solo={true} src="https://i.imgur.com/RT6tS1P.jpeg" caption="File → Open Folder dans VS Code — sélectionnez votre dossier projet"/>
+        <ImgScreen solo={true} src="https://i.imgur.com/y5elErI.jpeg" caption="Structure du projet visible dans l'explorateur VS Code"/>
+        <p style={S.p}>Ouvrez le terminal intégré (Terminal → New Terminal ou <CdO c="Ctrl + `"/>) puis tapez <CdO c="claude"/> :</p>
+        <ImgScreen solo={true} src="https://i.imgur.com/8L7uOIt.jpeg" caption="Claude Code lancé dans le terminal intégré VS Code"/>
+
+        {/* ── SECTION 8 ── */}
+        <hr style={S.hr}/>
+        <h2 id="cc8" style={S.h2}>8. Commandes essentielles</h2>
+        <div style={{ overflowX:"auto" }}>
+          <table style={S.tbl}>
+            <thead><tr><th style={S.th}>Commande</th><th style={S.th}>Ce qu'elle fait</th></tr></thead>
+            <tbody>{[["/exit","Quitter — affiche l'ID de session pour reprendre plus tard"],["/clear","Effacer l'historique de la conversation"],["/config","Ouvrir le panneau de configuration"],["/usage","Voir la consommation de tokens et les coûts"],["/theme","Changer le thème visuel"],["/voice","Activer le mode vocal"],["/model","Changer de modèle IA"],["/init","Créer CLAUDE.md — la mémoire du projet"],["/plan","Mode Plan : Claude réfléchit avant d'agir"],["/agents","Gérer les sous-agents"],["/logout","Se déconnecter (pour changer de compte)"]].map(([c,d],i) => (
+              <tr key={i}><td style={S.td}><CdO c={c}/></td><td style={S.td}>{d}</td></tr>
+            ))}</tbody>
+          </table>
+        </div>
+        <div style={{display:"flex",gap:12,flexWrap:"wrap",justifyContent:"center",margin:"14px 0"}}>
+          <ImgScreen src="https://i.imgur.com/oqRgb8T.jpeg" caption="Vue des commandes /config, /usage, /agents dans VS Code"/>
+          <ImgScreen src="https://i.imgur.com/PmOBjOJ.jpeg" caption="/exit — Claude affiche l'ID de session pour reprendre plus tard"/>
+        </div>
+        <div style={S.bq}><p style={{ ...S.p, margin:0 }}>💡 <B c="Conseil débutants :"/> Appuyez sur <B c="Shift+Tab"/> pour activer le <B c="plan mode"/>. Claude explique tout ce qu'il va faire avant d'agir — idéal pour apprendre et contrôler.</p></div>
+        <h3 style={S.h3}>Reprendre une session précédente</h3>
+        <p style={S.p}>Après un <CdO c="/exit"/>, Claude affiche un ID de session. Pour reprendre :</p>
+        <PreO>claude --resume 760af073-4f3c-4cbc-9ba0-34fd3bc66592</PreO>
+
+        {/* ── SECTION 9 ── */}
+        <hr style={S.hr}/>
+        <h2 id="cc9" style={S.h2}>9. Les outils avancés de Claude Code</h2>
+        <ImgScreen solo={true} src="https://i.imgur.com/9dNbnCr.jpeg" caption="Tous les outils disponibles : Commandes, Hooks, Skill, Memory, MCP, Subagent…"/>
+        <div style={{ display:"flex", flexDirection:"column", gap:14, marginTop:16 }}>
+          {[
+            ["Commandes",<span style={{color:"#D97757",fontFamily:"monospace",fontSize:13}}>/ma-commande</span>,"Instructions personnalisées pour actions répétitives. Ex : un manager tape /newsletter pour préparer et envoyer un email type sans repartir de zéro."],
+            ["Hooks","Déclencheurs automatiques","Actions qui s'exécutent à des moments précis. Ex : un comptable configure un hook qui vérifie et formate automatiquement chaque facture après modification."],
+            ["Skills","Fichiers SKILL.md","Compétences packagées chargées à la demande. Ex : un graphiste dit 'crée un visuel pub', et la skill dédiée applique automatiquement sa charte graphique."],
+            ["Memory","Mémoire persistante","Claude se souvient d'infos entre sessions — préférences, contexte du projet, fournisseurs préférés, budgets passés."],
+            ["MCP","Model Context Protocol","Connecte Claude à des outils externes : APIs, bases de données, CRM, Slack, etc. Un vendeur lie MCP à son CRM : Claude récupère les leads et envoie des emails personnalisés."],
+            ["Subagents","Mini-agents parallèles","Agents spécialisés travaillant en parallèle. Ex : un recruteur lance un subagent pour analyser des CVs pendant qu'il discute stratégie avec Claude principal."],
+          ].map(([t,badge,d],i) => (
+            <div key={i} style={{ ...S.card, display:"flex", gap:16 }}>
+              <div style={{ width:6, borderRadius:3, background:`hsl(${i*30+20},70%,60%)`, flexShrink:0 }}/>
+              <div>
+                <div style={{display:"flex",alignItems:"center",gap:10,marginBottom:6}}>
+                  <h3 style={{ ...S.h3, marginTop:0, marginBottom:0 }}>{t}</h3>
+                  <span style={{fontSize:12,color:"#D97757",fontFamily:"monospace",background:"rgba(217,119,87,0.1)",padding:"1px 8px",borderRadius:4}}>{badge}</span>
+                </div>
+                <p style={{ ...S.p, margin:0, fontSize:14 }}>{d}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* ── SECTION 10 ── */}
+        <hr style={S.hr}/>
+        <h2 id="cc10" style={S.h2}>10. Écrire son premier prompt de projet</h2>
+        <p style={S.p}>Voici un exemple concret de prompt utilisé dans ce guide — une application de génération de lead magnets :</p>
+        <PreO>{`Dans ce dossier, crée une application ViteJS avec React qui permet\nde générer automatiquement des lead magnets ultra-convertissants.\n\nL'utilisateur peut entrer :\n- sa niche\n- son offre principale\n- sa cible (SaaS, coach, e-commerce)\n- le problème principal de son audience\n- le résultat promis\n\nL'application génère automatiquement :\n- 5 idées de lead magnets à fort potentiel\n- un titre optimisé pour la conversion\n- une promesse claire et irrésistible\n- un plan détaillé du contenu\n\nUtilise une architecture propre avec :\n- components (UI)\n- hooks (logique)\n- services (génération, scoring)\n- utils (helpers)\n- types (TypeScript)\n\nCommence par faire des recherches web sur les commandes\npour installer ViteJS + React + shadcn UI à jour.`}</PreO>
+        <p style={S.p}>Claude va d'abord faire des recherches web pour trouver les commandes à jour, puis vous demander de valider :</p>
+        <ImgScreen solo={true} src="https://i.imgur.com/EBPNNeI.jpeg" caption="Claude effectue ses recherches web — il demande votre autorisation avant chaque action"/>
+        <div style={S.bq}><p style={{ ...S.p, margin:0 }}>💡 Choisissez <B c="2. Yes, and don't ask again" /> pour les recherches web — Claude ne bloquera plus à chaque étape.</p></div>
+        <p style={S.p}>Claude code ensuite votre projet en temps réel. Vous voyez les fichiers s'écrire :</p>
+        <ImgScreen solo={true} src="https://i.imgur.com/OBWSanj.jpeg" caption="Claude Code en train d'écrire les fichiers — mode accept edits activé"/>
+        <div style={S.bq}><p style={{ ...S.p, margin:0 }}>💡 <B c="Shift+Tab"/> active le <B c="plan mode"/> : Claude vous explique sa stratégie avant d'agir. Recommandé pour les débutants.</p></div>
+        <ImgScreen solo={true} src="https://i.imgur.com/lHkMIID.jpeg" caption="Mode plan activé — Claude réfléchit et explique avant de coder"/>
+
+        {/* ── SECTION 11 ── */}
+        <hr style={S.hr}/>
+        <h2 id="cc11" style={S.h2}>11. FAQ & Dépannage</h2>
+        <div style={{ display:"flex", flexDirection:"column", gap:12 }}>
+          {[
+            ["Claude Code ne se lance pas — command not found","Le chemin d'installation n'est pas dans votre PATH. Fermez et rouvrez PowerShell. Sur Mac/Linux : ajoutez export PATH=\"$HOME/.local/bin:$PATH\" dans votre ~/.bashrc puis relancez le terminal."],
+            ["requires a Pro, Max, Teams, Enterprise, or Console account","Votre plan gratuit ne suffit pas. Rendez-vous sur claude.com/pricing pour souscrire au plan Pro minimum (20$/mois)."],
+            ["La connexion échoue dans le navigateur","Vérifiez que vous êtes connecté à claude.ai dans votre navigateur. Essayez /logout dans Claude Code puis relancez claude."],
+            ["Claude Code est très lent","Vérifiez votre connexion internet. Le modèle Opus est plus lent que Sonnet. Tapez /model pour changer."],
+            ["Comment mettre à jour Claude Code ?","L'installateur natif se met à jour automatiquement. Homebrew : brew upgrade claude-code. WinGet : winget upgrade Anthropic.ClaudeCode"],
+            ["Comment désinstaller Claude Code ?","Tapez claude uninstall dans votre terminal (fonctionne sur tous les systèmes)."],
+          ].map(([q,a],i) => (
+            <div key={i} style={S.card}>
+              <h3 style={{ ...S.h3, marginTop:0, marginBottom:8, fontSize:"1rem" }}>{q}</h3>
+              <p style={{ ...S.p, margin:0, fontSize:14 }}>{a}</p>
+            </div>
+          ))}
+        </div>
+        <hr style={S.hr}/>
+        <h2 style={S.h2}>Liens utiles</h2>
+        <div style={{ overflowX:"auto" }}>
+          <table style={S.tbl}>
+            <thead><tr><th style={S.th}>Ressource</th><th style={S.th}>URL</th></tr></thead>
+            <tbody>{[
+              ["Documentation officielle","https://code.claude.com/docs"],
+              ["Page de setup (FR)","https://code.claude.com/docs/fr/setup"],
+              ["Tarifs Claude","https://claude.com/pricing"],
+              ["Tarifs API (à éviter)","https://platform.claude.com/docs/en/about-claude/pricing"],
+              ["Git","https://git-scm.com"],
+              ["Node.js","https://nodejs.org"],
+              ["VS Code","https://code.visualstudio.com"],
+              ["shadcn/ui","https://ui.shadcn.com"],
+            ].map(([r,u],i) => (
+              <tr key={i}>
+                <td style={S.td}><B c={r}/></td>
+                <td style={S.td}><a href={u} target="_blank" rel="noopener noreferrer" style={{ color:"#D97757", fontFamily:"monospace", fontSize:13, textDecoration:"none" }} onMouseEnter={e=>e.currentTarget.style.textDecoration="underline"} onMouseLeave={e=>e.currentTarget.style.textDecoration="none"}>{u.replace("https://","")}</a></td>
+              </tr>
+            ))}</tbody>
+          </table>
+        </div>
+        <hr style={S.hr}/>
+        <div style={S.bq}><p style={{ ...S.p, margin:0 }}>Ce tutoriel a été rédigé par <B c="Daemon IA"/>. Pour des formations sur Claude Code, l'automatisation IA et n8n : <span style={{ color:"#D97757", fontFamily:"monospace" }}>daemon-ia.fr</span></p></div>
+      </article>
+      <Toc items={CC_TOC} activeId={activeId} onTocClick={onTocClick} accentColor="#D97757"/>
+    </div>
+  );
+}
+
+
 export default function App() {
   const [tab, setTab] = useState("guide");
   const [activeId, setActiveId] = useState(null);
@@ -1159,7 +1426,12 @@ export default function App() {
       <div style={S.nav}>
         <div style={S.navI}>
           <div style={S.navB}>
-            {[["guide","📖 Guide d'installation",false],["offer","💼 Service & Offre",true],["costs","💰 Optimisation des Coûts",false]].map(([id,label,isOffer])=>{
+            {[
+              ["guide", <><img src="https://i.imgur.com/YPq9o8G.png" style={{width:16,height:16,objectFit:"contain",borderRadius:3}}/> Guide d'installation OpenClaw</>, false],
+              ["offer", "Service & Offre", true],
+              ["costs", "Optimisation des Coûts", false],
+              ["claudecode", <><img src="https://i.imgur.com/c70pItt.png" style={{width:16,height:16,objectFit:"contain",borderRadius:3}}/> Guide Claude Code</>, false],
+            ].map(([id,label,isOffer])=>{
               const on = tab===id;
               const st = isOffer ? (on?S.tOA:S.tOI) : (on?S.tA:S.tI);
               return <button key={id} onClick={()=>{ setTab(id); window.scrollTo(0,0); }} style={st}>{label}</button>;
@@ -1167,8 +1439,8 @@ export default function App() {
           </div>
         </div>
       </div>
-      <div style={tab==="costs" ? {padding:0} : S.main}>
-        {tab==="guide" ? <GuideContent activeId={activeId} onTocClick={handleTocClick}/> : tab==="offer" ? <OfferPage/> : <CostGuide/>}
+      <div style={(tab==="costs") ? {padding:0} : S.main}>
+        {tab==="guide" ? <GuideContent activeId={activeId} onTocClick={handleTocClick}/> : tab==="offer" ? <OfferPage/> : tab==="costs" ? <CostGuide/> : <ClaudeCodeGuide activeId={activeId} onTocClick={handleTocClick}/>}
       </div>
       {tab !== "costs" && <>
       <a
@@ -1182,7 +1454,7 @@ export default function App() {
         </svg>
       </a>
       <button onClick={()=>bounceScrollTo(0)}
-        style={{position:"fixed",bottom:32,right:280,width:56,height:56,borderRadius:"50%",background:"#10b981",border:"none",cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",boxShadow:"0 4px 20px rgba(16,185,129,0.35)",zIndex:100,fontSize:20,color:"#09090b",fontWeight:"bold"}}>↑</button>
+        style={{position:"fixed",bottom:32,right:280,width:56,height:56,borderRadius:"50%",background:tab==="claudecode"?"#D97757":"#10b981",border:"none",cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",boxShadow:`0 4px 20px ${tab==="claudecode"?"rgba(217,119,87,0.45)":"rgba(16,185,129,0.35)"}`,zIndex:100,fontSize:20,color:"#09090b",fontWeight:"bold"}}>↑</button>
       </>}
     </div>
   );

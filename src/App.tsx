@@ -334,7 +334,7 @@ function ClaudeCodeGuide({ activeId, onTocClick }) {
           <div style={S.badge}>📘 Guide Débutants · Mars 2026 · Windows / macOS / Linux</div>
           <h1 style={S.h1}>Guide Complet :<br/><span style={S.grad}>Installer et Utiliser Claude Code</span></h1>
           <p style={{ ...S.p, fontSize:16, fontWeight:300 }}>Par <B c="Daemon IA"/> — daemon-ia.fr · Pas besoin de savoir coder.</p>
-          <img src="https://i.postimg.cc/R6gkTv4y/image.png" alt="Guide Claude Code" style={{ width:"100%", borderRadius:12, margin:"24px 0 0", border:"1px solid #1e2235" }}/>
+          <img src="https://i.imgur.com/likKxCp.jpeg" alt="Guide Claude Code" style={{ width:"100%", borderRadius:12, margin:"24px 0 0", border:"1px solid #1e2235" }}/>
         </div>
         <hr style={S.hr}/>
         <h2 id="cc1" style={S.h2}>1. C'est quoi Claude Code ?</h2>

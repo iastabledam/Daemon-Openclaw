@@ -1159,11 +1159,7 @@ function ClaudeCodeGuide({ activeId, onTocClick }) {
     <div style={{ display:"grid", gridTemplateColumns:"1fr 220px", gap:72, alignItems:"start" }}>
       <article>
         <div style={{ marginBottom:48 }}>
-<<<<<<< HEAD
           <div style={S.badge}>📘 Guide · Mars 2026 · Windows / macOS / Linux</div>
-=======
-          <div style={S.badge}>📘 Guide Débutants · Mars 2026 · Windows / macOS / Linux</div>
->>>>>>> dc9c8006a95909b2bae057c2003b84fd24c0386a
           <h1 style={S.h1}>Guide Complet :<br/><span style={{background:"linear-gradient(135deg,#D97757,#f0a882)",WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent"}}>Installer et Utiliser Claude Code</span></h1>
           <p style={{ ...S.p, fontSize:16, fontWeight:300 }}>Par <B c="Daemon IA"/> — daemon-ia.fr · Pas besoin de savoir coder.</p>
           <img src="https://i.imgur.com/likKxCp.jpeg" alt="Guide Claude Code" style={{ width:"100%", borderRadius:12, margin:"24px 0 0", border:"1px solid #1e2235" }}/>
@@ -1181,11 +1177,7 @@ function ClaudeCodeGuide({ activeId, onTocClick }) {
           <li style={S.li}><B c="Gérer Git"/> — le système de versionnage de fichiers</li>
         </ul>
         <div style={S.bq}><p style={{ ...S.p, margin:0 }}>💡 <B c="Analogie :"/> Si Claude sur claude.ai est un conseiller, Claude Code est un ouvrier qui entre dans votre atelier et construit ce que vous lui demandez.</p></div>
-<<<<<<< HEAD
         <ImgScreen solo={true} src="https://i.imgur.com/9dNbnCr.jpeg" caption="Tous les outils disponibles dans Claude Code"/>
-=======
-        <ImgScreen src="https://i.imgur.com/9dNbnCr.jpeg" caption="Tous les outils disponibles dans Claude Code"/>
->>>>>>> dc9c8006a95909b2bae057c2003b84fd24c0386a
 
         {/* ── SECTION 2 ── */}
         <hr style={S.hr}/>
@@ -1208,72 +1200,44 @@ function ClaudeCodeGuide({ activeId, onTocClick }) {
         <p style={S.p}>Sur Windows, Claude Code utilise Git Bash en interne. Sans Git, Claude Code ne peut pas fonctionner.</p>
         <p style={{ ...S.p, fontWeight:600, color:"#e4e4e7" }}>🪟 Windows :</p>
         <ol style={{ ...S.ul, listStyleType:"decimal" }}>
-<<<<<<< HEAD
           <li style={S.li}>Allez sur <a href="https://git-scm.com/downloads/win" target="_blank" rel="noopener noreferrer" style={{color:"#D97757",fontFamily:"monospace",textDecoration:"none"}}>git-scm.com/downloads/win</a></li>
-=======
-          <li style={S.li}>Allez sur <span style={{color:"#D97757",fontFamily:"monospace"}}>git-scm.com/downloads/win</span></li>
->>>>>>> dc9c8006a95909b2bae057c2003b84fd24c0386a
           <li style={S.li}>Téléchargez l'installateur 64-bit</li>
           <li style={S.li}>Cliquez Next à chaque étape puis Install</li>
         </ol>
         <div style={{display:"flex",gap:12,flexWrap:"wrap",justifyContent:"center",margin:"14px 0"}}>
           <ImgScreen src="https://i.imgur.com/JYeGsVc.jpeg" caption="Page de téléchargement Git pour Windows"/>
           <ImgScreen src="https://i.imgur.com/NCSak8c.jpeg" caption="Installateur Git — écran licence GNU"/>
-<<<<<<< HEAD
-=======
-          <ImgScreen src="https://i.imgur.com/JiFTDBY.jpeg" caption="Installation Git sous Windows"/>
->>>>>>> dc9c8006a95909b2bae057c2003b84fd24c0386a
         </div>
         <PreO>git --version</PreO>
         <p style={{ ...S.p, fontWeight:600, color:"#e4e4e7" }}>🍎 macOS / 🐧 Linux :</p>
         <PreO>{`brew install git\n# ou\nsudo apt install git -y`}</PreO>
         <h3 style={S.h3}>3.2 — Node.js (fortement recommandé)</h3>
         <p style={S.p}>Nécessaire pour les projets web (React, Next.js, Vite…) et les serveurs MCP.</p>
-<<<<<<< HEAD
         <ImgScreen solo={true} src="https://i.imgur.com/WdEYfkA.jpeg" caption="Page de téléchargement Node.js — nodejs.org/en/download"/>
         <PreO>{`node -v   # ex: v24.x.x\nnpm -v    # ex: 11.x.x`}</PreO>
         <ImgScreen solo={true} src="https://i.imgur.com/7EzV6gg.jpeg" caption="Vérification des versions Node.js et npm dans PowerShell"/>
-=======
-        <ImgScreen src="https://i.imgur.com/WdEYfkA.jpeg" caption="Page de téléchargement Node.js — nodejs.org/en/download"/>
-        <PreO>{`node -v   # ex: v24.x.x\nnpm -v    # ex: 11.x.x`}</PreO>
-        <ImgScreen src="https://i.imgur.com/7EzV6gg.jpeg" caption="Vérification des versions Node.js et npm dans PowerShell"/>
->>>>>>> dc9c8006a95909b2bae057c2003b84fd24c0386a
 
         {/* ── SECTION 4 ── */}
         <hr style={S.hr}/>
         <h2 id="cc4" style={S.h2}>4. Installer Claude Code</h2>
-<<<<<<< HEAD
         <p style={S.p}>Rendez-vous sur <a href="https://code.claude.com/docs/fr/setup" target="_blank" rel="noopener noreferrer" style={{color:"#D97757",fontFamily:"monospace",textDecoration:"none"}}>code.claude.com/docs/fr/setup</a> pour la documentation officielle.</p>
         <ImgScreen solo={true} src="https://i.imgur.com/DTNJdfg.jpeg" caption="Page officielle — méthodes d'installation natives (Recommended), Homebrew, WinGet"/>
-=======
-        <p style={S.p}>Rendez-vous sur <span style={{color:"#D97757",fontFamily:"monospace"}}>code.claude.com/docs/fr/setup</span> pour la documentation officielle.</p>
-        <ImgScreen src="https://i.imgur.com/DTNJdfg.jpeg" caption="Page officielle — méthodes d'installation natives (Recommended), Homebrew, WinGet"/>
->>>>>>> dc9c8006a95909b2bae057c2003b84fd24c0386a
         <p style={{ ...S.p, fontWeight:600, color:"#e4e4e7" }}>🍎 macOS / 🐧 Linux / WSL :</p>
         <PreO>curl -fsSL https://claude.ai/install.sh | bash</PreO>
         <p style={{ ...S.p, fontWeight:600, color:"#e4e4e7" }}>🪟 Windows — PowerShell :</p>
         <PreO>irm https://claude.ai/install.ps1 | iex</PreO>
-<<<<<<< HEAD
         <ImgScreen solo={true} src="https://i.imgur.com/kMO9F7Y.jpeg" caption="Exécution de la commande d'installation dans Windows PowerShell"/>
-=======
-        <ImgScreen src="https://i.imgur.com/kMO9F7Y.jpeg" caption="Exécution de la commande d'installation dans Windows PowerShell"/>
->>>>>>> dc9c8006a95909b2bae057c2003b84fd24c0386a
         <p style={{ ...S.p, fontWeight:600, color:"#e4e4e7" }}>🪟 Windows — CMD :</p>
         <PreO>curl -fsSL https://claude.ai/install.cmd -o install.cmd && install.cmd && del install.cmd</PreO>
         <div style={S.bqY}><p style={{ ...S.p, margin:0 }}>⚠️ <B c="Windows nécessite Git for Windows."/> Installez-le en premier si ce n'est pas fait (voir section 3.1).</p></div>
         <h3 style={S.h3}>Vérifier l'installation</h3>
         <PreO>claude --version</PreO>
-<<<<<<< HEAD
         <ImgScreen solo={true} src="https://i.imgur.com/3USY6II.jpeg" caption="Installation réussie — Claude Code v2.1.77 confirmé"/>
-=======
-        <ImgScreen src="https://i.imgur.com/3USY6II.jpeg" caption="Installation réussie — Claude Code v2.1.77 confirmé"/>
->>>>>>> dc9c8006a95909b2bae057c2003b84fd24c0386a
 
         {/* ── SECTION 5 ── */}
         <hr style={S.hr}/>
         <h2 id="cc5" style={S.h2}>5. Premier lancement et authentification</h2>
         <PreO>claude</PreO>
-<<<<<<< HEAD
         <ImgScreen solo={true} src="https://i.imgur.com/8NrSxQA.jpeg" caption="Premier lancement — choix du thème (Dark/Light mode)"/>
         <p style={S.p}>Claude vous propose de choisir un thème. Ensuite, l'écran de connexion s'affiche :</p>
         <ImgScreen solo={true} src="https://i.imgur.com/wdm2WOl.jpeg" caption="Écran de sélection de la méthode de connexion"/>
@@ -1284,18 +1248,6 @@ function ClaudeCodeGuide({ activeId, onTocClick }) {
         <ImgScreen solo={true} src="https://i.imgur.com/Nfu3yqK.jpeg" caption="Retour dans le terminal — Login successful, email affiché"/>
         <p style={S.p}>Claude affiche ensuite les <B c="Security notes"/> — lisez-les et appuyez sur Entrée :</p>
         <ImgScreen solo={true} src="https://i.imgur.com/UQ2wzvn.jpeg" caption="Notes de sécurité importantes — Claude peut faire des erreurs, relisez toujours"/>
-=======
-        <ImgScreen src="https://i.imgur.com/8NrSxQA.jpeg" caption="Premier lancement — choix du thème (Dark/Light mode)"/>
-        <p style={S.p}>Claude vous propose de choisir un thème. Ensuite, l'écran de connexion s'affiche :</p>
-        <ImgScreen src="https://i.imgur.com/wdm2WOl.jpeg" caption="Écran de sélection de la méthode de connexion"/>
-        <div style={S.bqW}><p style={{ ...S.p, margin:0 }}>⛔ <B c="Choisissez toujours l'Option 1 : Claude account with subscription"/><br/>N'utilisez jamais "Anthropic Console account" (Option 2) — facturation API à l'usage, peut dépasser 5 000 $ en un mois.</p></div>
-        <ImgScreen src="https://i.imgur.com/VuZZULx.jpeg" caption="Fenêtre d'autorisation — Claude Code demande accès à votre compte Claude"/>
-        <p style={S.p}>Votre navigateur s'ouvre. Cliquez <B c="Autoriser"/>. Une fois validé :</p>
-        <ImgScreen src="https://i.imgur.com/lX06oHP.jpeg" caption="Build something great — configuration réussie, fermez la fenêtre"/>
-        <ImgScreen src="https://i.imgur.com/Nfu3yqK.jpeg" caption="Retour dans le terminal — Login successful, email affiché"/>
-        <p style={S.p}>Claude affiche ensuite les <B c="Security notes"/> — lisez-les et appuyez sur Entrée :</p>
-        <ImgScreen src="https://i.imgur.com/UQ2wzvn.jpeg" caption="Notes de sécurité importantes — Claude peut faire des erreurs, relisez toujours"/>
->>>>>>> dc9c8006a95909b2bae057c2003b84fd24c0386a
         <p style={S.p}>Vous pouvez maintenant discuter avec Claude Code. Testez avec <CdO c="Qui es-tu ?"/> :</p>
         <div style={{display:"flex",gap:12,flexWrap:"wrap",justifyContent:"center",margin:"14px 0"}}>
           <ImgScreen src="https://i.imgur.com/iClefhx.jpeg" caption="Interface Claude Code opérationnelle — bienvenue !"/>
@@ -1303,11 +1255,7 @@ function ClaudeCodeGuide({ activeId, onTocClick }) {
         </div>
         <h3 style={S.h3}>Si vous avez déjà un compte — /logout puis re-connexion</h3>
         <p style={S.p}>Si Claude Code était déjà installé avec un autre compte, faites d'abord <CdO c="/logout"/>, puis retapez <CdO c="claude"/> et choisissez votre thème :</p>
-<<<<<<< HEAD
         <ImgScreen solo={true} src="https://i.imgur.com/8NrSxQA.jpeg" caption="Écran de sélection du thème après /logout — choisissez Dark mode"/>
-=======
-        <ImgScreen src="https://i.imgur.com/oLApFa1.jpeg" caption="Écran de sélection du thème après /logout — choisissez Dark mode"/>
->>>>>>> dc9c8006a95909b2bae057c2003b84fd24c0386a
 
         {/* ── SECTION 6 ── */}
         <hr style={S.hr}/>
@@ -1325,31 +1273,18 @@ function ClaudeCodeGuide({ activeId, onTocClick }) {
           <ImgScreen src="https://i.imgur.com/41E95J5.jpeg" caption="Commande cd exécutée — vous êtes dans le dossier projet"/>
         </div>
         <p style={S.p}>Tapez <CdO c="claude"/> — Claude vous demande si vous faites confiance au dossier :</p>
-<<<<<<< HEAD
         <ImgScreen solo={true} src="https://i.imgur.com/tc0Dg3E.jpeg" caption="Security check — choisissez 1. Yes, I trust this folder"/>
         <p style={S.p}>Choisissez <B c="1 — Yes, I trust this folder"/>. Claude Code est maintenant actif <B c="dans votre projet uniquement"/> :</p>
         <ImgScreen solo={true} src="https://i.imgur.com/t74GK6X.jpeg" caption="Claude Code lancé dans le dossier projet — prêt à coder"/>
-=======
-        <ImgScreen src="https://i.imgur.com/tc0Dg3E.jpeg" caption="Security check — choisissez 1. Yes, I trust this folder"/>
-        <p style={S.p}>Choisissez <B c="1 — Yes, I trust this folder"/>. Claude Code est maintenant actif <B c="dans votre projet uniquement"/> :</p>
-        <ImgScreen src="https://i.imgur.com/t74GK6X.jpeg" caption="Claude Code lancé dans le dossier projet — prêt à coder"/>
->>>>>>> dc9c8006a95909b2bae057c2003b84fd24c0386a
 
         {/* ── SECTION 7 ── */}
         <hr style={S.hr}/>
         <h2 id="cc7" style={S.h2}>7. Utiliser Claude Code dans VS Code</h2>
         <p style={S.p}>VS Code est l'éditeur recommandé. Ouvrez votre dossier projet avec <B c="File → Open Folder"/> :</p>
-<<<<<<< HEAD
         <ImgScreen solo={true} src="https://i.imgur.com/RT6tS1P.jpeg" caption="File → Open Folder dans VS Code — sélectionnez votre dossier projet"/>
         <ImgScreen solo={true} src="https://i.imgur.com/y5elErI.jpeg" caption="Structure du projet visible dans l'explorateur VS Code"/>
         <p style={S.p}>Ouvrez le terminal intégré (Terminal → New Terminal ou <CdO c="Ctrl + `"/>) puis tapez <CdO c="claude"/> :</p>
         <ImgScreen solo={true} src="https://i.imgur.com/8L7uOIt.jpeg" caption="Claude Code lancé dans le terminal intégré VS Code"/>
-=======
-        <ImgScreen src="https://i.imgur.com/RT6tS1P.jpeg" caption="File → Open Folder dans VS Code — sélectionnez votre dossier projet"/>
-        <ImgScreen src="https://i.imgur.com/y5elErI.jpeg" caption="Structure du projet visible dans l'explorateur VS Code"/>
-        <p style={S.p}>Ouvrez le terminal intégré (Terminal → New Terminal ou <CdO c="Ctrl + `"/>) puis tapez <CdO c="claude"/> :</p>
-        <ImgScreen src="https://i.imgur.com/8L7uOIt.jpeg" caption="Claude Code lancé dans le terminal intégré VS Code"/>
->>>>>>> dc9c8006a95909b2bae057c2003b84fd24c0386a
 
         {/* ── SECTION 8 ── */}
         <hr style={S.hr}/>
@@ -1374,11 +1309,7 @@ function ClaudeCodeGuide({ activeId, onTocClick }) {
         {/* ── SECTION 9 ── */}
         <hr style={S.hr}/>
         <h2 id="cc9" style={S.h2}>9. Les outils avancés de Claude Code</h2>
-<<<<<<< HEAD
         <ImgScreen solo={true} src="https://i.imgur.com/9dNbnCr.jpeg" caption="Tous les outils disponibles : Commandes, Hooks, Skill, Memory, MCP, Subagent…"/>
-=======
-        <ImgScreen src="https://i.imgur.com/9dNbnCr.jpeg" caption="Tous les outils disponibles : Commandes, Hooks, Skill, Memory, MCP, Subagent…"/>
->>>>>>> dc9c8006a95909b2bae057c2003b84fd24c0386a
         <div style={{ display:"flex", flexDirection:"column", gap:14, marginTop:16 }}>
           {[
             ["Commandes",<span style={{color:"#D97757",fontFamily:"monospace",fontSize:13}}>/ma-commande</span>,"Instructions personnalisées pour actions répétitives. Ex : un manager tape /newsletter pour préparer et envoyer un email type sans repartir de zéro."],
@@ -1407,21 +1338,12 @@ function ClaudeCodeGuide({ activeId, onTocClick }) {
         <p style={S.p}>Voici un exemple concret de prompt utilisé dans ce guide — une application de génération de lead magnets :</p>
         <PreO>{`Dans ce dossier, crée une application ViteJS avec React qui permet\nde générer automatiquement des lead magnets ultra-convertissants.\n\nL'utilisateur peut entrer :\n- sa niche\n- son offre principale\n- sa cible (SaaS, coach, e-commerce)\n- le problème principal de son audience\n- le résultat promis\n\nL'application génère automatiquement :\n- 5 idées de lead magnets à fort potentiel\n- un titre optimisé pour la conversion\n- une promesse claire et irrésistible\n- un plan détaillé du contenu\n\nUtilise une architecture propre avec :\n- components (UI)\n- hooks (logique)\n- services (génération, scoring)\n- utils (helpers)\n- types (TypeScript)\n\nCommence par faire des recherches web sur les commandes\npour installer ViteJS + React + shadcn UI à jour.`}</PreO>
         <p style={S.p}>Claude va d'abord faire des recherches web pour trouver les commandes à jour, puis vous demander de valider :</p>
-<<<<<<< HEAD
         <ImgScreen solo={true} src="https://i.imgur.com/EBPNNeI.jpeg" caption="Claude effectue ses recherches web — il demande votre autorisation avant chaque action"/>
         <div style={S.bq}><p style={{ ...S.p, margin:0 }}>💡 Choisissez <B c="2. Yes, and don't ask again" /> pour les recherches web — Claude ne bloquera plus à chaque étape.</p></div>
         <p style={S.p}>Claude code ensuite votre projet en temps réel. Vous voyez les fichiers s'écrire :</p>
         <ImgScreen solo={true} src="https://i.imgur.com/OBWSanj.jpeg" caption="Claude Code en train d'écrire les fichiers — mode accept edits activé"/>
         <div style={S.bq}><p style={{ ...S.p, margin:0 }}>💡 <B c="Shift+Tab"/> active le <B c="plan mode"/> : Claude vous explique sa stratégie avant d'agir. Recommandé pour les débutants.</p></div>
         <ImgScreen solo={true} src="https://i.imgur.com/lHkMIID.jpeg" caption="Mode plan activé — Claude réfléchit et explique avant de coder"/>
-=======
-        <ImgScreen src="https://i.imgur.com/EBPNNeI.jpeg" caption="Claude effectue ses recherches web — il demande votre autorisation avant chaque action"/>
-        <div style={S.bq}><p style={{ ...S.p, margin:0 }}>💡 Choisissez <B c="2. Yes, and don't ask again" /> pour les recherches web — Claude ne bloquera plus à chaque étape.</p></div>
-        <p style={S.p}>Claude code ensuite votre projet en temps réel. Vous voyez les fichiers s'écrire :</p>
-        <ImgScreen src="https://i.imgur.com/OBWSanj.jpeg" caption="Claude Code en train d'écrire les fichiers — mode accept edits activé"/>
-        <div style={S.bq}><p style={{ ...S.p, margin:0 }}>💡 <B c="Shift+Tab"/> active le <B c="plan mode"/> : Claude vous explique sa stratégie avant d'agir. Recommandé pour les débutants.</p></div>
-        <ImgScreen src="https://i.imgur.com/lHkMIID.jpeg" caption="Mode plan activé — Claude réfléchit et explique avant de coder"/>
->>>>>>> dc9c8006a95909b2bae057c2003b84fd24c0386a
 
         {/* ── SECTION 11 ── */}
         <hr style={S.hr}/>
@@ -1446,7 +1368,6 @@ function ClaudeCodeGuide({ activeId, onTocClick }) {
         <div style={{ overflowX:"auto" }}>
           <table style={S.tbl}>
             <thead><tr><th style={S.th}>Ressource</th><th style={S.th}>URL</th></tr></thead>
-<<<<<<< HEAD
             <tbody>{[
               ["Documentation officielle","https://code.claude.com/docs"],
               ["Page de setup (FR)","https://code.claude.com/docs/fr/setup"],
@@ -1461,10 +1382,6 @@ function ClaudeCodeGuide({ activeId, onTocClick }) {
                 <td style={S.td}><B c={r}/></td>
                 <td style={S.td}><a href={u} target="_blank" rel="noopener noreferrer" style={{ color:"#D97757", fontFamily:"monospace", fontSize:13, textDecoration:"none" }} onMouseEnter={e=>e.currentTarget.style.textDecoration="underline"} onMouseLeave={e=>e.currentTarget.style.textDecoration="none"}>{u.replace("https://","")}</a></td>
               </tr>
-=======
-            <tbody>{[["Documentation officielle","code.claude.com/docs"],["Page de setup (FR)","code.claude.com/docs/fr/setup"],["Tarifs Claude","claude.com/pricing"],["Tarifs API (à éviter)","platform.claude.com/docs/en/about-claude/pricing"],["Git","git-scm.com"],["Node.js","nodejs.org"],["VS Code","code.visualstudio.com"],["shadcn/ui","ui.shadcn.com"]].map(([r,u],i) => (
-              <tr key={i}><td style={S.td}><B c={r}/></td><td style={S.td}><span style={{ color:"#D97757", fontFamily:"monospace", fontSize:13 }}>{u}</span></td></tr>
->>>>>>> dc9c8006a95909b2bae057c2003b84fd24c0386a
             ))}</tbody>
           </table>
         </div>

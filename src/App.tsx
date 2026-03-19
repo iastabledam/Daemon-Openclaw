@@ -1190,9 +1190,6 @@ function ClaudeCodeGuide({ activeId, onTocClick }) {
           <span style={{fontSize:24, flexShrink:0}}>💡</span>
           <p style={{...S.p, margin:0}}><B c="Analogie :"/> Si Claude sur claude.ai est un <B c="conseiller"/> qui vous donne des idées, Claude Code est l'<B c="ouvrier"/> qui entre dans votre atelier et construit ce que vous lui demandez — concrètement, maintenant.</p>
         </div>
-        <ImgScreen solo={true} src="https://i.imgur.com/VX1lTLK.jpeg" caption="Vue d'ensemble des outils Claude Code disponibles"/>
-
-        {/* ── SECTION 2 ── */}
         <hr style={S.hr}/>
         <h2 id="cc2" style={S.h2}>2. Quel abonnement choisir ?</h2>
         <div style={S.bqW}><p style={{ ...S.p, margin:0 }}>⚠️ <B c="Claude Code n'est PAS disponible avec le plan gratuit."/></p></div>
@@ -1326,7 +1323,7 @@ function ClaudeCodeGuide({ activeId, onTocClick }) {
         {/* ── SECTION 9 ── */}
         <hr style={S.hr}/>
         <h2 id="cc9" style={S.h2}>9. Les outils avancés de Claude Code</h2>
-        <ImgScreen solo={true} src="https://i.imgur.com/9dNbnCr.jpeg" caption="Tous les outils disponibles : Commandes, Hooks, Skill, Memory, MCP, Subagent…"/>
+        <ImgScreen solo={true} src="https://i.imgur.com/VX1lTLK.jpeg" caption="Tous les outils disponibles : Commandes, Hooks, Skill, Memory, MCP, Subagent…"/>
         <div style={{ display:"flex", flexDirection:"column", gap:14, marginTop:16 }}>
           {[
             ["Commandes",<span style={{color:"#D97757",fontFamily:"monospace",fontSize:13}}>/ma-commande</span>,"Instructions personnalisées pour actions répétitives. Ex : un manager tape /newsletter pour préparer et envoyer un email type sans repartir de zéro."],

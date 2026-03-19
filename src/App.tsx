@@ -748,7 +748,7 @@ function OfferPage() {
         <div style={{display:"inline-flex",alignItems:"center",gap:8,padding:"4px 14px",borderRadius:9999,background:"rgba(99,102,241,0.1)",border:"1px solid rgba(99,102,241,0.2)",color:"#a5b4fc",fontSize:12,fontFamily:"monospace",marginBottom:28}}>🤖 Service OpenClaw + API LinkedIn</div>
         <h1 style={S.h1}>OpenClaw prospecte.<br/><span style={S.gradI}>Toi tu closes.</span></h1>
         <img
-          src="https://i.imgur.com/DTiUIVP.jpeg"
+          src="https://i.imgur.com/8N1YTcZ.png"
           alt="Agent LinkedIn IA — avale la pilule"
           style={{width:"100%",maxWidth:720,borderRadius:20,border:"1px solid #1e2235",display:"block",margin:"28px auto 32px"}}
         />
@@ -1301,6 +1301,46 @@ function ClaudeCodeGuide({ activeId, onTocClick }) {
         <ImgScreen solo={true} src="https://i.imgur.com/y5elErI.jpeg" caption="Structure du projet visible dans l'explorateur VS Code"/>
         <p style={S.p}>Ouvrez le terminal intégré (Terminal → New Terminal ou <CdO c="Ctrl + `"/>) puis tapez <CdO c="claude"/> :</p>
         <ImgScreen solo={true} src="https://i.imgur.com/8L7uOIt.jpeg" caption="Claude Code lancé dans le terminal intégré VS Code"/>
+
+        <h3 style={S.h3}>Terminal CLI vs Panneau de chat VS Code</h3>
+        <p style={S.p}>VS Code propose deux façons d'utiliser Claude Code. Le panneau de chat est pratique pour démarrer, mais le terminal CLI donne accès à tout.</p>
+
+        <div style={{overflowX:"auto", margin:"16px 0"}}>
+          <table style={S.tbl}>
+            <thead>
+              <tr>
+                <th style={S.th}>Fonctionnalité</th>
+                <th style={{...S.th, textAlign:"center", color:"#D97757"}}>⌨️ Terminal CLI</th>
+                <th style={{...S.th, textAlign:"center", color:"#818cf8"}}>💬 Chat VS Code</th>
+              </tr>
+            </thead>
+            <tbody>
+              {[
+                ["Discuter, coder, corriger des bugs",                   "✓","✓"],
+                ["Voir et modifier des fichiers",                         "✓","✓"],
+                ["Checkpoints (rembobiner les changements)",              "✓","✓"],
+                ["Historique de conversations",                           "✓","✓"],
+                ["Commandes /plan, /model, /theme, /voice…",             "✓","partiel"],
+                ["Raccourci ! pour exécuter un bash directement",        "✓","✗"],
+                ["Complétion par tabulation des commandes",               "✓","✗"],
+                ["Configurer des serveurs MCP depuis zéro",              "✓","✗"],
+                ["Lancer claude --resume pour reprendre une session",    "✓","✗"],
+                ["Utiliser des sous-agents parallèles (subagents)",      "✓","✗"],
+              ].map(([feat, cli, chat], i) => (
+                <tr key={i}>
+                  <td style={S.td}>{feat}</td>
+                  <td style={{...S.td, textAlign:"center", color: cli==="✓"?"#3dd68c":"#f87171", fontWeight:600}}>{cli}</td>
+                  <td style={{...S.td, textAlign:"center", color: chat==="✓"?"#3dd68c": chat==="partiel"?"#f59e0b":"#f87171", fontWeight:600}}>{chat}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+
+        <div style={{padding:"16px 20px", borderRadius:12, background:"rgba(61,214,140,0.06)", border:"1px solid rgba(61,214,140,0.15)", display:"flex", gap:12, alignItems:"flex-start"}}>
+          <span style={{fontSize:18, flexShrink:0}}>💡</span>
+          <p style={{...S.p, margin:0, fontSize:14}}>Vous pouvez <B c="basculer entre les deux"/> à tout moment. Ouvrez le terminal intégré (<CdO c="Ctrl+`"/>) et tapez <CdO c="claude"/> pour le CLI. Utilisez <CdO c="claude --resume"/> pour reprendre une conversation du chat dans le terminal.</p>
+        </div>
 
         {/* ── SECTION 8 ── */}
         <hr style={S.hr}/>

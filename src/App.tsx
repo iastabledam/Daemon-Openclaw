@@ -1323,7 +1323,7 @@ function ClaudeCodeGuide({ activeId, onTocClick }) {
         {/* ── SECTION 9 ── */}
         <hr style={S.hr}/>
         <h2 id="cc9" style={S.h2}>9. Les outils avancés de Claude Code</h2>
-        <ImgScreen solo={true} src="https://i.imgur.com/VX1lTLK.jpeg" caption="Tous les outils disponibles : Commandes, Hooks, Skill, Memory, MCP, Subagent…"/>
+        <ImgScreen solo={true} src="https://i.imgur.com/OPxbi3v.jpeg" caption="Tous les outils disponibles : Commandes, Hooks, Skill, Memory, MCP, Subagent…"/>
         <div style={{ display:"flex", flexDirection:"column", gap:14, marginTop:16 }}>
           {[
             ["Commandes",<span style={{color:"#D97757",fontFamily:"monospace",fontSize:13}}>/ma-commande</span>,"Instructions personnalisées pour actions répétitives. Ex : un manager tape /newsletter pour préparer et envoyer un email type sans repartir de zéro."],

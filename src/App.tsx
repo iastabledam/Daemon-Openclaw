@@ -1168,15 +1168,28 @@ function ClaudeCodeGuide({ activeId, onTocClick }) {
 
         {/* ── SECTION 1 ── */}
         <h2 id="cc1" style={S.h2}>1. C'est quoi Claude Code ?</h2>
-        <p style={S.p}>Claude Code est un <B c="assistant IA qui vit dans votre terminal"/>. Contrairement au chat Claude sur claude.ai, il travaille <B c="directement sur les fichiers de votre ordinateur"/>.</p>
-        <ul style={S.ul}>
-          <li style={S.li}><B c="Lire vos fichiers"/> et comprendre la structure de votre projet</li>
-          <li style={S.li}><B c="Écrire du code"/> et créer de nouveaux fichiers automatiquement</li>
-          <li style={S.li}><B c="Exécuter des commandes"/> — installer des outils, lancer un site en local</li>
-          <li style={S.li}><B c="Corriger des bugs"/> en analysant votre code</li>
-          <li style={S.li}><B c="Gérer Git"/> — le système de versionnage de fichiers</li>
-        </ul>
-        <div style={S.bq}><p style={{ ...S.p, margin:0 }}>💡 <B c="Analogie :"/> Si Claude sur claude.ai est un conseiller, Claude Code est un ouvrier qui entre dans votre atelier et construit ce que vous lui demandez.</p></div>
+        <p style={S.p}>Claude Code est un <B c="agent IA qui vit dans votre terminal"/>. Là où claude.ai répond à des questions, Claude Code <B c="agit directement sur votre ordinateur"/> — il lit, écrit, exécute, corrige.</p>
+
+        <div style={{display:"grid", gridTemplateColumns:"repeat(auto-fit,minmax(200px,1fr))", gap:12, margin:"24px 0"}}>
+          {[
+            {icon:"📂", color:"#4f8ef7", title:"Lit vos fichiers", desc:"Comprend la structure complète de votre projet en quelques secondes"},
+            {icon:"✍️", color:"#D97757", title:"Écrit du code", desc:"Crée et modifie des fichiers automatiquement selon vos instructions"},
+            {icon:"⚡", color:"#f59e0b", title:"Exécute des commandes", desc:"Installe des outils, lance un serveur, configure un projet"},
+            {icon:"🔍", color:"#a78bfa", title:"Corrige les bugs", desc:"Analyse votre code, identifie les erreurs et les répare"},
+            {icon:"🌿", color:"#3dd68c", title:"Gère Git", desc:"Commits, branches, historique — tout sans quitter le terminal"},
+          ].map(({icon,color,title,desc},i) => (
+            <div key={i} style={{padding:"18px 16px", borderRadius:12, background:`${color}0d`, border:`1px solid ${color}25`, display:"flex", flexDirection:"column", gap:10}}>
+              <div style={{fontSize:28}}>{icon}</div>
+              <div style={{color, fontWeight:700, fontSize:14}}>{title}</div>
+              <div style={{color:"#94a3b8", fontSize:13, lineHeight:1.6}}>{desc}</div>
+            </div>
+          ))}
+        </div>
+
+        <div style={{padding:"20px 24px", borderRadius:14, background:"linear-gradient(135deg,rgba(217,119,87,0.08),rgba(217,119,87,0.03))", border:"1px solid rgba(217,119,87,0.2)", display:"flex", gap:16, alignItems:"flex-start", margin:"8px 0 0"}}>
+          <span style={{fontSize:24, flexShrink:0}}>💡</span>
+          <p style={{...S.p, margin:0}}><B c="Analogie :"/> Si Claude sur claude.ai est un <B c="conseiller"/> qui vous donne des idées, Claude Code est l'<B c="ouvrier"/> qui entre dans votre atelier et construit ce que vous lui demandez — concrètement, maintenant.</p>
+        </div>
         <ImgScreen solo={true} src="https://i.imgur.com/VX1lTLK.jpeg" caption="Vue d'ensemble des outils Claude Code disponibles"/>
 
         {/* ── SECTION 2 ── */}

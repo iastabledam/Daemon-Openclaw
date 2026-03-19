@@ -750,7 +750,7 @@ function OfferPage() {
         <img
           src="https://i.imgur.com/8N1YTcZ.png"
           alt="Agent LinkedIn IA — avale la pilule"
-          style={{width:"100%",maxWidth:720,borderRadius:20,border:"1px solid #1e2235",display:"block",margin:"28px auto 32px"}}
+          style={{width:"100%",maxWidth:900,borderRadius:20,border:"1px solid #1e2235",display:"block",margin:"28px auto 32px"}}
         />
         <p style={{fontSize:22,color:"#e4e4e7",lineHeight:1.7,marginBottom:36,fontWeight:500,maxWidth:620,margin:"0 auto 36px"}}><B c="Setup clé en main. 100% sécurisé. Zéro technique."/><br/><span style={{color:"#a1a1aa",fontSize:18}}>Tu te concentres sur les conversations. L'agent gère tout le reste.</span></p>
         <a href="https://wa.me/33628500314?text=Bonjour%2C%20je%20suis%20int%C3%A9ress%C3%A9%20par%20ton%20agent%20LinkedIn%20OpenClaw%20!" target="_blank" rel="noopener noreferrer" style={{display:"inline-block",padding:"14px 32px",borderRadius:12,background:"#f4f4f5",color:"#09090b",fontWeight:"bold",fontSize:16,textDecoration:"none"}}>Je veux mon agent LinkedIn →</a>
@@ -761,9 +761,9 @@ function OfferPage() {
         <h2 style={{...S.h2,marginTop:0,marginBottom:8}}>Finis les abonnements à rallonge</h2>
         <p style={{...S.p,fontSize:16,marginBottom:28}}>Mon agent remplace une dizaine d'outils payants. <B c="Une seule solution, tout-en-un."/></p>
         <img
-          src="https://i.imgur.com/pPxwsDZ.png"
+          src="https://i.imgur.com/A8sN3fD.jpeg"
           alt="Outils remplacés par l'agent LinkedIn : Lemlist, Unipile, n8n..."
-          style={{width:"100%",maxWidth:700,borderRadius:16,border:"1px solid #1e2235",display:"block",margin:"0 auto"}}
+          style={{width:"100%",maxWidth:900,borderRadius:16,border:"1px solid #1e2235",display:"block",margin:"0 auto"}}
         />
         <p style={{...S.p,fontSize:13,color:"#52525b",marginTop:12,fontStyle:"italic"}}>Lemlist, Unipile, n8n, et bien d'autres — remplacés par ton agent.</p>
       </section>

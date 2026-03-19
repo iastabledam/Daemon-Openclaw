@@ -1177,7 +1177,7 @@ function ClaudeCodeGuide({ activeId, onTocClick }) {
           <li style={S.li}><B c="Gérer Git"/> — le système de versionnage de fichiers</li>
         </ul>
         <div style={S.bq}><p style={{ ...S.p, margin:0 }}>💡 <B c="Analogie :"/> Si Claude sur claude.ai est un conseiller, Claude Code est un ouvrier qui entre dans votre atelier et construit ce que vous lui demandez.</p></div>
-        <ImgScreen solo={true} src="https://i.imgur.com/9dNbnCr.jpeg" caption="Tous les outils disponibles dans Claude Code"/>
+        <ImgScreen solo={true} src="https://i.imgur.com/VX1lTLK.jpeg" caption="Vue d'ensemble des outils Claude Code disponibles"/>
 
         {/* ── SECTION 2 ── */}
         <hr style={S.hr}/>
@@ -1191,7 +1191,7 @@ function ClaudeCodeGuide({ activeId, onTocClick }) {
             ))}</tbody>
           </table>
         </div>
-        <div style={S.bqW}><p style={{ ...S.p, margin:0 }}>⚠️ <B c="Ne choisissez PAS Anthropic Console account"/> — c'est la facturation API qui peut dépasser <B c="5 000 $ en un mois"/> d'utilisation intensive. Choisissez toujours <B c="Option 1 : Claude account with subscription"/>.</p></div>
+        <div style={S.bqW}><p style={{ ...S.p, margin:0 }}>⚠️ <B c="Ne choisissez PAS Anthropic Console account"/> — c'est la facturation API qui peut dépasser <B c="des centaines d'euros en un mois"/> d'utilisation intensive. Choisissez toujours <B c="Option 1 : Claude account with subscription"/>.</p></div>
 
         {/* ── SECTION 3 ── */}
         <hr style={S.hr}/>
@@ -1204,9 +1204,13 @@ function ClaudeCodeGuide({ activeId, onTocClick }) {
           <li style={S.li}>Téléchargez l'installateur 64-bit</li>
           <li style={S.li}>Cliquez Next à chaque étape puis Install</li>
         </ol>
-        <div style={{display:"flex",gap:12,flexWrap:"wrap",justifyContent:"center",margin:"14px 0"}}>
-          <ImgScreen src="https://i.imgur.com/JYeGsVc.jpeg" caption="Page de téléchargement Git pour Windows"/>
-          <ImgScreen src="https://i.imgur.com/NCSak8c.jpeg" caption="Installateur Git — écran licence GNU"/>
+        <div style={{display:"flex",gap:16,flexWrap:"nowrap",justifyContent:"center",margin:"14px 0",alignItems:"flex-start"}}>
+          <div style={{flex:"0 0 48%",minWidth:0}}>
+            <ImgScreen src="https://i.imgur.com/JYeGsVc.jpeg" caption="Page de téléchargement Git pour Windows"/>
+          </div>
+          <div style={{flex:"0 0 48%",minWidth:0}}>
+            <ImgScreen src="https://i.imgur.com/NCSak8c.jpeg" caption="Installateur Git — écran licence GNU"/>
+          </div>
         </div>
         <PreO>git --version</PreO>
         <p style={{ ...S.p, fontWeight:600, color:"#e4e4e7" }}>🍎 macOS / 🐧 Linux :</p>

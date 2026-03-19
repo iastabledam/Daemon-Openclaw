@@ -1252,24 +1252,26 @@ function ClaudeCodeGuide({ activeId, onTocClick }) {
         <hr style={S.hr}/>
         <h2 id="cc5" style={S.h2}>5. Premier lancement et authentification</h2>
         <PreO>claude</PreO>
-        <ImgScreen solo={true} src="https://i.imgur.com/8NrSxQA.jpeg" caption="Premier lancement — choix du thème (Dark/Light mode)"/>
+        <ImgScreen src="https://i.imgur.com/8NrSxQA.jpeg" caption="Premier lancement — choix du thème (Dark/Light mode)"/>
         <p style={S.p}>Claude vous propose de choisir un thème. Ensuite, l'écran de connexion s'affiche :</p>
-        <ImgScreen solo={true} src="https://i.imgur.com/wdm2WOl.jpeg" caption="Écran de sélection de la méthode de connexion"/>
-        <div style={S.bqW}><p style={{ ...S.p, margin:0 }}>⛔ <B c="Choisissez toujours l'Option 1 : Claude account with subscription"/><br/>N'utilisez jamais "Anthropic Console account" (Option 2) — facturation API à l'usage, peut dépasser 5 000 $ en un mois.</p></div>
-        <ImgScreen solo={true} src="https://i.imgur.com/VuZZULx.jpeg" caption="Fenêtre d'autorisation — Claude Code demande accès à votre compte Claude"/>
+        <ImgScreen src="https://i.imgur.com/wdm2WOl.jpeg" caption="Écran de sélection de la méthode de connexion"/>
+        <div style={S.bqW}><p style={{ ...S.p, margin:0 }}>⛔ <B c="Choisissez toujours l'Option 1 : Claude account with subscription"/><br/>N'utilisez jamais "Anthropic Console account" (Option 2) — facturation API à l'usage, peut coûter des centaines d'euros en un mois.</p></div>
+        <ImgScreen src="https://i.imgur.com/VuZZULx.jpeg" caption="Fenêtre d'autorisation — Claude Code demande accès à votre compte Claude"/>
         <p style={S.p}>Votre navigateur s'ouvre. Cliquez <B c="Autoriser"/>. Une fois validé :</p>
-        <ImgScreen solo={true} src="https://i.imgur.com/lX06oHP.jpeg" caption="Build something great — configuration réussie, fermez la fenêtre"/>
-        <ImgScreen solo={true} src="https://i.imgur.com/Nfu3yqK.jpeg" caption="Retour dans le terminal — Login successful, email affiché"/>
+        <div style={{display:"flex",gap:16,flexWrap:"nowrap",justifyContent:"center",margin:"14px 0",alignItems:"flex-start"}}>
+          <div style={{flex:"0 0 48%",minWidth:0}}><ImgScreen src="https://i.imgur.com/lX06oHP.jpeg" caption="Build something great — configuration réussie, fermez la fenêtre"/></div>
+          <div style={{flex:"0 0 48%",minWidth:0}}><ImgScreen src="https://i.imgur.com/Nfu3yqK.jpeg" caption="Retour dans le terminal — Login successful, email affiché"/></div>
+        </div>
         <p style={S.p}>Claude affiche ensuite les <B c="Security notes"/> — lisez-les et appuyez sur Entrée :</p>
-        <ImgScreen solo={true} src="https://i.imgur.com/UQ2wzvn.jpeg" caption="Notes de sécurité importantes — Claude peut faire des erreurs, relisez toujours"/>
+        <ImgScreen src="https://i.imgur.com/UQ2wzvn.jpeg" caption="Notes de sécurité importantes — Claude peut faire des erreurs, relisez toujours"/>
         <p style={S.p}>Vous pouvez maintenant discuter avec Claude Code. Testez avec <CdO c="Qui es-tu ?"/> :</p>
-        <div style={{display:"flex",gap:12,flexWrap:"wrap",justifyContent:"center",margin:"14px 0"}}>
-          <ImgScreen src="https://i.imgur.com/iClefhx.jpeg" caption="Interface Claude Code opérationnelle — bienvenue !"/>
-          <ImgScreen src="https://i.imgur.com/n9S5k5H.jpeg" caption='Claude répond à "Qui es-tu ?" — se présente comme interface CLI Anthropic'/>
+        <div style={{display:"flex",gap:12,flexWrap:"nowrap",justifyContent:"center",margin:"14px 0",alignItems:"flex-start"}}>
+          <div style={{flex:"0 0 48%",minWidth:0}}><ImgScreen src="https://i.imgur.com/iClefhx.jpeg" caption="Interface Claude Code opérationnelle — bienvenue !"/></div>
+          <div style={{flex:"0 0 48%",minWidth:0}}><ImgScreen src="https://i.imgur.com/n9S5k5H.jpeg" caption='Claude répond à "Qui es-tu ?"'/></div>
         </div>
         <h3 style={S.h3}>Si vous avez déjà un compte — /logout puis re-connexion</h3>
         <p style={S.p}>Si Claude Code était déjà installé avec un autre compte, faites d'abord <CdO c="/logout"/>, puis retapez <CdO c="claude"/> et choisissez votre thème :</p>
-        <ImgScreen solo={true} src="https://i.imgur.com/8NrSxQA.jpeg" caption="Écran de sélection du thème après /logout — choisissez Dark mode"/>
+        <ImgScreen src="https://i.imgur.com/8NrSxQA.jpeg" caption="Écran de sélection du thème après /logout — choisissez Dark mode"/>
 
         {/* ── SECTION 6 ── */}
         <hr style={S.hr}/>

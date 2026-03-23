@@ -1456,6 +1456,621 @@ function ClaudeCodeGuide({ activeId, onTocClick }) {
 }
 
 
+const BUILDER_TOC = [
+  {id:"b0",  label:"Introduction"},
+  {id:"b1",  label:"Partie 1 — Installation"},
+  {id:"b2",  label:"Partie 2 — CLAUDE.md"},
+  {id:"b3",  label:"Partie 3 — Mode Plan + GSD"},
+  {id:"b4",  label:"Partie 4 — Multi-agents + Ralph"},
+  {id:"b5",  label:"Partie 5 — Skills + Superpowers"},
+  {id:"b6",  label:"Partie 6 — Slash commands"},
+  {id:"b7",  label:"Partie 7 — Hooks"},
+  {id:"b8",  label:"Partie 8 — MCP Servers"},
+  {id:"b9",  label:"Partie 9 — Optimisation tokens"},
+  {id:"b10", label:"Partie 10 — Sécurité"},
+  {id:"b11", label:"Partie 11 — Workflow quotidien"},
+  {id:"b12", label:"Annexes"},
+];
+
+const SB = {
+  card:  { padding:"24px 28px", borderRadius:14, background:"#0f1120", border:"1px solid #1e2235", margin:"14px 0" },
+  tip:   { borderLeft:"3px solid rgba(16,185,129,0.5)", background:"rgba(16,185,129,0.05)", padding:"14px 18px", borderRadius:"0 10px 10px 0", margin:"18px 0" },
+  warn:  { borderLeft:"3px solid rgba(239,68,68,0.5)", background:"rgba(239,68,68,0.05)", padding:"14px 18px", borderRadius:"0 10px 10px 0", margin:"18px 0" },
+  info:  { borderLeft:"3px solid rgba(99,102,241,0.5)", background:"rgba(99,102,241,0.05)", padding:"14px 18px", borderRadius:"0 10px 10px 0", margin:"18px 0" },
+  part:  { background:"linear-gradient(135deg,rgba(99,102,241,0.08),rgba(34,211,238,0.04))", border:"1px solid rgba(99,102,241,0.2)", borderRadius:16, padding:"24px 28px", margin:"32px 0 20px" },
+  tbl:   { width:"100%", borderCollapse:"collapse", margin:"14px 0", fontSize:13 },
+  th:    { background:"#0f1020", padding:"10px 14px", textAlign:"left", color:"#f4f4f5", borderBottom:"1px solid #1e2235", fontWeight:600 },
+  td:    { padding:"10px 14px", color:"#a1a1aa", borderBottom:"1px solid #13152a", lineHeight:1.6, verticalAlign:"top" },
+  chk:   { padding:"10px 16px", borderRadius:10, background:"rgba(16,185,129,0.06)", border:"1px solid rgba(16,185,129,0.15)", margin:"6px 0", display:"flex", gap:10, alignItems:"flex-start", fontSize:13, color:"#a1a1aa" },
+};
+
+const PrB = ({children}) => <pre style={S.pre}><code style={{...S.preC, color:"#a5b4fc"}}>{children}</code></pre>;
+const BLink = ({href, children}) => <a href={href} target="_blank" rel="noopener noreferrer" style={{color:"#818cf8", textDecoration:"none", fontFamily:"monospace", fontSize:13}}>{children}</a>;
+
+function BuilderGuide({ activeId, onTocClick }) {
+  return (
+    <div style={{ display:"grid", gridTemplateColumns:"1fr 220px", gap:72, alignItems:"start" }}>
+      <article>
+        <div style={{ marginBottom:48 }}>
+          <div style={S.badge}>🔨 Projet HUB'AO · Next.js + Supabase + Claude Code</div>
+          <h1 style={S.h1}>Builder avec Claude Code :<br/><span style={{background:"linear-gradient(135deg,#6366f1,#22d3ee)",WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent"}}>Le Guide Complet</span></h1>
+          <p style={{...S.p, fontSize:16, fontWeight:300}}>De zéro à une équipe d'agents IA sur un vrai projet — Pipeline d'appels d'offres publics HUB'AO.</p>
+        </div>
+
+        {/* ── INTRO ── */}
+        <hr style={S.hr}/>
+        <h2 id="b0" style={S.h2}>Introduction — Ce que tu vas construire</h2>
+        <div style={SB.info}><p style={{...S.p,margin:0}}>📖 Ce guide est rédigé pour être accessible si tu débutes avec Claude Code. Il est aussi suffisamment complet pour être utile si tu développes déjà. Chaque concept est expliqué avant d'être utilisé.</p></div>
+
+        <h3 style={S.h3}>Le problème avec la plupart des tutos IA</h3>
+        <p style={S.p}>Tu as probablement déjà vu des démonstrations impressionnantes de Claude Code sur LinkedIn. Et quand tu essaies par toi-même, ça ressemble plutôt à : Claude qui part dans la mauvaise direction, qui casse quelque chose qu'il venait de réparer, qui oublie ce qu'il a fait à la session précédente.</p>
+        <p style={S.p}>Ce n'est pas un problème de l'outil. C'est un problème de <B c="setup"/>. Claude Code est un agent autonome — pour qu'il travaille bien, il faut lui donner un cadre, exactement comme tu le ferais avec un développeur junior qui rejoint ton équipe.</p>
+
+        <h3 style={S.h3}>Le projet fil rouge : HUB'AO</h3>
+        <p style={S.p}>Tout au long de ce guide, on va construire <B c="HUB'AO"/> : un pipeline complet d'automatisation des appels d'offres publics pour une entreprise de restauration cuisine du monde basée en Île-de-France. Les 12 étapes couvertes :</p>
+        <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:10,margin:"16px 0"}}>
+          {[
+            {label:"Veille & Ingestion", color:"#6366f1", items:["Paramétrage mots-clés et zones","Détection avis BOAMP/JOUE","Pré-filtrage automatique","Upload DCE"]},
+            {label:"Analyse", color:"#22d3ee", items:["OCR + extraction Mistral","Scoring GO/NO GO","Tableau d'analyse structuré"]},
+            {label:"Réponse (4 validations humaines)", color:"#D97757", items:["Questions acheteur → validation","Dossier candidature","Dossier offre → validation chiffrage","Contrôle conformité + pack final"]},
+          ].map(({label,color,items},i) => (
+            <div key={i} style={{padding:"16px 18px",borderRadius:12,background:`${color}0d`,border:`1px solid ${color}22`}}>
+              <div style={{color,fontWeight:700,fontSize:13,marginBottom:10}}>{label}</div>
+              {items.map((it,j) => <div key={j} style={{fontSize:13,color:"#94a3b8",marginBottom:5,display:"flex",gap:6}}><span style={{color,flexShrink:0}}>→</span>{it}</div>)}
+            </div>
+          ))}
+        </div>
+
+        <h3 style={S.h3}>La stack technique</h3>
+        <div style={{overflowX:"auto"}}>
+          <table style={SB.tbl}>
+            <thead><tr><th style={SB.th}>Technologie</th><th style={SB.th}>Rôle</th></tr></thead>
+            <tbody>{[
+              ["Next.js 16.2 + TypeScript + shadcn/ui","Frontend App Router"],
+              ["Supabase self-hosted (PostgreSQL + Auth + Storage)","Base de données + auth"],
+              ["Claude API via OpenRouter","Analyse, scoring, génération"],
+              ["Mistral OCR via OpenRouter","Extraction des PDF scannés"],
+              ["Docker + Coolify sur VPS Hostinger","Déploiement"],
+              ["Claude Code","L'agent qui construit tout ça"],
+            ].map(([t,r],i) => <tr key={i}><td style={SB.td}><B c={t}/></td><td style={SB.td}>{r}</td></tr>)}</tbody>
+          </table>
+        </div>
+
+        <h3 style={S.h3}>Ce que tu vas avoir à la fin</h3>
+        <div style={{display:"flex",flexDirection:"column",gap:6,margin:"12px 0"}}>
+          {["Un CLAUDE.md qui donne à Claude une connaissance permanente du projet","Un système tasks/ avec boucle d'amélioration continue","GSD installé — spec-driven development : discuss → plan → execute → verify → ship","Une équipe de 5 agents spécialisés (PM, Scraper, Analyser, Scorer, Reviewer)","Ralph — boucle autonome qui implémente des PRDs sans ton intervention","Des Skills — expertise portable chargée automatiquement","Des Slash commands de développement","Des Hooks qui automatisent commits, contexte et sécurité","Des MCP servers — Context7, Playwright, ccguide, review-flow"].map((it,i)=>(
+            <div key={i} style={SB.chk}><span style={{color:"#6366f1",flexShrink:0}}>✓</span>{it}</div>
+          ))}
+        </div>
+
+        <hr style={S.hr}/>
+
+        {/* ── PARTIE 1 ── */}
+        <h2 id="b1" style={S.h2}>Partie 1 — Installation et premier lancement</h2>
+        <div style={SB.part}><p style={{...S.p,margin:0,color:"#a5b4fc",fontSize:13}}>⏱ Durée : 15 à 20 minutes · À la fin : Claude Code fonctionnel + projet Next.js 16.2 créé</p></div>
+
+        <h3 style={S.h3}>1.1 — Vérifier les prérequis</h3>
+        <PrB>{`node --version   # v18.x.x minimum\nnpm --version    # 9.x.x ou supérieur\ngit --version    # doit être installé\n\n# jq — outil JSON pour le terminal (nécessaire pour Ralph et les hooks)\nbrew install jq          # Mac\nwinget install jqlang.jq # Windows PowerShell\nsudo apt-get install jq  # Ubuntu/Debian`}</PrB>
+
+        <h3 style={S.h3}>1.2 — VS Code + terminal intégré</h3>
+        <div style={SB.info}><p style={{...S.p,margin:0,fontSize:13}}>L'<B c="extension VS Code"/> = interface graphique qui affiche en temps réel les fichiers que Claude modifie. Le <B c="Claude Code CLI"/> = le moteur qui tourne dans le terminal. C'est lui qui fait le travail.</p></div>
+        <PrB>code --install-extension anthropic.claude-code</PrB>
+
+        <h3 style={S.h3}>1.3 — Installer Claude Code CLI</h3>
+        <PrB>{`npm install -g @anthropic-ai/claude-code\nclaude --version   # doit être >= 2.1.x\nclaude update      # si en dessous`}</PrB>
+        <div style={SB.tip}><p style={{...S.p,margin:0,fontSize:13}}>Claude Code sort des mises à jour plusieurs fois par semaine. Reste à jour — des CVEs critiques ont été patchés en 2025-2026.</p></div>
+
+        <h3 style={S.h3}>1.4 — Se connecter à Anthropic</h3>
+        <PrB>{`claude login\n# Ouvre le navigateur pour l'authentification\n\nclaude "Dis bonjour en français"  # test de connexion`}</PrB>
+        <div style={SB.warn}><p style={{...S.p,margin:0,fontSize:13}}><B c="Pro 20€"/> : suffisant pour suivre ce tuto, sessions de 5h avec quota limité. <B c="Max 100€"/> : usage intensif, Opus 4.6 avec contexte 1M tokens.</p></div>
+
+        <h3 style={S.h3}>1.5 — Créer le projet</h3>
+        <PrB>{`mkdir hubao && cd hubao\ngit init\ngit branch -M main\ncode .`}</PrB>
+
+        <h3 style={S.h3}>1.6 — Premier lancement et commandes essentielles</h3>
+        <PrB>claude</PrB>
+        <div style={{overflowX:"auto"}}>
+          <table style={SB.tbl}>
+            <thead><tr><th style={SB.th}>Commande</th><th style={SB.th}>Description</th></tr></thead>
+            <tbody>{[["/help","Liste toutes les commandes"],["/status","État du contexte, modèle, session"],["/cost","Coût estimé de la session"],["/config","Ouvrir la configuration"],["/doctor","Diagnostiquer les problèmes"]].map(([c,d],i)=><tr key={i}><td style={SB.td}><CdO c={c}/></td><td style={SB.td}>{d}</td></tr>)}</tbody>
+          </table>
+        </div>
+
+        <h3 style={S.h3}>1.7 — Configurer les permissions (.claude/settings.json)</h3>
+        <PrB>mkdir -p .claude</PrB>
+        <p style={S.p}>Crée <CdO c=".claude/settings.json"/> :</p>
+        <PrB>{`{
+  "permissions": {
+    "allow": [
+      "Bash(npm:*)",
+      "Bash(node:*)",
+      "Bash(git:*)",
+      "Bash(npx:*)"
+    ],
+    "deny": [
+      "Bash(rm -rf /*)",
+      "Bash(curl * | bash)",
+      "Bash(wget * | bash)"
+    ]
+  }
+}`}</PrB>
+
+        <hr style={S.hr}/>
+
+        {/* ── PARTIE 2 ── */}
+        <h2 id="b2" style={S.h2}>Partie 2 — CLAUDE.md : le cerveau persistant du projet</h2>
+        <div style={SB.part}><p style={{...S.p,margin:0,color:"#a5b4fc",fontSize:13}}>⏱ Durée : 20 à 30 minutes · À la fin : Claude a une connaissance permanente du projet HUB'AO</p></div>
+
+        <p style={S.p}><B c="CLAUDE.md"/> est le fichier le plus important du projet. Claude le lit à chaque démarrage de session et lors du chargement du contexte. C'est là que tu définis les règles, les conventions, et tout ce que Claude doit savoir sur ton projet.</p>
+
+        <div style={SB.warn}><p style={{...S.p,margin:0,fontSize:13}}><B c="Règle des 200 lignes :"/> Au-delà, CLAUDE.md devient contre-productif. Dégrade le surplus en Skills (section 2.5) ou en fichiers tasks/.</p></div>
+
+        <h3 style={S.h3}>2.1 — Structure CLAUDE.md HUB'AO</h3>
+        <PrB>{`# CLAUDE.md — HUB'AO
+
+## Identité du projet
+Pipeline d'automatisation des appels d'offres publics.
+Stack : Next.js 16.2 + Supabase self-hosted + Claude via OpenRouter.
+
+## Règles absolues
+- TypeScript strict, pas de \`any\`
+- Toujours vérifier les erreurs Supabase : if (error) throw error
+- Ne jamais exposer SUPABASE_SERVICE_ROLE_KEY côté client
+- Commits atomiques après chaque tâche terminée
+
+## Architecture
+- src/app/         -> Pages et API Routes (App Router)
+- src/components/  -> Composants UI (shadcn/ui)
+- src/lib/         -> Logique métier (supabase/, boamp/, scoring/)
+- src/types/       -> Types TypeScript partagés
+
+## Compaction Instructions
+Quand tu compactes le contexte, priorité à :
+1. Les décisions d'architecture prises
+2. Les bugs résolus et leur cause racine
+3. Les patterns Supabase spécifiques à HUB'AO
+4. L'état des tâches en cours
+Ignore : logs de commandes réussies, discussions abandonnées`}</PrB>
+
+        <h3 style={S.h3}>2.2 — CLAUDE.md par sous-dossier</h3>
+        <p style={S.p}>Tu peux créer des CLAUDE.md spécifiques dans chaque dossier. Claude les charge automatiquement quand il travaille dans ce contexte :</p>
+        <PrB>{`src/app/api/CLAUDE.md       <- règles API Routes\nsrc/components/CLAUDE.md   <- règles composants\nsrc/lib/CLAUDE.md          <- patterns Supabase et logique métier`}</PrB>
+
+        <h3 style={S.h3}>2.3 — Fichiers complémentaires</h3>
+        <div style={{display:"flex",flexDirection:"column",gap:8,margin:"12px 0"}}>
+          {[
+            ["REVIEW.md","Critères de review que Claude applique avant chaque merge : TypeScript strict, tests, sécurité RLS"],
+            ["PROJECT.md","Vision, roadmap, décisions d'architecture — pour le contexte long terme"],
+            ["REQUIREMENTS.md","Spécifications fonctionnelles détaillées du pipeline HUB'AO"],
+            ["AGENTS.md","Généré nativement par create-next-app avec Next.js 16.x — mis à jour par Ralph"],
+          ].map(([f,d],i) => (
+            <div key={i} style={{...SB.card,display:"flex",gap:14,padding:"14px 18px"}}>
+              <span style={{color:"#6366f1",fontFamily:"monospace",fontSize:13,flexShrink:0,minWidth:140}}>{f}</span>
+              <span style={{fontSize:13,color:"#94a3b8"}}>{d}</span>
+            </div>
+          ))}
+        </div>
+
+        <hr style={S.hr}/>
+
+        {/* ── PARTIE 3 ── */}
+        <h2 id="b3" style={S.h2}>Partie 3 — Mode Plan + GSD : spec-driven development</h2>
+        <div style={SB.part}><p style={{...S.p,margin:0,color:"#a5b4fc",fontSize:13}}>⏱ Durée : 25 à 35 minutes · À la fin : GSD installé + premier plan HUB'AO généré</p></div>
+
+        <h3 style={S.h3}>3.1 — Le mode Plan</h3>
+        <p style={S.p}>Shift+Tab active le <B c="plan mode"/>. Claude explique tout ce qu'il va faire avant d'agir. Obligatoire pour toute tâche qui touche plus de 2 fichiers.</p>
+        <div style={SB.tip}><p style={{...S.p,margin:0,fontSize:13}}>Un plan validé en 30 secondes vaut mieux que 30 minutes de code à défaire.</p></div>
+
+        <h3 style={S.h3}>3.2 — GSD : Get Shit Done</h3>
+        <p style={S.p}>GSD est un framework de spec-driven development pour Claude Code. Il structure chaque feature en 5 phases :</p>
+        <div style={{display:"grid",gridTemplateColumns:"repeat(5,1fr)",gap:8,margin:"16px 0"}}>
+          {[["discuss","Clarifier le besoin","#6366f1"],["plan","Concevoir la solution","#8b5cf6"],["execute","Implémenter","#D97757"],["verify","Valider les livrables","#06b6d4"],["ship","Merger + déployer","#3dd68c"]].map(([phase,desc,color],i)=>(
+            <div key={i} style={{padding:"12px",borderRadius:10,background:`${color}0d`,border:`1px solid ${color}22`,textAlign:"center"}}>
+              <div style={{color,fontWeight:700,fontSize:12,marginBottom:4}}>{phase}</div>
+              <div style={{fontSize:11,color:"#94a3b8"}}>{desc}</div>
+            </div>
+          ))}
+        </div>
+
+        <h3 style={S.h3}>3.3 — Installer GSD</h3>
+        <PrB>{`# Télécharger GSD\ncurl -fsSL https://raw.githubusercontent.com/gsd-build/get-shit-done/main/install.sh | bash\n\n# Vérifier dans Claude Code\n/gsd:new-project`}</PrB>
+
+        <h3 style={S.h3}>3.4 — Premier lancement sur HUB'AO</h3>
+        <PrB>{`# Phase discuss — clarifier les besoins\n/gsd:discuss-phase\n\n# Phase plan — concevoir l'architecture\n/gsd:plan-phase\n\n# Phase execute — implémenter\n/gsd:execute-phase\n\n# Vérifier les livrables\n/gsd:verify-work`}</PrB>
+
+        <hr style={S.hr}/>
+
+        {/* ── PARTIE 4 ── */}
+        <h2 id="b4" style={S.h2}>Partie 4 — Architecture multi-agents + Ralph</h2>
+        <div style={SB.part}><p style={{...S.p,margin:0,color:"#a5b4fc",fontSize:13}}>⏱ Durée : 40 à 60 minutes · À la fin : 5 agents spécialisés + Ralph opérationnel</p></div>
+
+        <h3 style={S.h3}>4.1 — Agents vs Skills vs Slash commands</h3>
+        <div style={{overflowX:"auto"}}>
+          <table style={SB.tbl}>
+            <thead><tr><th style={SB.th}>Concept</th><th style={SB.th}>Ce que c'est</th><th style={SB.th}>Exemple HUB'AO</th></tr></thead>
+            <tbody>{[
+              ["Agent","Une slash command qui donne une identité et des instructions spécialisées à Claude","/pm-hubao → Chef de projet qui gère le PRD"],
+              ["Skill","Un SKILL.md chargé automatiquement selon le contexte","skill-scoring-hubao → règles GO/NO GO"],
+              ["Slash command","Un raccourci vers un prompt complexe ou un workflow","/gsd:plan-phase → lance la phase de planification"],
+            ].map(([c,e,ex],i)=><tr key={i}><td style={SB.td}><B c={c}/></td><td style={SB.td}>{e}</td><td style={SB.td}>{ex}</td></tr>)}</tbody>
+          </table>
+        </div>
+
+        <h3 style={S.h3}>4.2 — Les 5 agents HUB'AO</h3>
+        <PrB>mkdir -p .claude/commands</PrB>
+        <div style={{display:"flex",flexDirection:"column",gap:8,margin:"12px 0"}}>
+          {[
+            ["/pm-hubao","Chef de projet","Gère le PRD, crée les stories, prioritise les tâches","#6366f1"],
+            ["/scraper-hubao","Scraping","Scrape BOAMP/JOUE, parse les notices, gère la déduplication","#D97757"],
+            ["/analyser-hubao","Analyse DCE","Extrait les infos clés des RC, CCTP, CCAP, BPU/DQE","#22d3ee"],
+            ["/scorer-hubao","Scoring","Évalue GO/NO GO, calcule le fit, produit le tableau d'analyse","#3dd68c"],
+            ["/reviewer-hubao","Code Review","Vérifie TypeScript, tests, sécurité RLS, conventions HUB'AO","#f59e0b"],
+          ].map(([cmd,name,desc,color],i)=>(
+            <div key={i} style={{...SB.card,display:"flex",gap:14,padding:"14px 18px",borderLeft:`3px solid ${color}`}}>
+              <span style={{color,fontFamily:"monospace",fontSize:12,flexShrink:0,minWidth:140}}>{cmd}</span>
+              <div><div style={{color:"#e4e4e7",fontWeight:600,fontSize:13,marginBottom:3}}>{name}</div><div style={{fontSize:13,color:"#94a3b8"}}>{desc}</div></div>
+            </div>
+          ))}
+        </div>
+
+        <h3 style={S.h3}>4.3 — Ralph : la boucle autonome</h3>
+        <p style={S.p}>Ralph est un script bash qui lance Claude Code en boucle sur un fichier <CdO c="prd.json"/>. Il implémente chaque user story dans une instance fraîche, teste, commit, et passe à la suivante.</p>
+        <PrB>{`# Installer Ralph\ncurl -fsSL https://raw.githubusercontent.com/snarktank/ralph/main/install.sh | bash\n\n# Lancer Ralph sur le PRD HUB'AO (10 itérations max)\n./scripts/ralph/ralph.sh --tool claude 10`}</PrB>
+
+        <h3 style={S.h3}>4.4 — Structure d'un prd.json</h3>
+        <PrB>{`{
+  "feature": "Veille automatique BOAMP",
+  "branchName": "feat/scraping-boamp",
+  "userStories": [
+    {
+      "id": "001",
+      "title": "Client API BOAMP",
+      "priority": 1,
+      "description": "Créer src/lib/boamp/client.ts avec fetch de l'API officielle",
+      "acceptanceCriteria": [
+        "L'API BOAMP répond avec les AOs des 24 dernières heures",
+        "Les erreurs réseau sont gérées avec retry",
+        "TypeScript strict, pas de any"
+      ],
+      "passes": false
+    }
+  ]
+}`}</PrB>
+        <div style={SB.tip}><p style={{...S.p,margin:0,fontSize:13}}><B c="Règle des stories bien dimensionnées :"/> Chaque story doit être implémentable dans une seule fenêtre de contexte. Si une story touche plus de 5 fichiers ou prend plus de 2h, divise-la.</p></div>
+
+        <hr style={S.hr}/>
+
+        {/* ── PARTIE 5 ── */}
+        <h2 id="b5" style={S.h2}>Partie 5 — Skills + Superpowers</h2>
+        <div style={SB.part}><p style={{...S.p,margin:0,color:"#a5b4fc",fontSize:13}}>⏱ Durée : 30 à 40 minutes · À la fin : Superpowers + 7 Skills custom opérationnels</p></div>
+
+        <h3 style={S.h3}>5.1 — Comment fonctionnent les Skills</h3>
+        <p style={S.p}>Un Skill est un dossier avec un fichier <CdO c="SKILL.md"/>. Claude scanne les Skills au démarrage et les charge intelligemment selon le contexte, en 3 étapes :</p>
+        <div style={{display:"flex",flexDirection:"column",gap:8,margin:"12px 0"}}>
+          {[["Scan métadonnées","~100 tokens","Claude lit juste les titres et descriptions"],["Chargement complet","<5k tokens","Quand Claude détecte que la tâche est pertinente"],["Ressources associées","À la demande","Scripts, exemples, templates dans le dossier"]].map(([step,cost,desc],i)=>(
+            <div key={i} style={{display:"flex",gap:12,alignItems:"center",padding:"10px 14px",borderRadius:8,background:"rgba(99,102,241,0.05)",border:"1px solid rgba(99,102,241,0.1)"}}>
+              <span style={{color:"#818cf8",fontWeight:700,fontSize:13,flexShrink:0,minWidth:160}}>{step}</span>
+              <span style={{color:"#6366f1",fontFamily:"monospace",fontSize:12,flexShrink:0}}>{cost}</span>
+              <span style={{fontSize:13,color:"#94a3b8"}}>{desc}</span>
+            </div>
+          ))}
+        </div>
+
+        <h3 style={S.h3}>5.2 — Installer Superpowers</h3>
+        <PrB>npx @anthropic-ai/claude-code-skills add superpowers</PrB>
+        <div style={{overflowX:"auto"}}>
+          <table style={SB.tbl}>
+            <thead><tr><th style={SB.th}>Skill Superpowers</th><th style={SB.th}>Quand l'utiliser sur HUB'AO</th></tr></thead>
+            <tbody>{[
+              ["test-driven-development","Avant de coder le scoring GO/NO GO, la logique de filtrage"],
+              ["systematic-debugging","Quand le scraping BOAMP retourne des résultats inattendus"],
+              ["brainstorming","Avant de designer une nouvelle feature du pipeline"],
+              ["requesting-code-review","Avant chaque merge de feature importante"],
+              ["using-git-worktrees","Développer le scraping et le dashboard en parallèle"],
+              ["subagent-driven-development","Implémenter plusieurs composants en parallèle"],
+            ].map(([s,u],i)=><tr key={i}><td style={SB.td}><CdO c={s}/></td><td style={SB.td}>{u}</td></tr>)}</tbody>
+          </table>
+        </div>
+
+        <h3 style={S.h3}>5.3 — Skills design officiels</h3>
+        <PrB>{`# Skill frontend-design Anthropic (277 000+ installs)\nnpx @anthropic-ai/claude-code-skills add frontend-design\n\n# Skill shadcn/ui — lit ton components.json\nnpx shadcn skill add`}</PrB>
+
+        <h3 style={S.h3}>5.4 — 7 Skills custom HUB'AO</h3>
+        <PrB>{`mkdir -p .claude/skills/skill-supabase-hubao\nmkdir -p .claude/skills/skill-dce-parsing\nmkdir -p .claude/skills/skill-scoring-hubao\nmkdir -p .claude/skills/skill-nextjs-hubao\nmkdir -p .claude/skills/skill-design-hubao\nmkdir -p .claude/skills/skill-optimizer-hubao\nmkdir -p .claude/skills/skill-security-hubao`}</PrB>
+        <div style={{display:"flex",flexDirection:"column",gap:6,margin:"12px 0"}}>
+          {[["skill-design-hubao","Palette AO, typographie, composants Dashboard — empêche le style générique IA"],["skill-supabase-hubao","Patterns upsert, gestion erreurs, clients server/client, RLS"],["skill-dce-parsing","Structure RC/CCTP/CCAP/BPU, extraction Mistral OCR, types de documents"],["skill-scoring-hubao","Règles GO/NO GO, grille d'évaluation, format de sortie scoring"],["skill-nextjs-hubao","App Router patterns, API Routes, Server Components, Server Actions"],["skill-optimizer-hubao","Seuils de contexte, /compact, choix de modèle, subagents isolation"],["skill-security-hubao","Règles .env, RLS Supabase, headers Next.js, OWASP top 10"]].map(([name,desc],i)=>(
+            <div key={i} style={{...SB.card,display:"flex",gap:14,padding:"12px 16px"}}>
+              <span style={{color:"#6366f1",fontFamily:"monospace",fontSize:12,flexShrink:0,minWidth:200}}>{name}</span>
+              <span style={{fontSize:13,color:"#94a3b8"}}>{desc}</span>
+            </div>
+          ))}
+        </div>
+
+        <hr style={S.hr}/>
+
+        {/* ── PARTIE 6 ── */}
+        <h2 id="b6" style={S.h2}>Partie 6 — Slash commands custom</h2>
+        <div style={SB.part}><p style={{...S.p,margin:0,color:"#a5b4fc",fontSize:13}}>⏱ Durée : 20 à 25 minutes</p></div>
+
+        <p style={S.p}>Les slash commands sont des fichiers Markdown dans <CdO c=".claude/commands/"/>. Chaque fichier = une commande <CdO c="/nom-du-fichier"/> accessible dans Claude Code.</p>
+
+        <h3 style={S.h3}>Exemples de commandes HUB'AO</h3>
+        <PrB>{`# Créer les commandes\ntouch .claude/commands/new-ao.md      # /new-ao\ntouch .claude/commands/analyse-dce.md # /analyse-dce\ntouch .claude/commands/daily-review.md # /daily-review\ntouch .claude/commands/ship-feature.md # /ship-feature`}</PrB>
+
+        <h3 style={S.h3}>Structure d'une commande /ship-feature</h3>
+        <PrB>{`# /ship-feature — Préparer et merger une feature HUB'AO
+
+## Ce que cette commande fait
+1. Vérifie TypeScript : npx tsc --noEmit
+2. Lance les tests : npm run test
+3. Vérifie REVIEW.md
+4. Crée un commit conventionnel
+5. Prépare la PR
+
+## Utilisation
+/ship-feature [nom-de-la-feature]
+
+## Critères de merge
+- 0 erreur TypeScript
+- Tests passent
+- REVIEW.md validé`}</PrB>
+
+        <div style={SB.tip}><p style={{...S.p,margin:0,fontSize:13}}><B c="/simplify"/> est une commande native Claude Code — elle simplifie et nettoie le code produit en session. Utile après une longue session de dev.</p></div>
+
+        <hr style={S.hr}/>
+
+        {/* ── PARTIE 7 ── */}
+        <h2 id="b7" style={S.h2}>Partie 7 — Hooks : automatiser les actions répétitives</h2>
+        <div style={SB.part}><p style={{...S.p,margin:0,color:"#a5b4fc",fontSize:13}}>⏱ Durée : 20 à 25 minutes · À la fin : 5 hooks actifs</p></div>
+
+        <p style={S.p}>Les hooks sont des scripts qui se déclenchent automatiquement à des moments précis du cycle Claude Code.</p>
+
+        <div style={{overflowX:"auto"}}>
+          <table style={SB.tbl}>
+            <thead><tr><th style={SB.th}>Hook</th><th style={SB.th}>Déclencheur</th><th style={SB.th}>Action</th></tr></thead>
+            <tbody>{[
+              ["session-start","Démarrage de Claude Code","Charge STATE.md, affiche les tâches en cours"],
+              ["pre-bash-security","Avant chaque commande bash","Bloque rm -rf, curl | bash, accès .env"],
+              ["post-bash","Après chaque commande bash","Tronque les outputs > 100 lignes"],
+              ["post-compact","Après /compact","Met à jour tasks/lessons.md avec les décisions"],
+              ["clean-code-check","Après chaque modification","Si fichier > 400 lignes → lance subagent refactoring"],
+            ].map(([h,d,a],i)=><tr key={i}><td style={SB.td}><CdO c={h}/></td><td style={SB.td}>{d}</td><td style={SB.td}>{a}</td></tr>)}</tbody>
+          </table>
+        </div>
+
+        <h3 style={S.h3}>Configurer dans settings.json</h3>
+        <PrB>{`{
+  "hooks": {
+    "SessionStart": [
+      { "command": "bash .claude/hooks/session-start.sh" }
+    ],
+    "PreBash": [
+      { "command": "bash .claude/hooks/pre-bash-security.sh" }
+    ],
+    "PostBash": [
+      { "command": "bash .claude/hooks/post-bash.sh" }
+    ]
+  }
+}`}</PrB>
+        <PrB>chmod +x .claude/hooks/*.sh</PrB>
+
+        <hr style={S.hr}/>
+
+        {/* ── PARTIE 8 ── */}
+        <h2 id="b8" style={S.h2}>Partie 8 — MCP Servers</h2>
+        <div style={SB.part}><p style={{...S.p,margin:0,color:"#a5b4fc",fontSize:13}}>⏱ Durée : 20 à 30 minutes · À la fin : 4 MCP servers connectés</p></div>
+
+        <p style={S.p}>Les MCP servers connectent Claude Code à des outils externes. Ils tournent en arrière-plan et Claude les appelle via des prompts naturels.</p>
+
+        <div style={SB.warn}><p style={{...S.p,margin:0,fontSize:13}}><B c="Checklist sécurité avant installation :"/> Vérifie le repo GitHub (stars, date du dernier commit), lis le code si tu passes une clé API, ajoute <CdO c=".mcp.json"/> dans <CdO c=".gitignore"/> si tu y mets des clés.</p></div>
+
+        <h3 style={S.h3}>Les 4 MCP servers HUB'AO</h3>
+        <PrB>{`// .mcp.json
+{
+  "mcpServers": {
+    "context7": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["-y", "@upstash/context7-mcp@latest"],
+      "description": "Documentation à jour Next.js, Supabase, shadcn/ui"
+    },
+    "playwright": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["@playwright/mcp@latest"],
+      "description": "Tests UI et screenshots automatiques"
+    },
+    "ccguide": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["-y", "claude-code-ultimate-guide-mcp"],
+      "description": "Templates et ressources Claude Code"
+    },
+    "sequential-thinking": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-sequential-thinking"],
+      "description": "Raisonnement structuré pour les problèmes complexes"
+    }
+  }
+}`}</PrB>
+
+        <h3 style={S.h3}>Activer et vérifier</h3>
+        <PrB>{`/exit\nclaude\n/mcp  # vérifier que les 4 servers sont connectés\n/doctor  # si un server ne répond pas`}</PrB>
+
+        <h3 style={S.h3}>Utilisation concrète sur HUB'AO</h3>
+        <div style={{display:"flex",flexDirection:"column",gap:8,margin:"12px 0"}}>
+          {[
+            ["Context7","En utilisant Context7 pour la doc Supabase Storage, crée un composant React d'upload de fichiers ZIP qui extrait les documents DCE."],
+            ["Playwright","Lance npm run dev, ouvre le dashboard sur localhost:3000, prends un screenshot de la page d'upload DCE et vérifie le drag-and-drop sur mobile."],
+            ["Sequential Thinking","Utilise le Sequential Thinking MCP pour analyser l'architecture optimale du pipeline de scoring HUB'AO. Explore plusieurs approches avant de proposer."],
+          ].map(([server,prompt],i)=>(
+            <div key={i} style={SB.card}>
+              <div style={{color:"#818cf8",fontWeight:700,fontSize:13,marginBottom:8}}>{server}</div>
+              <div style={{fontSize:13,color:"#94a3b8",fontStyle:"italic"}}>"{prompt}"</div>
+            </div>
+          ))}
+        </div>
+
+        <hr style={S.hr}/>
+
+        {/* ── PARTIE 9 ── */}
+        <h2 id="b9" style={S.h2}>Partie 9 — Optimisation tokens et mémoire</h2>
+        <div style={SB.part}><p style={{...S.p,margin:0,color:"#a5b4fc",fontSize:13}}>⏱ Durée : 15 à 20 minutes</p></div>
+
+        <h3 style={S.h3}>9.1 — Le problème des tokens</h3>
+        <PrB>{`Session de développement typique sans optimisation :
+  npm install                    -> 400 tokens de logs
+  supabase migration run         -> 800 tokens de logs
+  git status + diff              -> 300 tokens
+  next build                     -> 1200 tokens de logs
+  -------------------------------------------
+  Total "bruit" sur une session  -> ~15 000 tokens`}</PrB>
+
+        <h3 style={S.h3}>9.2 — Prompt Caching (automatique)</h3>
+        <p style={S.p}>Le Prompt Caching est natif et automatique. Les éléments stables (CLAUDE.md, Skills, system prompt) sont mis en cache après la première requête.</p>
+        <div style={SB.tip}><p style={{...S.p,margin:0,fontSize:13}}>Mets le maximum d'instructions stables dans CLAUDE.md et dans les Skills plutôt que de les répéter dans chaque prompt. Tout ce qui est dans CLAUDE.md bénéficie du cache.</p></div>
+
+        <h3 style={S.h3}>9.3 — Les seuils de contexte</h3>
+        <div style={{display:"flex",flexDirection:"column",gap:8,margin:"12px 0"}}>
+          {[["0–50%","#3dd68c","Travail libre, maximum de précision"],["50–70%","#f59e0b","Surveille /status régulièrement"],["70–90%","#f97316","Lance /compact maintenant"],["90%+","#f87171","/clear obligatoire, nouvelle session recommandée"]].map(([range,color,action],i)=>(
+            <div key={i} style={{display:"flex",gap:12,alignItems:"center",padding:"10px 14px",borderRadius:8,background:`${color}0a`,border:`1px solid ${color}22`}}>
+              <span style={{color,fontWeight:700,fontFamily:"monospace",fontSize:13,flexShrink:0,minWidth:60}}>{range}</span>
+              <span style={{fontSize:13,color:"#94a3b8"}}>{action}</span>
+            </div>
+          ))}
+        </div>
+
+        <h3 style={S.h3}>9.4 — /compact avec instructions</h3>
+        <PrB>{`/compact Focus sur les décisions d'architecture, les bugs résolus
+et les patterns Supabase. Ignore les détails d'implémentation
+des composants UI et les logs de commandes.`}</PrB>
+
+        <h3 style={S.h3}>9.5 — Choix du modèle</h3>
+        <div style={{overflowX:"auto"}}>
+          <table style={SB.tbl}>
+            <thead><tr><th style={SB.th}>Modèle</th><th style={SB.th}>Usage optimal</th><th style={SB.th}>Commande</th></tr></thead>
+            <tbody>{[
+              ["Opus 4.6","Planification GSD, architecture, décisions complexes","/model claude-opus-4-6"],
+              ["Sonnet 4.6","Développement quotidien, features, debugging","/model claude-sonnet-4-6"],
+              ["Haiku 4.5","Tâches répétitives, agents batch, Ralph en boucle","/model claude-haiku-4-5-20251001"],
+            ].map(([m,u,c],i)=><tr key={i}><td style={SB.td}><B c={m}/></td><td style={SB.td}>{u}</td><td style={SB.td}><CdO c={c}/></td></tr>)}</tbody>
+          </table>
+        </div>
+
+        <h3 style={S.h3}>9.6 — Outils de monitoring</h3>
+        <PrB>{`# ccusage — stats de consommation\nnpm install -g ccusage\nccusage\n\n# claude-monitor — monitoring temps réel\nnpm install -g claude-code-usage-monitor\ncmonitor\n\n# Statusline — métriques en permanence dans le terminal\n/statusline  # activer la statusline native Claude Code`}</PrB>
+
+        <hr style={S.hr}/>
+
+        {/* ── PARTIE 10 ── */}
+        <h2 id="b10" style={S.h2}>Partie 10 — Sécurité</h2>
+        <div style={SB.part}><p style={{...S.p,margin:0,color:"#a5b4fc",fontSize:13}}>⏱ Durée : 20 à 30 minutes · À faire avant la production</p></div>
+
+        <h3 style={S.h3}>10.1 — Règles .env et secrets</h3>
+        <PrB>{`# .gitignore — obligatoire
+.env
+.env.local
+.env.production
+.mcp.json  # si contient des clés
+
+# Dans settings.json — empêcher Claude de lire les secrets
+{
+  "permissions": {
+    "deny": ["Read(.env*)", "Bash(cat .env*)"]
+  }
+}`}</PrB>
+
+        <h3 style={S.h3}>10.2 — RLS Supabase</h3>
+        <p style={S.p}>Toutes les tables HUB'AO doivent avoir des policies RLS. Ne jamais utiliser <CdO c="service_role"/> côté client.</p>
+        <PrB>{`-- Exemple policy RLS pour ao_fiches
+ALTER TABLE ao_fiches ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Users can only see their org AOs"
+ON ao_fiches FOR SELECT
+USING (org_id = auth.jwt() ->> 'org_id');`}</PrB>
+
+        <h3 style={S.h3}>10.3 — Scanner les MCP servers</h3>
+        <PrB>{`# mcp-scan — détecte les prompt injections dans les MCP servers\nnpx mcp-scan@latest`}</PrB>
+
+        <hr style={S.hr}/>
+
+        {/* ── PARTIE 11 ── */}
+        <h2 id="b11" style={S.h2}>Partie 11 — Workflow quotidien</h2>
+        <div style={SB.part}><p style={{...S.p,margin:0,color:"#a5b4fc",fontSize:13}}>Le workflow quotidien HUB'AO avec 3 agents en parallèle</p></div>
+
+        <h3 style={S.h3}>Démarrage de session</h3>
+        <PrB>{`cd hubao\nclaude\n# Le hook session-start charge automatiquement STATE.md\n\n/status  # vérifier le contexte disponible\n/model claude-sonnet-4-6  # modèle par défaut`}</PrB>
+
+        <h3 style={S.h3}>Workflow feature complète</h3>
+        <div style={{display:"flex",flexDirection:"column",gap:8,margin:"12px 0"}}>
+          {[["1","Discuss","/gsd:discuss-phase — clarifier le besoin avec le PM Agent"],["2","Plan","/gsd:plan-phase avec Opus — concevoir l'architecture (Shift+Tab)"],["3","Execute","Ralph ou agents en parallèle — implémenter les stories"],["4","Verify","/gsd:verify-work — valider chaque livrable"],["5","Review","/reviewer-hubao — code review avant merge"],["6","Ship","/ship-feature — TypeScript + tests + commit + PR"]].map(([step,phase,desc],i)=>(
+            <div key={i} style={{display:"flex",gap:12,alignItems:"flex-start",padding:"10px 14px",borderRadius:8,background:"rgba(99,102,241,0.04)",border:"1px solid rgba(99,102,241,0.1)"}}>
+              <span style={{color:"#6366f1",fontWeight:700,fontSize:13,flexShrink:0,minWidth:20}}>{step}</span>
+              <span style={{color:"#818cf8",fontWeight:600,fontSize:13,flexShrink:0,minWidth:80}}>{phase}</span>
+              <span style={{fontSize:13,color:"#94a3b8"}}>{desc}</span>
+            </div>
+          ))}
+        </div>
+
+        <h3 style={S.h3}>Les 5 règles d'or</h3>
+        <div style={{display:"flex",flexDirection:"column",gap:8,margin:"12px 0"}}>
+          {[["Plan avant code","Shift+Tab avant toute tâche qui touche plus de 2 fichiers"],["Commits atomiques fréquents","Après chaque tâche terminée — même petite"],["Challenger Claude","\"Prouve-moi que ça fonctionne\" avant tout merge"],["Jamais de clé dans le repo",".env dans .gitignore, rotation régulière"],["Gestion du contexte dès le départ","Surveille /status, /compact à 70%, /clear à 90%"]].map(([rule,desc],i)=>(
+            <div key={i} style={{...SB.card,display:"flex",gap:14,padding:"14px 18px",borderLeft:"3px solid #6366f1"}}>
+              <div><div style={{color:"#e4e4e7",fontWeight:600,fontSize:13,marginBottom:3}}>{rule}</div><div style={{fontSize:13,color:"#94a3b8"}}>{desc}</div></div>
+            </div>
+          ))}
+        </div>
+
+        <hr style={S.hr}/>
+
+        {/* ── ANNEXES ── */}
+        <h2 id="b12" style={S.h2}>Annexes</h2>
+
+        <h3 style={S.h3}>Checklist de démarrage de projet</h3>
+        <div style={{display:"flex",flexDirection:"column",gap:4,margin:"12px 0"}}>
+          {["Partie 1 — Claude Code + projet Next.js 16.2 + shadcn/ui","Partie 2 — CLAUDE.md + REVIEW.md + .env complet","Partie 7 — Hooks (chmod +x) : session-start, pre-bash-security, post-bash, post-compact, clean-code-check","Partie 9 — Statusline + claude-monitor installés","Partie 8 — MCP servers : context7, playwright, ccguide, sequential-thinking","Partie 5 — Skills : Superpowers + frontend-design + shadcn/ui + 7 Skills custom","Partie 3 — GSD installé → /gsd:new-project","Partie 4 — Agents + Ralph quand le projet grandit","Partie 10 — Hardening sécurité avant la prod"].map((it,i)=>(
+            <div key={i} style={SB.chk}><span style={{color:"#6366f1",flexShrink:0}}>✓</span>{it}</div>
+          ))}
+        </div>
+
+        <h3 style={S.h3}>Ressources</h3>
+        <div style={{overflowX:"auto"}}>
+          <table style={SB.tbl}>
+            <thead><tr><th style={SB.th}>Ressource</th><th style={SB.th}>URL</th></tr></thead>
+            <tbody>{[
+              ["Claude Code docs","https://docs.anthropic.com/en/docs/claude-code"],
+              ["GSD","https://github.com/gsd-build/get-shit-done"],
+              ["Superpowers","https://github.com/obra/superpowers"],
+              ["Ralph","https://github.com/snarktank/ralph"],
+              ["ccusage","https://github.com/ryoppippi/ccusage"],
+              ["Context7","https://context7.com"],
+              ["awesome-claude-code","https://github.com/hesreallyhim/awesome-claude-code"],
+            ].map(([r,u],i)=><tr key={i}><td style={SB.td}><B c={r}/></td><td style={SB.td}><BLink href={u}>{u.replace("https://","")}</BLink></td></tr>)}</tbody>
+          </table>
+        </div>
+
+        <h3 style={S.h3}>Seuils à connaître</h3>
+        <div style={{overflowX:"auto"}}>
+          <table style={SB.tbl}>
+            <thead><tr><th style={SB.th}>Métrique</th><th style={SB.th}>Seuil</th><th style={SB.th}>Action</th></tr></thead>
+            <tbody>{[
+              ["CLAUDE.md","< 200 lignes","Au-delà : dégrader en Skills ou tasks/"],
+              ["Contexte","70%","Lancer /compact"],
+              ["Contexte","90%+","/clear obligatoire"],
+              ["Fenêtre de session","5h","Reset automatique du quota"],
+              ["Stories Ralph","< 2h d'implémentation","Au-delà : découper en sous-stories"],
+            ].map(([m,s,a],i)=><tr key={i}><td style={SB.td}>{m}</td><td style={SB.td}><B c={s}/></td><td style={SB.td}>{a}</td></tr>)}</tbody>
+          </table>
+        </div>
+
+        <div style={S.bq}><p style={{ ...S.p, margin:0 }}>Ce guide a été rédigé par <B c="Daemon IA"/>. Pour des formations sur Claude Code et l'automatisation IA : <a href="https://daemon-ia.fr" target="_blank" rel="noopener noreferrer" style={{color:"#6366f1",fontFamily:"monospace",textDecoration:"none"}}>daemon-ia.fr</a></p></div>
+      </article>
+      <Toc items={BUILDER_TOC} activeId={activeId} onTocClick={onTocClick} accentColor="#6366f1"/>
+    </div>
+  );
+}
+
 export default function App() {
   const [tab, setTab] = useState("guide");
   const [activeId, setActiveId] = useState(null);
@@ -1493,6 +2108,7 @@ export default function App() {
               ["offer", "Service & Offre", true],
               ["costs", "Optimisation des Coûts", false],
               ["claudecode", <><img src="https://i.imgur.com/c70pItt.png" style={{width:16,height:16,objectFit:"contain",borderRadius:3}}/> Guide Claude Code</>, false],
+              ["builder", <><img src="https://i.imgur.com/c70pItt.png" style={{width:16,height:16,objectFit:"contain",borderRadius:3}}/> Builder avec Claude Code</>, false],
             ].map(([id,label,isOffer])=>{
               const on = tab===id;
               const st = isOffer ? (on?S.tOA:S.tOI) : (on?S.tA:S.tI);
@@ -1502,7 +2118,7 @@ export default function App() {
         </div>
       </div>
       <div style={(tab==="costs") ? {padding:0} : S.main}>
-        {tab==="guide" ? <GuideContent activeId={activeId} onTocClick={handleTocClick}/> : tab==="offer" ? <OfferPage/> : tab==="costs" ? <CostGuide/> : <ClaudeCodeGuide activeId={activeId} onTocClick={handleTocClick}/>}
+        {tab==="guide" ? <GuideContent activeId={activeId} onTocClick={handleTocClick}/> : tab==="offer" ? <OfferPage/> : tab==="costs" ? <CostGuide/> : tab==="claudecode" ? <ClaudeCodeGuide activeId={activeId} onTocClick={handleTocClick}/> : <BuilderGuide activeId={activeId} onTocClick={handleTocClick}/>}
       </div>
       {tab !== "costs" && <>
       <a
@@ -1516,7 +2132,7 @@ export default function App() {
         </svg>
       </a>
       <button onClick={()=>bounceScrollTo(0)}
-        style={{position:"fixed",bottom:32,right:280,width:56,height:56,borderRadius:"50%",background:tab==="claudecode"?"#D97757":"#10b981",border:"none",cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",boxShadow:`0 4px 20px ${tab==="claudecode"?"rgba(217,119,87,0.45)":"rgba(16,185,129,0.35)"}`,zIndex:100,fontSize:20,color:"#09090b",fontWeight:"bold"}}>↑</button>
+        style={{position:"fixed",bottom:32,right:280,width:56,height:56,borderRadius:"50%",background:tab==="claudecode"||tab==="builder"?"#6366f1":"#10b981",border:"none",cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",boxShadow:`0 4px 20px ${tab==="claudecode"||tab==="builder"?"rgba(99,102,241,0.45)":"rgba(16,185,129,0.35)"}`,zIndex:100,fontSize:20,color:"#fff",fontWeight:"bold"}}>↑</button>
       </>}
     </div>
   );

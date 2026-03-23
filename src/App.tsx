@@ -2315,7 +2315,7 @@ export default function App() {
               ["guide", <><img src="https://i.imgur.com/YPq9o8G.png" style={{width:16,height:16,objectFit:"contain",borderRadius:3}}/> Guide d'installation OpenClaw</>, false],
               ["offer", "Service & Offre", true],
               ["costs", "Optimisation des Coûts", false],
-              ["claudecode", <><img src="https://i.imgur.com/c70pItt.png" style={{width:16,height:16,objectFit:"contain",borderRadius:3}}/> Guide Claude Code</>, false],
+              ["claudecode", <><img src="https://i.imgur.com/BiG2k09.png" style={{width:18,height:18,objectFit:"contain",borderRadius:"50%"}}/> Guide Claude Code</>, false],
               ["builder", <><img src="https://i.imgur.com/c70pItt.png" style={{width:16,height:16,objectFit:"contain",borderRadius:3}}/> Builder avec Claude Code</>, false],
             ].map(([id,label,isOffer])=>{
               const on = tab===id;

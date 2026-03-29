@@ -1345,8 +1345,6 @@ function ClaudeMdModal({onClose}) {
     </div>
   );
 }
-
-const ChkO = () => <span style={{display:"inline-flex",alignItems:"center",justifyContent:"center",width:20,height:20,borderRadius:"50%",background:"rgba(217,119,87,0.15)",border:"1px solid rgba(217,119,87,0.4)",flexShrink:0}}>
   <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M1.5 5L4 7.5L8.5 2.5" stroke="#D97757" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/></svg>
 </span>;
 
@@ -2315,7 +2313,7 @@ export default function App() {
               ["guide", <><img src="https://i.imgur.com/YPq9o8G.png" style={{width:16,height:16,objectFit:"contain",borderRadius:3}}/> Guide d'installation OpenClaw</>, false],
               ["offer", "Service & Offre", true],
               ["costs", "Optimisation des Coûts", false],
-              ["claudecode", <><img src="https://i.imgur.com/BiG2k09.png" style={{width:18,height:18,objectFit:"contain",borderRadius:"50%"}}/> Guide Claude Code</>, false],
+              ["claudecode", <><img src="https://i.imgur.com/c70pItt.png" style={{width:16,height:16,objectFit:"contain",borderRadius:3}}/> Guide Claude Code</>, false],
               ["builder", <><img src="https://i.imgur.com/c70pItt.png" style={{width:16,height:16,objectFit:"contain",borderRadius:3}}/> Builder avec Claude Code</>, false],
             ].map(([id,label,isOffer])=>{
               const on = tab===id;

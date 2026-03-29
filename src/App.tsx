@@ -1147,7 +1147,8 @@ function CostGuide() {
   );
 }
 
-const CLAUDEMD_HTML = `<!DOCTYPE html>
+const CLAUDEMD_HTML = `
+<!DOCTYPE html>
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
@@ -1155,184 +1156,734 @@ const CLAUDEMD_HTML = `<!DOCTYPE html>
 <title>Le claude.md — Le briefing ultime pour ton IA</title>
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Outfit:wght@300;400;600;700;900&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#0a0a0f;--surface:#12121a;--surface2:#1a1a26;--border:#2a2a3a;--text:#e8e8f0;--text-dim:#8888a0;--accent:#f97316;--accent2:#fb923c;--green:#22c55e;--blue:#3b82f6;--purple:#a855f7;--red:#ef4444;--cyan:#06b6d4;--yellow:#eab308;--pink:#ec4899}
+:root{--bg:#0a0a0f;--surface:#12121a;--surface2:#1a1a26;--border:#2a2a3a;--text:#e8e8f0;--muted:#8888a0;--orange:#f97316;--green:#22c55e;--blue:#3b82f6;--purple:#a855f7;--red:#ef4444;--cyan:#06b6d4;--yellow:#eab308}
 *{margin:0;padding:0;box-sizing:border-box}
-body{background:var(--bg);color:var(--text);font-family:'Outfit',sans-serif;overflow-x:hidden;line-height:1.6}
-.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:2rem;position:relative;overflow:hidden}
-.hero::before{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:radial-gradient(ellipse at 30% 20%,rgba(249,115,22,.08) 0%,transparent 50%),radial-gradient(ellipse at 70% 80%,rgba(168,85,247,.06) 0%,transparent 50%);animation:drift 20s ease-in-out infinite}
-@keyframes drift{0%,100%{transform:translate(0,0)}50%{transform:translate(-3%,2%)}}
-.hero-badge{font-family:'JetBrains Mono',monospace;font-size:.8rem;color:var(--accent);border:1px solid rgba(249,115,22,.3);padding:.4rem 1.2rem;border-radius:100px;margin-bottom:2rem;position:relative;letter-spacing:.1em;text-transform:uppercase;animation:fadeInUp .6s ease-out}
-.hero h1{font-size:clamp(2.5rem,7vw,5.5rem);font-weight:900;line-height:1.05;margin-bottom:1.5rem;position:relative;animation:fadeInUp .6s ease-out .1s both}
-.hero h1 .mono{font-family:'JetBrains Mono',monospace;color:var(--accent);background:rgba(249,115,22,.1);padding:0 .15em;border-radius:6px}
-.hero-sub{font-size:clamp(1rem,2.5vw,1.4rem);color:var(--text-dim);max-width:700px;font-weight:300;margin-bottom:3rem;position:relative;animation:fadeInUp .6s ease-out .2s both}
-.hero-sub strong{color:var(--text);font-weight:600}
-.scroll-hint{position:relative;animation:fadeInUp .6s ease-out .4s both,bounce 2s infinite 1.5s;color:var(--text-dim);font-size:.85rem;display:flex;flex-direction:column;align-items:center;gap:.5rem}
-.scroll-hint .arrow{width:24px;height:24px;border-right:2px solid var(--accent);border-bottom:2px solid var(--accent);transform:rotate(45deg)}
-@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(8px)}}
-@keyframes fadeInUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
-.analogy{max-width:900px;margin:0 auto;padding:6rem 2rem;text-align:center}
-.analogy h2{font-size:clamp(1.8rem,4vw,2.8rem);font-weight:700;margin-bottom:2rem}
-.analogy-grid{display:grid;grid-template-columns:1fr auto 1fr;gap:1.5rem;align-items:center;margin-top:3rem}
-.analogy-card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:2rem;text-align:center}
-.analogy-card .emoji{font-size:3rem;margin-bottom:1rem}
-.analogy-card h3{font-size:1.2rem;font-weight:700;margin-bottom:.5rem}
-.analogy-card p{color:var(--text-dim);font-size:.95rem}
-.analogy-arrow{font-size:2rem;color:var(--accent)}
-.sections-wrapper{max-width:1100px;margin:0 auto;padding:4rem 2rem 8rem}
-.sections-title{text-align:center;font-size:clamp(1.8rem,4vw,2.8rem);font-weight:700;margin-bottom:1rem}
-.sections-subtitle{text-align:center;color:var(--text-dim);font-size:1.1rem;margin-bottom:4rem;max-width:600px;margin-left:auto;margin-right:auto}
-.section-block{margin-bottom:3rem;border:1px solid var(--border);border-radius:20px;overflow:hidden;background:var(--surface);transition:border-color .3s}
-.section-block:hover{border-color:rgba(249,115,22,.4)}
-.section-header{display:flex;align-items:center;gap:1rem;padding:1.5rem 2rem;cursor:pointer;user-select:none;background:var(--surface)}
-.section-header:hover{background:var(--surface2)}
-.section-number{font-family:'JetBrains Mono',monospace;font-size:.75rem;font-weight:700;color:var(--bg);background:var(--accent);width:32px;height:32px;display:flex;align-items:center;justify-content:center;border-radius:8px;flex-shrink:0}
-.section-label{font-family:'JetBrains Mono',monospace;font-size:.8rem;color:var(--text-dim);background:var(--surface2);padding:.2rem .6rem;border-radius:6px;flex-shrink:0}
-.section-name{font-weight:700;font-size:1.15rem;flex-grow:1}
-.section-toggle{font-size:1.5rem;color:var(--text-dim);transition:transform .3s;flex-shrink:0}
-.section-block.open .section-toggle{transform:rotate(45deg);color:var(--accent)}
-.section-body{max-height:0;overflow:hidden;transition:max-height .5s ease}
-.section-block.open .section-body{max-height:3000px}
-.section-content{padding:0 2rem 2rem}
-.explain{margin-bottom:1.5rem}
-.explain h4{font-size:.85rem;text-transform:uppercase;letter-spacing:.08em;margin-bottom:.8rem;display:flex;align-items:center;gap:.5rem}
-.explain h4 .dot{width:8px;height:8px;border-radius:50%;display:inline-block}
-.explain p,.explain li{color:var(--text-dim);font-size:.95rem;line-height:1.7}
-.explain ul{list-style:none;padding-left:0}
-.explain li{padding:.3rem 0;padding-left:1.2rem;position:relative}
-.explain li::before{content:'→';position:absolute;left:0;color:var(--accent)}
-.code-preview{background:#0d0d14;border:1px solid var(--border);border-radius:12px;padding:1.2rem 1.5rem;font-family:'JetBrains Mono',monospace;font-size:.8rem;line-height:1.8;overflow-x:auto;margin-bottom:1.5rem;color:var(--text-dim)}
-.code-preview .comment{color:#555570}
-.code-preview .key{color:var(--cyan)}
-.code-preview .val{color:var(--green)}
-.code-preview .highlight{color:var(--accent);font-weight:600}
-.tip-box{background:rgba(249,115,22,.06);border:1px solid rgba(249,115,22,.2);border-radius:14px;padding:1.2rem 1.5rem;margin-bottom:1rem}
-.tip-box.pro{background:rgba(168,85,247,.06);border-color:rgba(168,85,247,.25)}
-.tip-box.danger{background:rgba(239,68,68,.06);border-color:rgba(239,68,68,.25)}
-.tip-label{font-family:'JetBrains Mono',monospace;font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;margin-bottom:.5rem}
-.tip-label.orange{color:var(--accent)}
-.tip-label.purple{color:var(--purple)}
-.tip-label.red{color:var(--red)}
-.tip-box p{color:var(--text-dim);font-size:.9rem;line-height:1.6}
-.tip-box code{font-family:'JetBrains Mono',monospace;background:rgba(255,255,255,.06);padding:.15rem .4rem;border-radius:4px;font-size:.82rem;color:var(--text)}
-.summary{max-width:900px;margin:0 auto;padding:4rem 2rem 8rem;text-align:center}
-.summary h2{font-size:clamp(1.8rem,4vw,2.5rem);font-weight:700;margin-bottom:2rem}
-.formula{font-family:'JetBrains Mono',monospace;font-size:clamp(1rem,2.5vw,1.5rem);color:var(--accent);background:var(--surface);border:1px solid var(--border);display:inline-block;padding:1.5rem 2.5rem;border-radius:16px;margin-bottom:3rem}
-.summary-tips{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:1.2rem;text-align:left;margin-top:2rem}
-.summary-tip{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:1.5rem}
-.summary-tip .num{font-family:'JetBrains Mono',monospace;font-size:.7rem;font-weight:700;color:var(--accent);margin-bottom:.5rem}
-.summary-tip h4{font-size:1rem;margin-bottom:.4rem}
-.summary-tip p{color:var(--text-dim);font-size:.88rem}
-@media(max-width:700px){.analogy-grid{grid-template-columns:1fr}.analogy-arrow{transform:rotate(90deg)}.section-header{flex-wrap:wrap}.section-label{order:-1}}
+body{background:var(--bg);color:var(--text);font-family:'Outfit',sans-serif;line-height:1.6;overflow-x:hidden}
+a{color:var(--orange);text-decoration:none}
+code{font-family:'JetBrains Mono',monospace;background:rgba(255,255,255,0.07);padding:2px 7px;border-radius:4px;font-size:.85em;color:var(--text)}
+
+/* HERO */
+.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:3rem 2rem;position:relative;overflow:hidden}
+.hero-glow{position:absolute;inset:0;background:radial-gradient(ellipse at 30% 30%,rgba(249,115,22,.1) 0%,transparent 55%),radial-gradient(ellipse at 70% 70%,rgba(168,85,247,.07) 0%,transparent 55%);animation:drift 15s ease-in-out infinite}
+@keyframes drift{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
+.hero-badge{font-family:'JetBrains Mono',monospace;font-size:.75rem;color:var(--orange);border:1px solid rgba(249,115,22,.35);padding:.35rem 1rem;border-radius:100px;margin-bottom:2rem;letter-spacing:.12em;text-transform:uppercase;position:relative;animation:fadeUp .6s both}
+.hero h1{font-size:clamp(2.8rem,8vw,6rem);font-weight:900;line-height:1.05;margin-bottom:1.2rem;position:relative;animation:fadeUp .6s .1s both}
+.hero h1 em{font-style:normal;font-family:'JetBrains Mono',monospace;color:var(--orange)}
+.hero-sub{font-size:clamp(1rem,2.5vw,1.35rem);color:var(--muted);max-width:680px;font-weight:300;margin-bottom:1rem;animation:fadeUp .6s .2s both}
+.hero-meta{font-size:.9rem;color:rgba(136,136,160,.6);margin-bottom:3rem;animation:fadeUp .6s .3s both}
+.hero-meta span{color:var(--orange)}
+.hero-scroll{animation:fadeUp .6s .5s both,bob 2s 1.5s infinite;color:var(--muted);font-size:.8rem;display:flex;flex-direction:column;align-items:center;gap:.4rem}
+.hero-scroll .arr{width:22px;height:22px;border-right:2px solid var(--orange);border-bottom:2px solid var(--orange);transform:rotate(45deg)}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(7px)}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
+
+/* NAV TIMELINE */
+.nav-bar{position:sticky;top:0;z-index:100;background:rgba(10,10,15,.9);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);padding:.7rem 2rem;display:flex;gap:.5rem;overflow-x:auto;scrollbar-width:none}
+.nav-bar::-webkit-scrollbar{display:none}
+.nav-pill{font-size:.72rem;white-space:nowrap;padding:.3rem .8rem;border-radius:100px;border:1px solid var(--border);color:var(--muted);cursor:pointer;transition:all .2s;font-family:'JetBrains Mono',monospace}
+.nav-pill:hover,.nav-pill.active{background:rgba(249,115,22,.12);border-color:rgba(249,115,22,.4);color:var(--orange)}
+
+/* WRAPPER */
+.wrap{max-width:1000px;margin:0 auto;padding:0 2rem}
+
+/* ANALOGY */
+.analogy{padding:7rem 0 5rem;text-align:center}
+.analogy h2{font-size:clamp(1.8rem,4vw,2.6rem);font-weight:800;margin-bottom:.8rem}
+.analogy h2 em{font-style:normal;color:var(--orange)}
+.analogy-lead{color:var(--muted);max-width:600px;margin:0 auto 3rem;font-size:1.05rem}
+.analogy-cards{display:grid;grid-template-columns:1fr 60px 1fr;gap:1.5rem;align-items:center}
+.card-before,.card-after{background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:2rem}
+.card-after{border-color:rgba(34,197,94,.3)}
+.card-icon{width:64px;height:64px;margin:0 auto 1.2rem;border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:1.8rem}
+.card-before .card-icon{background:rgba(239,68,68,.1)}
+.card-after .card-icon{background:rgba(34,197,94,.1)}
+.card-title{font-weight:800;font-size:1.1rem;margin-bottom:.6rem}
+.card-desc{color:var(--muted);font-size:.9rem;line-height:1.6}
+.card-desc .bad{color:#f87171}
+.card-desc .good{color:var(--green)}
+.arr-big{font-size:2rem;color:var(--orange);text-align:center}
+.keypoint{margin-top:3rem;display:inline-flex;align-items:flex-start;gap:1rem;background:rgba(249,115,22,.07);border:1px solid rgba(249,115,22,.25);border-radius:16px;padding:1.5rem 2rem;text-align:left;max-width:700px}
+.keypoint-icon{font-size:1.5rem;flex-shrink:0;margin-top:.1rem}
+.keypoint p{color:var(--muted);font-size:.95rem;line-height:1.7}
+.keypoint p strong{color:var(--text)}
+
+/* SECTIONS */
+.sections-area{padding:3rem 0 6rem}
+.sections-title{text-align:center;font-size:clamp(1.8rem,4vw,2.6rem);font-weight:800;margin-bottom:.7rem}
+.sections-lead{text-align:center;color:var(--muted);margin-bottom:3.5rem;font-size:1rem}
+
+.part-block{margin-bottom:2.5rem;border:1px solid var(--border);border-radius:20px;overflow:hidden;transition:border-color .3s}
+.part-block:hover{border-color:rgba(249,115,22,.3)}
+.part-header{display:flex;align-items:center;gap:1rem;padding:1.4rem 1.8rem;cursor:pointer;background:var(--surface);user-select:none}
+.part-header:hover{background:var(--surface2)}
+.part-num{font-family:'JetBrains Mono',monospace;font-size:.72rem;font-weight:700;color:#0a0a0f;background:var(--orange);min-width:32px;height:32px;display:flex;align-items:center;justify-content:center;border-radius:8px;flex-shrink:0}
+.part-tag{font-family:'JetBrains Mono',monospace;font-size:.75rem;color:var(--muted);background:var(--surface2);padding:.2rem .6rem;border-radius:6px;flex-shrink:0}
+.part-name{font-weight:700;font-size:1.1rem;flex:1}
+.part-time{font-size:.72rem;color:var(--muted);font-family:'JetBrains Mono',monospace;flex-shrink:0}
+.part-toggle{font-size:1.4rem;color:var(--muted);transition:transform .3s;flex-shrink:0}
+.part-block.open .part-toggle{transform:rotate(45deg);color:var(--orange)}
+.part-body{max-height:0;overflow:hidden;transition:max-height .5s ease}
+.part-block.open .part-body{max-height:3000px}
+.part-content{padding:1.5rem 1.8rem 2rem;border-top:1px solid var(--border)}
+
+/* ILLUSTRATION ZONES */
+.illus{margin:1.5rem 0;border-radius:14px;overflow:hidden}
+
+/* Code preview */
+.codeblock{background:#0d0d14;border:1px solid var(--border);border-radius:12px;padding:1.2rem 1.5rem;font-family:'JetBrains Mono',monospace;font-size:.78rem;line-height:1.9;overflow-x:auto;margin:1.2rem 0;color:var(--muted)}
+.c-comment{color:#444460}
+.c-key{color:var(--cyan)}
+.c-val{color:var(--green)}
+.c-hi{color:var(--orange);font-weight:600}
+.c-red{color:#f87171}
+.c-purple{color:#c084fc}
+
+/* Tips */
+.tip{border-radius:12px;padding:1.1rem 1.4rem;margin:.8rem 0;font-size:.9rem;line-height:1.6}
+.tip-label{font-family:'JetBrains Mono',monospace;font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;margin-bottom:.4rem}
+.tip p{color:var(--muted)}
+.tip-o{background:rgba(249,115,22,.06);border:1px solid rgba(249,115,22,.2)}
+.tip-o .tip-label{color:var(--orange)}
+.tip-p{background:rgba(168,85,247,.06);border:1px solid rgba(168,85,247,.22)}
+.tip-p .tip-label{color:#c084fc}
+.tip-r{background:rgba(239,68,68,.06);border:1px solid rgba(239,68,68,.22)}
+.tip-r .tip-label{color:#f87171}
+.tip-g{background:rgba(34,197,94,.06);border:1px solid rgba(34,197,94,.22)}
+.tip-g .tip-label{color:var(--green)}
+
+/* Grid 2col */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:1.2rem;margin:1.2rem 0}
+.g2-item{background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:1.2rem}
+.g2-icon{font-size:1.4rem;margin-bottom:.6rem}
+.g2-title{font-weight:700;font-size:.9rem;margin-bottom:.4rem;color:var(--text)}
+.g2-desc{color:var(--muted);font-size:.85rem;line-height:1.6}
+
+/* Rules */
+.rules-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.2rem;margin:2rem 0}
+.rule-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:1.5rem}
+.rule-num{font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--orange);font-weight:700;margin-bottom:.5rem}
+.rule-title{font-weight:700;font-size:1rem;margin-bottom:.4rem}
+.rule-desc{color:var(--muted);font-size:.87rem;line-height:1.6}
+
+/* Formula */
+.formula-wrap{text-align:center;padding:5rem 2rem 4rem}
+.formula-wrap h2{font-size:clamp(1.8rem,4vw,2.5rem);font-weight:800;margin-bottom:2rem}
+.formula{font-family:'JetBrains Mono',monospace;font-size:clamp(.9rem,2.5vw,1.4rem);color:var(--orange);background:var(--surface);border:1px solid var(--border);display:inline-block;padding:1.4rem 2.5rem;border-radius:16px;margin-bottom:3rem;letter-spacing:.02em}
+
+/* Pipeline */
+.pipeline{display:flex;align-items:center;gap:.5rem;flex-wrap:wrap;margin:1.2rem 0;padding:1rem 1.2rem;background:var(--surface2);border-radius:12px;border:1px solid var(--border)}
+.pipe-step{font-family:'JetBrains Mono',monospace;font-size:.75rem;background:rgba(249,115,22,.12);border:1px solid rgba(249,115,22,.25);color:var(--orange);padding:.3rem .7rem;border-radius:6px}
+.pipe-arrow{color:var(--muted);font-size:.9rem}
+
+/* File tree */
+.tree{background:#0d0d14;border:1px solid var(--border);border-radius:12px;padding:1.2rem 1.5rem;font-family:'JetBrains Mono',monospace;font-size:.78rem;line-height:2;overflow-x:auto;margin:1.2rem 0}
+.tree .folder{color:var(--cyan)}
+.tree .file{color:var(--muted)}
+.tree .warn{color:#f87171}
+.tree .note{color:#444460}
+
+/* Timeline part indicator */
+.time-badge{display:inline-flex;align-items:center;gap:.4rem;font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--muted);background:var(--surface2);border:1px solid var(--border);padding:.2rem .7rem;border-radius:100px;margin-bottom:1rem}
+.time-badge span{color:var(--orange)}
+
+/* Explain block */
+.explain-title{font-size:.78rem;text-transform:uppercase;letter-spacing:.1em;font-weight:700;margin-bottom:.7rem;display:flex;align-items:center;gap:.5rem}
+.dot{width:7px;height:7px;border-radius:50%;display:inline-block;flex-shrink:0}
+.explain-list{list-style:none;padding:0;margin:.5rem 0}
+.explain-list li{color:var(--muted);font-size:.92rem;padding:.25rem 0 .25rem 1.2rem;position:relative;line-height:1.6}
+.explain-list li::before{content:'→';position:absolute;left:0;color:var(--orange)}
+
+/* QA */
+.qa-grid{display:flex;flex-direction:column;gap:1rem;margin:1.2rem 0}
+.qa-item{background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:1.2rem 1.4rem}
+.qa-q{font-weight:700;font-size:.92rem;margin-bottom:.5rem;color:var(--text)}
+.qa-q::before{content:'Q : ';color:var(--orange);font-family:'JetBrains Mono',monospace;font-size:.78rem}
+.qa-a{color:var(--muted);font-size:.88rem;line-height:1.6}
+.qa-a::before{content:'A : ';color:var(--green);font-family:'JetBrains Mono',monospace;font-size:.78rem}
+
+/* SVG ILLUSTRATIONS */
+.svg-wrap{display:flex;justify-content:center;margin:1.5rem 0}
+
+@media(max-width:640px){.analogy-cards{grid-template-columns:1fr}.arr-big{transform:rotate(90deg)}.g2{grid-template-columns:1fr}.part-time{display:none}}
 </style>
 </head>
 <body>
+
+<!-- HERO -->
 <section class="hero">
-  <div class="hero-badge">Claude Code · Formation</div>
-  <h1>Le <span class="mono">claude.md</span><br>expliqué</h1>
-  <p class="hero-sub">C'est le fichier qui transforme Claude d'un <strong>stagiaire perdu</strong> en <strong>développeur senior qui connaît ton projet</strong>. Décryptage section par section.</p>
-  <div class="scroll-hint"><span>Scroll pour explorer</span><div class="arrow"></div></div>
+  <div class="hero-glow"></div>
+  <div class="hero-badge">Claude Code · Formation Daemon IA</div>
+  <h1>Le <em>claude.md</em><br>expliqué</h1>
+  <p class="hero-sub">Le fichier qui transforme Claude d'un stagiaire perdu en développeur senior de ton projet</p>
+  <p class="hero-meta">30 minutes &nbsp;·&nbsp; Par <span>Damien — Daemon IA</span></p>
+  <div class="hero-scroll"><span>Scroll pour explorer</span><div class="arr"></div></div>
 </section>
-<section class="analogy">
-  <h2>C'est quoi un <span style="color:var(--accent)">claude.md</span> ?</h2>
-  <p style="color:var(--text-dim);max-width:650px;margin:0 auto;font-size:1.05rem;">Imagine : un nouveau dev arrive dans ton équipe un lundi matin. Il est <strong style="color:var(--text)">brillant mais il ne sait rien</strong> de ton projet. Le <code style="font-family:'JetBrains Mono',monospace;background:var(--surface2);padding:.15rem .5rem;border-radius:4px;">claude.md</code>, c'est le dossier d'onboarding que tu lui donnes.</p>
-  <div class="analogy-grid">
-    <div class="analogy-card"><div class="emoji">🧑‍💻</div><h3>Sans claude.md</h3><p>"Hé Claude, fais un composant…"<br><em style="color:var(--red)">→ Il invente son propre style, se trompe de stack, ignore tes conventions</em></p></div>
-    <div class="analogy-arrow">→</div>
-    <div class="analogy-card" style="border-color:rgba(34,197,94,.3)"><div class="emoji">🚀</div><h3>Avec claude.md</h3><p>"Hé Claude, fais un composant…"<br><em style="color:var(--green)">→ Il respecte ta stack, tes conventions, ta structure de fichiers</em></p></div>
+
+<!-- NAV -->
+<nav class="nav-bar" id="nav">
+  <div class="nav-pill active" onclick="scrollTo('analogy')">Analogie</div>
+  <div class="nav-pill" onclick="scrollTo('s1')">01 Contexte</div>
+  <div class="nav-pill" onclick="scrollTo('s2')">02 Stack</div>
+  <div class="nav-pill" onclick="scrollTo('s3')">03 Conventions</div>
+  <div class="nav-pill" onclick="scrollTo('s4')">04 Sécurité</div>
+  <div class="nav-pill" onclick="scrollTo('s5')">05 Structure</div>
+  <div class="nav-pill" onclick="scrollTo('s6')">06 Workflow</div>
+  <div class="nav-pill" onclick="scrollTo('s7')">07 Métier</div>
+  <div class="nav-pill" onclick="scrollTo('rules')">6 Règles</div>
+  <div class="nav-pill" onclick="scrollTo('qa')">Q&amp;A</div>
+</nav>
+
+<!-- ANALOGY -->
+<section id="analogy" class="wrap analogy">
+  <h2>C'est quoi un <em>claude.md</em> ?</h2>
+  <p class="analogy-lead">Imaginez : vous venez de recruter le meilleur développeur du monde. Brillant, rapide, polyglotte. Sauf qu'il a un problème — il ne sait <strong>rien</strong> de votre projet.</p>
+
+  <!-- SVG Illustration: brain vs empty head -->
+  <div class="svg-wrap">
+    <svg width="520" height="120" viewBox="0 0 520 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- Left: empty head -->
+      <circle cx="100" cy="60" r="40" stroke="#2a2a3a" stroke-width="2" fill="#12121a"/>
+      <text x="100" y="55" text-anchor="middle" font-family="Outfit,sans-serif" font-size="11" fill="#8888a0">Claude</text>
+      <text x="100" y="70" text-anchor="middle" font-family="Outfit,sans-serif" font-size="10" fill="#555570">sans claude.md</text>
+      <!-- Question marks -->
+      <text x="78" y="45" font-size="14" fill="#ef4444" opacity="0.6">?</text>
+      <text x="110" y="40" font-size="10" fill="#ef4444" opacity="0.5">?</text>
+      <text x="90" y="82" font-size="12" fill="#ef4444" opacity="0.4">?</text>
+      <!-- Arrow -->
+      <line x1="165" y1="60" x2="215" y2="60" stroke="#f97316" stroke-width="2"/>
+      <polygon points="215,55 225,60 215,65" fill="#f97316"/>
+      <!-- File icon in middle -->
+      <rect x="230" y="42" width="60" height="36" rx="6" fill="rgba(249,115,22,0.12)" stroke="rgba(249,115,22,0.4)" stroke-width="1.5"/>
+      <text x="260" y="57" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8" fill="#f97316">claude</text>
+      <text x="260" y="69" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8" fill="#f97316">.md</text>
+      <!-- Arrow -->
+      <line x1="295" y1="60" x2="345" y2="60" stroke="#22c55e" stroke-width="2"/>
+      <polygon points="345,55 355,60 345,65" fill="#22c55e"/>
+      <!-- Right: head with brain -->
+      <circle cx="420" cy="60" r="40" stroke="rgba(34,197,94,0.5)" stroke-width="2" fill="#12121a"/>
+      <text x="420" y="55" text-anchor="middle" font-family="Outfit,sans-serif" font-size="11" fill="#22c55e">Claude</text>
+      <text x="420" y="70" text-anchor="middle" font-family="Outfit,sans-serif" font-size="10" fill="#6ee7b7">avec claude.md</text>
+      <!-- Checkmarks -->
+      <text x="400" y="45" font-size="12" fill="#22c55e" opacity="0.7">✓</text>
+      <text x="428" y="41" font-size="10" fill="#22c55e" opacity="0.6">✓</text>
+      <text x="410" y="82" font-size="11" fill="#22c55e" opacity="0.5">✓</text>
+    </svg>
+  </div>
+
+  <div class="analogy-cards">
+    <div class="card-before">
+      <div class="card-icon">🧑‍💻</div>
+      <div class="card-title">Sans claude.md</div>
+      <div class="card-desc">"Hé Claude, fais un composant…"<br><br><span class="bad">→ Il invente son propre style<br>→ Il se trompe de stack<br>→ Il ignore vos conventions<br>→ Il repart de zéro à chaque session</span></div>
+    </div>
+    <div class="arr-big">→</div>
+    <div class="card-after">
+      <div class="card-icon">🚀</div>
+      <div class="card-title">Avec claude.md</div>
+      <div class="card-desc">"Hé Claude, fais un composant…"<br><br><span class="good">→ Stack respectée (Next.js 15 strict)<br>→ Conventions appliquées<br>→ Fichiers au bon endroit<br>→ Code utilisable directement</span></div>
+    </div>
+  </div>
+
+  <div style="text-align:center;margin-top:2.5rem">
+    <div class="keypoint" style="display:inline-flex">
+      <div class="keypoint-icon">💡</div>
+      <p><strong>Point clé :</strong> Le claude.md n'est pas de la documentation classique. C'est un <strong>prompt système permanent</strong> qui conditionne le comportement de Claude sur votre projet. C'est la différence entre un outil générique et un assistant expert de <strong>votre</strong> codebase.</p>
+    </div>
   </div>
 </section>
-<section class="sections-wrapper">
+
+<!-- SECTIONS DETAIL -->
+<section class="sections-area wrap">
   <h2 class="sections-title">Anatomie du fichier</h2>
-  <p class="sections-subtitle">Chaque section joue un rôle précis. Cliquez pour explorer.</p>
-  <div class="section-block open" onclick="toggleSection(this)">
-    <div class="section-header"><div class="section-number">01</div><div class="section-label">## Contexte métier</div><div class="section-name">Qui tu es & ce que tu fais</div><div class="section-toggle">+</div></div>
-    <div class="section-body"><div class="section-content">
-      <div class="explain"><h4><span class="dot" style="background:var(--blue)"></span> C'est quoi ?</h4><p>Tu décris ton projet en langage humain : le métier, les utilisateurs, le cycle de travail. Claude comprend <strong>pourquoi</strong> le code existe, pas juste <strong>comment</strong> le coder.</p></div>
-      <div class="code-preview"><span class="comment"># Projet AO — Automatisation des Appels d'Offres publics</span><br><span class="comment">## Contexte métier</span><br>Application <span class="highlight">multi-tenant</span> de pilotage d'AO publics pour une<br>entreprise intermédiaire entre <span class="val">acheteurs publics</span> et <span class="val">traiteurs</span>.<br><br>Cycle géré : <span class="key">Veille → Scoring → Téléchargement DCE →<br>Analyse → Rédaction → Dépôt → Suivi</span></div>
-      <div class="explain"><h4><span class="dot" style="background:var(--green)"></span> Pourquoi c'est crucial</h4><ul><li>Sans ça, Claude propose des solutions génériques. Avec ça, il comprend le <strong>vocabulaire métier</strong> (DCE, AO, BPU…)</li><li>Il sait que "scoring" veut dire GO/NO GO sur un appel d'offres, pas un score de jeu vidéo</li><li>Il peut <strong>prendre des décisions architecturales</strong> cohérentes avec le métier</li></ul></div>
-      <div class="tip-box"><div class="tip-label orange">💡 Tip</div><p>Écrivez le contexte comme si vous l'expliquiez à un dev senior qui rejoint l'équipe. Si vous dites "DCE", expliquez que c'est un Dossier de Consultation des Entreprises.</p></div>
+  <p class="sections-lead">9 sections, chacune avec un rôle précis. Cliquez pour explorer.</p>
+
+  <!-- 01 CONTEXTE METIER -->
+  <div id="s1" class="part-block open" onclick="toggle(this)">
+    <div class="part-header">
+      <div class="part-num">01</div>
+      <div class="part-tag">## Contexte métier</div>
+      <div class="part-name">Qui tu es &amp; ce que tu fais</div>
+      <div class="part-time">5:00 → 8:00</div>
+      <div class="part-toggle">+</div>
+    </div>
+    <div class="part-body"><div class="part-content">
+      <div class="time-badge">⏱ <span>3 minutes</span> · Section fondatrice</div>
+
+      <div class="g2">
+        <div>
+          <p class="explain-title"><span class="dot" style="background:#3b82f6"></span> C'est quoi ?</p>
+          <p style="color:var(--muted);font-size:.92rem;line-height:1.7">Vous décrivez votre projet en langage humain : le métier, les utilisateurs, le cycle de travail. Claude comprend <strong style="color:var(--text)">pourquoi</strong> le code existe, pas juste comment le coder.</p>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:.5rem">
+          <div style="background:rgba(249,115,22,.06);border:1px solid rgba(249,115,22,.15);border-radius:10px;padding:.8rem;font-size:.82rem">
+            <div style="color:var(--orange);font-weight:700;margin-bottom:.3rem">💼 Exemple HUB'AO</div>
+            <div style="color:var(--muted)">Pipeline d'automatisation des AOs pour traiteurs parisiens. Cycle : Veille → Scoring → DCE → Analyse → Dépôt</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="codeblock">
+<span class="c-comment"># Projet AO — Automatisation des Appels d'Offres publics</span>
+<span class="c-comment">## Contexte métier</span>
+Application <span class="c-hi">multi-tenant</span> de pilotage d'AO publics pour une
+entreprise intermédiaire entre <span class="c-val">acheteurs publics</span> et <span class="c-val">traiteurs</span>.
+
+Cycle géré : <span class="c-key">Veille → Scoring → Téléchargement DCE →
+Analyse → Rédaction → Dépôt → Suivi</span></div>
+
+      <!-- Pipeline visual -->
+      <div class="pipeline">
+        <div class="pipe-step">Veille</div><div class="pipe-arrow">→</div>
+        <div class="pipe-step">Scoring</div><div class="pipe-arrow">→</div>
+        <div class="pipe-step">DCE</div><div class="pipe-arrow">→</div>
+        <div class="pipe-step">Analyse</div><div class="pipe-arrow">→</div>
+        <div class="pipe-step">Rédaction</div><div class="pipe-arrow">→</div>
+        <div class="pipe-step">Dépôt</div><div class="pipe-arrow">→</div>
+        <div class="pipe-step">Suivi</div>
+      </div>
+
+      <p class="explain-title"><span class="dot" style="background:#22c55e"></span> Pourquoi c'est crucial</p>
+      <ul class="explain-list">
+        <li>Sans ça, « scoring » = score de jeu vidéo. Avec contexte, Claude sait que scoring = décision <strong style="color:var(--text)">GO/NO GO</strong> sur un appel d'offres</li>
+        <li>Le vocabulaire métier permet des décisions architecturales cohérentes</li>
+        <li>Si Claude sait que c'est multi-tenant pour des traiteurs, il ne propose pas la même BDD que pour un blog</li>
+      </ul>
+
+      <div class="tip tip-o"><div class="tip-label">💡 Tip</div><p>Écrivez le contexte comme si vous l'expliquiez à un dev senior qui arrive dans l'équipe. Pas de jargon non défini — si vous dites "DCE", expliquez que c'est un Dossier de Consultation des Entreprises.</p></div>
     </div></div>
   </div>
-  <div class="section-block" onclick="toggleSection(this)">
-    <div class="section-header"><div class="section-number">02</div><div class="section-label">## Stack technique</div><div class="section-name">Tes outils & technos</div><div class="section-toggle">+</div></div>
-    <div class="section-body"><div class="section-content">
-      <div class="explain"><h4><span class="dot" style="background:var(--blue)"></span> C'est quoi ?</h4><p>La liste exacte des technologies utilisées, avec les versions si nécessaire. C'est la carte d'identité technique de ton projet.</p></div>
-      <div class="code-preview"><span class="key">Frontend</span> : Next.js 15 App Router, TypeScript strict<br><span class="key">UI</span> : Tailwind CSS + shadcn/ui, React Hook Form + Zod<br><span class="key">Backend</span> : Supabase self-hosted (Auth, PostgreSQL + RLS)<br><span class="key">IA</span> : Claude API via OpenRouter<br><span class="key">Déploiement</span> : VPS Hostinger + Coolify (Docker)</div>
-      <div class="explain"><h4><span class="dot" style="background:var(--green)"></span> Pourquoi c'est crucial</h4><ul><li>Sans ça, Claude pourrait proposer du <code>express.js</code> au lieu de <code>Supabase Edge Functions</code></li><li>"Next.js 15 App Router" est clé : Claude sait qu'il faut utiliser les Server Components</li><li>"TypeScript strict" empêche Claude de tricher avec des <code>any</code></li></ul></div>
-      <div class="tip-box pro"><div class="tip-label purple">🔥 Pro tip</div><p>Soyez précis sur les versions ! <code>Next.js 15</code> ≠ <code>Next.js 13</code>. Le App Router a changé radicalement entre les versions. Plus vous êtes précis, moins Claude hallucine.</p></div>
+
+  <!-- 02 STACK -->
+  <div id="s2" class="part-block" onclick="toggle(this)">
+    <div class="part-header">
+      <div class="part-num">02</div>
+      <div class="part-tag">## Stack technique</div>
+      <div class="part-name">Tes outils &amp; technos</div>
+      <div class="part-time">8:00 → 11:00</div>
+      <div class="part-toggle">+</div>
+    </div>
+    <div class="part-body"><div class="part-content">
+      <div class="time-badge">⏱ <span>3 minutes</span> · Les versions comptent</div>
+
+      <div class="codeblock">
+<span class="c-key">Frontend</span>  : Next.js <span class="c-hi">15</span> App Router, TypeScript <span class="c-hi">strict</span>
+<span class="c-key">UI</span>        : Tailwind CSS + shadcn/ui, React Hook Form + Zod
+<span class="c-key">Backend</span>   : Supabase <span class="c-hi">self-hosted</span> (Auth, PostgreSQL + RLS)
+<span class="c-key">IA</span>        : Claude API via <span class="c-hi">OpenRouter</span>
+<span class="c-key">Déploiement</span>: VPS Hostinger + Coolify (Docker)</div>
+
+      <!-- Stack visual -->
+      <div class="g2">
+        <div style="background:rgba(239,68,68,.05);border:1px solid rgba(239,68,68,.15);border-radius:12px;padding:1rem">
+          <div style="font-weight:700;color:#f87171;font-size:.85rem;margin-bottom:.7rem">❌ Vague = hallucinations</div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:.77rem;color:var(--muted);line-height:1.9">
+            "Next.js"<br>"TypeScript"<br>"Supabase"
+          </div>
+          <div style="color:#f87171;font-size:.8rem;margin-top:.6rem">→ Claude devine la version, souvent faux</div>
+        </div>
+        <div style="background:rgba(34,197,94,.05);border:1px solid rgba(34,197,94,.15);border-radius:12px;padding:1rem">
+          <div style="font-weight:700;color:#22c55e;font-size:.85rem;margin-bottom:.7rem">✓ Précis = code correct</div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:.77rem;color:var(--muted);line-height:1.9">
+            "Next.js <span style="color:#f97316">15</span> App Router"<br>"TypeScript <span style="color:#f97316">strict</span>"<br>"Supabase <span style="color:#f97316">self-hosted</span>"
+          </div>
+          <div style="color:#22c55e;font-size:.8rem;margin-top:.6rem">→ Claude génère le bon code du premier coup</div>
+        </div>
+      </div>
+
+      <p class="explain-title"><span class="dot" style="background:#22c55e"></span> Pourquoi chaque mot compte</p>
+      <ul class="explain-list">
+        <li><code>Next.js 15</code> ≠ <code>Next.js 12</code> — App Router vs Pages Router, architectures différentes</li>
+        <li><code>TypeScript strict</code> — ferme la porte aux <code>any</code> et <code>@ts-ignore</code></li>
+        <li><code>Supabase self-hosted</code> ≠ Supabase cloud — auth et Edge Functions ne se configurent pas pareil</li>
+        <li><code>Claude API via OpenRouter</code> — headers différents, modèles différents, format de requête différent</li>
+      </ul>
+
+      <div class="tip tip-p"><div class="tip-label">🔥 Pro tip</div><p>Soyez précis sur les versions ! Next.js 15 ≠ Next.js 13. Le App Router a changé radicalement entre les versions. Plus vous êtes précis, moins Claude hallucine.</p></div>
     </div></div>
   </div>
-  <div class="section-block" onclick="toggleSection(this)">
-    <div class="section-header"><div class="section-number">03</div><div class="section-label">## Conventions de code</div><div class="section-name">Les règles du jeu</div><div class="section-toggle">+</div></div>
-    <div class="section-body"><div class="section-content">
-      <div class="explain"><h4><span class="dot" style="background:var(--blue)"></span> C'est quoi ?</h4><p>Les règles que tout le code doit respecter : nommage, validation, gestion d'erreurs, accessibilité. C'est l'équivalent d'un <strong>linter humain</strong> intégré dans le prompt.</p></div>
-      <div class="code-preview"><span class="comment">// Nommage</span><br>Fichiers : <span class="val">kebab-case</span> | Composants : <span class="val">PascalCase</span> | Variables : <span class="val">camelCase</span><br><br><span class="comment">// Philosophie</span><br>Server Components <span class="highlight">par défaut</span><br><span class="key">'use client'</span> explicite et uniquement si nécessaire<br>Validation Zod côté serveur <span class="highlight">systématique</span><br><span class="key">Mobile-first</span>, <span class="key">aria-label</span> sur tous les éléments interactifs</div>
-      <div class="explain"><h4><span class="dot" style="background:var(--green)"></span> Pourquoi c'est crucial</h4><ul><li>Claude adore mettre des <code>'use client'</code> partout — cette règle le force à réfléchir</li><li>"Zéro <code>any</code>, zéro <code>@ts-ignore</code>" : la phrase magique qui empêche la dette technique</li><li>Les conventions de nommage créent un code <strong>cohérent sur 100 fichiers</strong></li></ul></div>
-      <div class="tip-box"><div class="tip-label orange">💡 Tip</div><p>Utilisez des mots absolus : "zéro", "jamais", "toujours", "systématique". Claude respecte mieux les interdits tranchants que les suggestions floues.</p></div>
-      <div class="tip-box danger" style="margin-top:.5rem"><div class="tip-label red">⚠️ Piège courant</div><p>Si vous ne précisez pas "Server Components par défaut", Claude va mettre <code>'use client'</code> sur quasiment tous les composants, tuant les performances SSR de Next.js.</p></div>
+
+  <!-- 03 CONVENTIONS -->
+  <div id="s3" class="part-block" onclick="toggle(this)">
+    <div class="part-header">
+      <div class="part-num">03</div>
+      <div class="part-tag">## Conventions de code</div>
+      <div class="part-name">Les règles du jeu</div>
+      <div class="part-time">11:00 → 15:00</div>
+      <div class="part-toggle">+</div>
+    </div>
+    <div class="part-body"><div class="part-content">
+      <div class="time-badge">⏱ <span>4 minutes</span> · Section game-changer</div>
+
+      <div class="codeblock">
+<span class="c-comment">// Nommage</span>
+Fichiers   : <span class="c-val">kebab-case</span>  |  Composants : <span class="c-val">PascalCase</span>  |  Variables : <span class="c-val">camelCase</span>
+
+<span class="c-comment">// Philosophie</span>
+Server Components <span class="c-hi">par défaut</span>
+<span class="c-key">'use client'</span> explicite et <span class="c-hi">uniquement si nécessaire</span>
+Validation Zod côté serveur <span class="c-hi">systématique</span>
+<span class="c-key">Mobile-first</span>, <span class="c-key">aria-label</span> sur tous les éléments interactifs
+<span class="c-hi">Zéro</span> <code>any</code>, <span class="c-hi">zéro</span> <code>@ts-ignore</code></div>
+
+      <!-- use client visual -->
+      <div style="background:var(--surface2);border:1px solid var(--border);border-radius:14px;padding:1.2rem;margin:1.2rem 0">
+        <div style="font-weight:700;font-size:.9rem;margin-bottom:1rem;display:flex;align-items:center;gap:.5rem">
+          <span style="font-size:1.2rem">⚡</span> L'histoire du <code>'use client'</code>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem">
+          <div>
+            <div style="font-size:.78rem;color:#f87171;font-weight:700;margin-bottom:.4rem">Sans la règle</div>
+            <div style="font-family:'JetBrains Mono',monospace;font-size:.75rem;color:var(--muted);line-height:1.8">
+              <span style="color:#f87171">'use client'</span> // Header.tsx<br>
+              <span style="color:#f87171">'use client'</span> // Footer.tsx<br>
+              <span style="color:#f87171">'use client'</span> // Card.tsx<br>
+              <span style="color:#f87171">'use client'</span> // Layout.tsx<br>
+              <span style="color:rgba(136,136,160,.5)">→ SSR cassé, perf tuées</span>
+            </div>
+          </div>
+          <div>
+            <div style="font-size:.78rem;color:#22c55e;font-weight:700;margin-bottom:.4rem">Avec la règle</div>
+            <div style="font-family:'JetBrains Mono',monospace;font-size:.75rem;color:var(--muted);line-height:1.8">
+              Header.tsx <span style="color:#22c55e">// Server ✓</span><br>
+              Footer.tsx <span style="color:#22c55e">// Server ✓</span><br>
+              Card.tsx <span style="color:#22c55e">// Server ✓</span><br>
+              <span style="color:#f97316">'use client'</span> // InteractiveBtn<br>
+              <span style="color:rgba(136,136,160,.5)">→ SSR optimal</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Absolus vs suggestions -->
+      <div class="g2">
+        <div style="background:rgba(239,68,68,.05);border:1px solid rgba(239,68,68,.15);border-radius:12px;padding:1rem">
+          <div style="font-weight:700;color:#f87171;font-size:.85rem;margin-bottom:.6rem">❌ Suggestions molles</div>
+          <div style="color:var(--muted);font-size:.85rem;font-style:italic;line-height:1.7">"Essayez d'éviter les any"<br>"De préférence TypeScript"<br>"Essayez les Server Components"</div>
+        </div>
+        <div style="background:rgba(34,197,94,.05);border:1px solid rgba(34,197,94,.15);border-radius:12px;padding:1rem">
+          <div style="font-weight:700;color:#22c55e;font-size:.85rem;margin-bottom:.6rem">✓ Interdits tranchants</div>
+          <div style="color:var(--muted);font-size:.85rem;font-family:'JetBrains Mono',monospace;line-height:1.7">"Zéro any"<br>"TypeScript strict"<br>"Server Components PAR DÉFAUT"</div>
+        </div>
+      </div>
+
+      <div class="tip tip-o"><div class="tip-label">💡 Tip</div><p>Utilisez des mots absolus : "zéro", "jamais", "toujours", "systématique". Claude respecte mieux les interdits tranchants que les suggestions floues.</p></div>
+      <div class="tip tip-r"><div class="tip-label">⚠️ Piège courant</div><p>Si vous ne précisez pas "Server Components par défaut", Claude va mettre <code>'use client'</code> sur quasiment tous les composants, tuant les performances SSR de Next.js. C'est le bug invisible par excellence.</p></div>
     </div></div>
   </div>
-  <div class="section-block" onclick="toggleSection(this)">
-    <div class="section-header"><div class="section-number">04</div><div class="section-label">## Sécurité</div><div class="section-name">Les lignes rouges</div><div class="section-toggle">+</div></div>
-    <div class="section-body"><div class="section-content">
-      <div class="explain"><h4><span class="dot" style="background:var(--blue)"></span> C'est quoi ?</h4><p>Les règles de sécurité non-négociables. On ne fait pas confiance au client, on vérifie côté serveur, on ne met jamais de secrets dans le code.</p></div>
-      <div class="code-preview"><span class="highlight">RLS Supabase activé sur chaque table</span> — jamais faire confiance au client<br>Chaque Server Action/API Route <span class="key">vérifie la session</span><br>Zéro secret dans le code — tout dans <span class="val">.env.local</span> (gitignored)</div>
-      <div class="explain"><h4><span class="dot" style="background:var(--green)"></span> Pourquoi c'est crucial</h4><ul><li>Sans cette section, Claude peut générer du code qui <strong>expose des données sensibles</strong></li><li>"Jamais faire confiance au client" = Claude va systématiquement vérifier les permissions côté serveur</li><li>C'est une section <strong>courte mais vitale</strong> — 3 lignes qui protègent toute l'app</li></ul></div>
-      <div class="tip-box pro"><div class="tip-label purple">🔥 Pro tip</div><p>Mettez la sécurité dans une section dédiée. Claude y prête <strong>plus d'attention</strong> quand c'est isolé et marqué comme critique.</p></div>
+
+  <!-- 04 SECURITE -->
+  <div id="s4" class="part-block" onclick="toggle(this)">
+    <div class="part-header">
+      <div class="part-num">04</div>
+      <div class="part-tag">## Sécurité</div>
+      <div class="part-name">Les lignes rouges</div>
+      <div class="part-time">15:00 → 17:00</div>
+      <div class="part-toggle">+</div>
+    </div>
+    <div class="part-body"><div class="part-content">
+      <div class="time-badge">⏱ <span>2 minutes</span> · 3 lignes qui protègent tout</div>
+
+      <!-- Security visual -->
+      <div class="svg-wrap">
+        <svg width="480" height="90" viewBox="0 0 480 90" fill="none">
+          <rect x="0" y="10" width="150" height="70" rx="12" fill="rgba(239,68,68,0.08)" stroke="rgba(239,68,68,0.3)" stroke-width="1.5"/>
+          <text x="75" y="38" text-anchor="middle" font-family="Outfit,sans-serif" font-size="11" fill="#f87171" font-weight="700">RLS activé</text>
+          <text x="75" y="55" text-anchor="middle" font-family="Outfit,sans-serif" font-size="9.5" fill="#8888a0">sur chaque table</text>
+          <text x="75" y="70" text-anchor="middle" font-family="Outfit,sans-serif" font-size="9" fill="#555570">jamais faire</text>
+          <text x="75" y="82" text-anchor="middle" font-family="Outfit,sans-serif" font-size="9" fill="#555570">confiance au client</text>
+
+          <rect x="165" y="10" width="150" height="70" rx="12" fill="rgba(239,68,68,0.08)" stroke="rgba(239,68,68,0.3)" stroke-width="1.5"/>
+          <text x="240" y="38" text-anchor="middle" font-family="Outfit,sans-serif" font-size="11" fill="#f87171" font-weight="700">Session vérifiée</text>
+          <text x="240" y="55" text-anchor="middle" font-family="Outfit,sans-serif" font-size="9.5" fill="#8888a0">chaque Server Action</text>
+          <text x="240" y="70" text-anchor="middle" font-family="Outfit,sans-serif" font-size="9" fill="#555570">autorise explicitement</text>
+          <text x="240" y="82" text-anchor="middle" font-family="Outfit,sans-serif" font-size="9" fill="#555570">avant d'agir</text>
+
+          <rect x="330" y="10" width="150" height="70" rx="12" fill="rgba(239,68,68,0.08)" stroke="rgba(239,68,68,0.3)" stroke-width="1.5"/>
+          <text x="405" y="38" text-anchor="middle" font-family="Outfit,sans-serif" font-size="11" fill="#f87171" font-weight="700">Zéro secret</text>
+          <text x="405" y="55" text-anchor="middle" font-family="Outfit,sans-serif" font-size="9.5" fill="#8888a0">dans le code</text>
+          <text x="405" y="70" text-anchor="middle" font-family="Outfit,sans-serif" font-size="9" fill="#555570">tout dans .env.local</text>
+          <text x="405" y="82" text-anchor="middle" font-family="Outfit,sans-serif" font-size="9" fill="#555570">(gitignored)</text>
+        </svg>
+      </div>
+
+      <div class="codeblock">
+<span class="c-hi">RLS Supabase activé sur chaque table</span> — jamais faire confiance au client
+Chaque Server Action/API Route <span class="c-key">vérifie la session</span> avant d'agir
+Zéro secret dans le code — tout dans <span class="c-val">.env.local</span> (gitignored)</div>
+
+      <p class="explain-title"><span class="dot" style="background:#22c55e"></span> Pourquoi 3 lignes suffisent</p>
+      <ul class="explain-list">
+        <li>Sans RLS, n'importe quel appel API peut lire les données de n'importe qui — faille catastrophique</li>
+        <li>"Jamais faire confiance au client" = Claude vérifie systématiquement les permissions côté serveur</li>
+        <li>Une clé API dans un commit Git = clé compromise définitivement</li>
+      </ul>
+
+      <div class="tip tip-p"><div class="tip-label">🔥 Pro tip</div><p>Mettez la sécurité dans une section dédiée, pas noyée dans les conventions. Claude y prête <strong>plus d'attention</strong> quand c'est isolé et marqué comme critique. C'est un effet psychologique qui marche aussi sur les humains !</p></div>
     </div></div>
   </div>
-  <div class="section-block" onclick="toggleSection(this)">
-    <div class="section-header"><div class="section-number">05</div><div class="section-label">## Structure clé</div><div class="section-name">Le plan de l'immeuble</div><div class="section-toggle">+</div></div>
-    <div class="section-body"><div class="section-content">
-      <div class="explain"><h4><span class="dot" style="background:var(--blue)"></span> C'est quoi ?</h4><p>L'arborescence des dossiers avec un commentaire pour chaque bloc. Claude sait exactement <strong>où créer chaque fichier</strong>.</p></div>
-      <div class="code-preview"><span class="key">src/</span><br>&nbsp;&nbsp;<span class="key">app/(auth)/</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment"># login, register — pas de sidebar</span><br>&nbsp;&nbsp;<span class="key">app/(dashboard)/</span>&nbsp;&nbsp;&nbsp;<span class="comment"># routes protégées avec sidebar</span><br>&nbsp;&nbsp;<span class="key">components/ui/</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment"># shadcn/ui — ne pas modifier ⚠️</span><br>&nbsp;&nbsp;<span class="key">components/ao/</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment"># composants pipeline AO</span><br>&nbsp;&nbsp;<span class="key">lib/supabase/</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment"># client.ts + server.ts + middleware.ts</span><br>&nbsp;&nbsp;<span class="key">lib/validations/</span>&nbsp;&nbsp;&nbsp;<span class="comment"># schémas Zod partagés</span></div>
-      <div class="tip-box"><div class="tip-label orange">💡 Tip</div><p>Ajoutez des <strong>avertissements</strong> dans les commentaires (<code>ne pas modifier</code>, <code>généré automatiquement</code>). Claude suivra ces instructions.</p></div>
+
+  <!-- 05 STRUCTURE -->
+  <div id="s5" class="part-block" onclick="toggle(this)">
+    <div class="part-header">
+      <div class="part-num">05</div>
+      <div class="part-tag">## Structure clé</div>
+      <div class="part-name">Le plan de l'immeuble</div>
+      <div class="part-time">17:00 → 20:00</div>
+      <div class="part-toggle">+</div>
+    </div>
+    <div class="part-body"><div class="part-content">
+      <div class="time-badge">⏱ <span>3 minutes</span> · Les commentaires qui sauvent</div>
+
+      <div class="tree">
+<span class="folder">src/</span>
+  <span class="folder">app/(auth)/</span>         <span class="note"># login, register — pas de sidebar</span>
+  <span class="folder">app/(dashboard)/</span>    <span class="note"># routes protégées avec sidebar</span>
+  <span class="folder">components/ui/</span>       <span class="warn"># shadcn/ui — ne pas modifier ⚠️</span>
+  <span class="folder">components/ao/</span>       <span class="note"># composants pipeline AO</span>
+  <span class="folder">lib/supabase/</span>        <span class="note"># client.ts + server.ts + middleware.ts</span>
+  <span class="folder">lib/validations/</span>     <span class="note"># schémas Zod partagés</span>
+  <span class="folder">hooks/</span>               <span class="note"># TanStack Query hooks</span>
+  <span class="folder">types/</span>               <span class="note"># database.types.ts (généré automatiquement)</span></div>
+
+      <div class="g2">
+        <div>
+          <p class="explain-title"><span class="dot" style="background:#3b82f6"></span> Les commentaires critiques</p>
+          <ul class="explain-list">
+            <li><code>ne pas modifier</code> sur <code>components/ui/</code> empêche Claude de casser shadcn/ui</li>
+            <li><code>(auth)</code> et <code>(dashboard)</code> = layouts différents en Next.js 15</li>
+            <li><code>client.ts</code> vs <code>server.ts</code> Supabase — utiliser le mauvais = auth qui plante silencieusement</li>
+          </ul>
+        </div>
+        <div>
+          <p class="explain-title"><span class="dot" style="background:#f97316"></span> Ce que Claude en fait</p>
+          <ul class="explain-list">
+            <li>Il crée les fichiers au bon endroit sans demander</li>
+            <li>Il évite de toucher aux fichiers marqués "ne pas modifier"</li>
+            <li>Il choisit automatiquement <code>server.ts</code> pour les API Routes</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="tip tip-o"><div class="tip-label">💡 Tip</div><p>Ajoutez des avertissements dans les commentaires (<code>ne pas modifier</code>, <code>généré automatiquement</code>, <code>fichier critique</code>). Claude suit ces instructions et évitera de toucher à ces fichiers.</p></div>
     </div></div>
   </div>
-  <div class="section-block" onclick="toggleSection(this)">
-    <div class="section-header"><div class="section-number">06</div><div class="section-label">## Commandes clés</div><div class="section-name">La boîte à outils</div><div class="section-toggle">+</div></div>
-    <div class="section-body"><div class="section-content">
-      <div class="code-preview"><span class="val">npm run dev</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment"># dev server</span><br><span class="val">npm run build</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment"># vérifier avant commit</span><br><span class="val">npm run typecheck</span>&nbsp;&nbsp;&nbsp;<span class="comment"># lancer après chaque série de modifs</span><br><span class="highlight">/project:migrate</span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment"># appliquer les migrations Supabase</span><br><span class="highlight">/project:feature</span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment"># scaffolding nouvelle feature</span></div>
-      <div class="tip-box pro"><div class="tip-label purple">🔥 Pro tip</div><p>Les slash commands <code>/project:</code> sont des <strong>raccourcis personnalisés</strong> pour Claude Code. Un vrai game-changer pour la productivité !</p></div>
+
+  <!-- 06 COMMANDES & WORKFLOW -->
+  <div id="s6" class="part-block" onclick="toggle(this)">
+    <div class="part-header">
+      <div class="part-num">06</div>
+      <div class="part-tag">## Commandes &amp; Workflow</div>
+      <div class="part-name">La boîte à outils &amp; le workflow</div>
+      <div class="part-time">20:00 → 23:00</div>
+      <div class="part-toggle">+</div>
+    </div>
+    <div class="part-body"><div class="part-content">
+      <div class="time-badge">⏱ <span>3 minutes</span> · Le mode opératoire</div>
+
+      <div class="codeblock">
+<span class="c-comment">// Commandes disponibles</span>
+<span class="c-val">npm run dev</span>           <span class="c-comment"># dev server</span>
+<span class="c-val">npm run build</span>         <span class="c-comment"># vérifier avant commit</span>
+<span class="c-val">npm run typecheck</span>     <span class="c-comment"># après chaque série de modifications</span>
+<span class="c-hi">/project:migrate</span>      <span class="c-comment"># appliquer les migrations Supabase</span>
+<span class="c-hi">/project:typecheck</span>    <span class="c-comment"># typecheck complet</span>
+<span class="c-hi">/project:feature</span>      <span class="c-comment"># scaffolding nouvelle feature</span>
+
+<span class="c-comment">// Règles de session</span>
+<span class="c-key">Git commit</span> après chaque fonctionnalité qui marche
+<span class="c-key">Typecheck</span> systématique après chaque série de modifications
+<span class="c-hi">/compact</span> si contexte &gt; <span class="c-hi">50%</span>
+Un fichier à la fois — référencer avec chemin complet <span class="c-val">@src/app/...</span>
+Phase 1 <span class="c-hi">complète</span> avant de demander Phase 2</div>
+
+      <!-- Context window visual -->
+      <div style="background:var(--surface2);border:1px solid var(--border);border-radius:14px;padding:1.2rem;margin:1.2rem 0">
+        <div style="font-weight:700;font-size:.88rem;margin-bottom:1rem;display:flex;align-items:center;gap:.5rem">
+          <span>📊</span> La fenêtre de contexte — pourquoi /compact à 50% est vital
+        </div>
+        <div style="background:#0d0d14;border-radius:8px;padding:.8rem;margin-bottom:.8rem">
+          <div style="display:flex;align-items:center;gap:.8rem;margin-bottom:.4rem">
+            <span style="font-size:.75rem;color:var(--muted);min-width:40px">0%</span>
+            <div style="flex:1;height:12px;background:var(--border);border-radius:6px;overflow:hidden">
+              <div style="height:100%;background:linear-gradient(90deg,#22c55e 0%,#22c55e 50%,#f97316 50%,#f97316 70%,#ef4444 70%,#ef4444 100%);width:100%"></div>
+            </div>
+            <span style="font-size:.75rem;color:var(--muted)">100%</span>
+          </div>
+          <div style="display:flex;font-size:.72rem;color:var(--muted);gap:1.5rem;padding-left:48px">
+            <span style="color:#22c55e">▲ 0-50% : pleine précision</span>
+            <span style="color:#f97316">▲ 50-70% : /compact</span>
+            <span style="color:#ef4444">▲ 90%+ : /clear obligatoire</span>
+          </div>
+        </div>
+        <p style="color:var(--muted);font-size:.87rem">Sans le <code>/compact</code> à 50%, Claude atteint sa limite et commence à oublier les conventions du début du fichier. Le code ne respecte plus vos règles — et vous ne comprenez pas pourquoi.</p>
+      </div>
+
+      <div class="tip tip-o"><div class="tip-label">💡 Life-saver</div><p>La règle <code>/compact si contexte &gt; 50%</code> est la règle de session la plus importante. Sans ça, Claude atteint sa limite de contexte et commence à <strong>oublier vos conventions</strong>.</p></div>
+
+      <div class="tip tip-p"><div class="tip-label">🔥 Pro tip</div><p>Les slash commands <code>/project:</code> sont des raccourcis personnalisés pour Claude Code. Vous pouvez y mettre des workflows entiers — créer les fichiers, lancer les migrations, scaffolding. Un vrai game-changer pour la productivité !</p></div>
     </div></div>
   </div>
-  <div class="section-block" onclick="toggleSection(this)">
-    <div class="section-header"><div class="section-number">07</div><div class="section-label">## Règles de session</div><div class="section-name">Le workflow de travail</div><div class="section-toggle">+</div></div>
-    <div class="section-body"><div class="section-content">
-      <div class="code-preview"><span class="key">Git commit</span> après chaque fonctionnalité qui marche<br><span class="key">Typecheck</span> systématique après chaque série de modifications<br><span class="highlight">/compact</span> si contexte > 50%<br>Un fichier à la fois : référencer avec chemin complet <span class="val">@src/app/...</span><br>Phase 1 complète avant de demander Phase 2</div>
-      <div class="tip-box"><div class="tip-label orange">💡 Tip</div><p>La règle <code>/compact si contexte > 50%</code> est un <strong>life-saver</strong>. Sans ça, Claude atteint sa limite de contexte et commence à oublier les conventions du début.</p></div>
+
+  <!-- 07 METIER & DONNEES -->
+  <div id="s7" class="part-block" onclick="toggle(this)">
+    <div class="part-header">
+      <div class="part-num">07</div>
+      <div class="part-tag">## Métier &amp; Données</div>
+      <div class="part-name">Multi-tenant, statuts, glossaire</div>
+      <div class="part-time">23:00 → 26:00</div>
+      <div class="part-toggle">+</div>
+    </div>
+    <div class="part-body"><div class="part-content">
+      <div class="time-badge">⏱ <span>3 minutes</span> · L'architecture des données + le dictionnaire</div>
+
+      <div class="codeblock">
+<span class="c-comment">// Multi-tenant</span>
+Chaque <span class="c-hi">organization</span> = un client traiteur
+<span class="c-key">profiles</span> lie <span class="c-val">auth.users</span> → <span class="c-val">organization</span> + rôle (<span class="c-val">admin</span> | <span class="c-val">operator</span> | <span class="c-val">client</span>)
+Toutes les tables ont <span class="c-hi">organization_id</span> + RLS filtrant
+Admin interne voit <span class="c-key">toutes</span> les organizations
+
+<span class="c-comment">// Pipeline Kanban</span>
+<span class="c-val">veille</span> → <span class="c-val">a_analyser</span> → <span class="c-val">go_nogo</span> → <span class="c-val">en_cours</span> → <span class="c-val">depose</span> → <span class="c-val">resultat</span> → <span class="c-val">archive</span>
+
+<span class="c-comment">// Sources</span>
+<span class="c-key">BOAMP</span>, <span class="c-key">JOUE</span>, <span class="c-key">AWS Achat</span>, <span class="c-key">Klekoon</span>
+
+<span class="c-comment">// Pièces DCE</span>
+<span class="c-key">RC</span> (Règlement de Consultation), <span class="c-key">CCTP</span>, <span class="c-key">CCAP</span>, <span class="c-key">AE</span>, <span class="c-key">BPU</span>, <span class="c-key">DQE</span></div>
+
+      <!-- Multi-tenant visual -->
+      <div style="background:var(--surface2);border:1px solid var(--border);border-radius:14px;padding:1.2rem;margin:1.2rem 0">
+        <div style="font-weight:700;font-size:.88rem;margin-bottom:1rem">🔒 Isolation des données multi-tenant</div>
+        <div style="display:flex;gap:.8rem;flex-wrap:wrap">
+          <div style="background:rgba(99,102,241,.1);border:1px solid rgba(99,102,241,.2);border-radius:10px;padding:.8rem;flex:1;min-width:120px">
+            <div style="font-size:.78rem;font-weight:700;color:#818cf8;margin-bottom:.4rem">🏢 Traiteur A</div>
+            <div style="font-size:.75rem;color:var(--muted)">org_id: abc123<br>Ses AOs uniquement</div>
+          </div>
+          <div style="background:rgba(34,197,94,.06);border:1px solid rgba(34,197,94,.15);border-radius:10px;padding:.8rem;flex:1;min-width:120px">
+            <div style="font-size:.78rem;font-weight:700;color:#22c55e;margin-bottom:.4rem">🏢 Traiteur B</div>
+            <div style="font-size:.75rem;color:var(--muted)">org_id: def456<br>Ses AOs uniquement</div>
+          </div>
+          <div style="background:rgba(249,115,22,.07);border:1px solid rgba(249,115,22,.2);border-radius:10px;padding:.8rem;flex:1;min-width:120px">
+            <div style="font-size:.78rem;font-weight:700;color:#f97316;margin-bottom:.4rem">👑 Admin</div>
+            <div style="font-size:.75rem;color:var(--muted)">Voit toutes les organizations</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tip tip-r"><div class="tip-label">⚠️ Section critique</div><p>Sans cette section, Claude pourrait créer une table sans <code>organization_id</code> — et <strong>casser toute l'isolation des données</strong>. Le traiteur A pourrait voir les AOs du traiteur B. Faille de sécurité catastrophique.</p></div>
+
+      <div class="tip tip-p"><div class="tip-label">🔥 Pro tip</div><p>Mettez les valeurs d'enum <strong>exactement comme dans la base</strong> (snake_case, pas d'accents). Claude copiera ces valeurs verbatim dans le code — zéro risque de typo ou d'incohérence.</p></div>
     </div></div>
   </div>
-  <div class="section-block" onclick="toggleSection(this)">
-    <div class="section-header"><div class="section-number">08</div><div class="section-label">## Multi-tenant</div><div class="section-name">L'architecture des données</div><div class="section-toggle">+</div></div>
-    <div class="section-body"><div class="section-content">
-      <div class="code-preview">Chaque <span class="highlight">organization</span> = un client traiteur<br><span class="key">profiles</span> lie <span class="val">auth.users</span> → <span class="val">organization</span> + rôle (<span class="val">admin</span> | <span class="val">operator</span> | <span class="val">client</span>)<br>Toutes les tables ont <span class="highlight">organization_id</span> + RLS filtrant<br>Admin interne voit <span class="key">toutes</span> les organizations</div>
-      <div class="tip-box danger"><div class="tip-label red">⚠️ Section critique</div><p>Sans cette section, Claude pourrait créer une table sans <code>organization_id</code> — et <strong>casser toute l'isolation des données</strong>.</p></div>
-    </div></div>
-  </div>
-  <div class="section-block" onclick="toggleSection(this)">
-    <div class="section-header"><div class="section-number">09</div><div class="section-label">## Statuts & Métier</div><div class="section-name">Le dictionnaire métier</div><div class="section-toggle">+</div></div>
-    <div class="section-body"><div class="section-content">
-      <div class="code-preview"><span class="comment">// Pipeline Kanban</span><br><span class="val">veille</span> → <span class="val">a_analyser</span> → <span class="val">go_nogo</span> → <span class="val">en_cours</span> → <span class="val">depose</span> → <span class="val">resultat</span> → <span class="val">archive</span><br><br><span class="comment">// Sources</span><br><span class="key">BOAMP</span>, <span class="key">JOUE</span>, <span class="key">AWS Achat</span>, <span class="key">Klekoon</span><br><br><span class="comment">// Pièces DCE</span><br><span class="key">RC</span> (Règlement de Consultation), <span class="key">CCTP</span>, <span class="key">CCAP</span>, <span class="key">AE</span>, <span class="key">BPU</span>, <span class="key">DQE</span></div>
-      <div class="tip-box pro"><div class="tip-label purple">🔥 Pro tip</div><p>Mettez les valeurs d'enum <strong>exactement comme dans la base</strong> (snake_case, pas d'accents). Claude copiera ces valeurs verbatim dans le code.</p></div>
-    </div></div>
+
+</section>
+
+<!-- 6 REGLES D'OR -->
+<section id="rules" style="padding:5rem 0;background:var(--surface)">
+  <div class="wrap">
+    <h2 class="sections-title">Les 6 règles d'or</h2>
+    <p class="sections-lead" style="margin-bottom:2.5rem">26:00 → 28:00 · La formule magique</p>
+    <div class="rules-grid">
+      <div class="rule-card">
+        <div class="rule-num">RÈGLE 01</div>
+        <div class="rule-title">🗡️ Sois tranchant</div>
+        <div class="rule-desc">"Zéro", "Jamais", "Toujours" marchent mieux que "Essayez de". Claude respecte les absolus. Les suggestions floues sont ignorées.</div>
+      </div>
+      <div class="rule-card">
+        <div class="rule-num">RÈGLE 02</div>
+        <div class="rule-title">👁️ Montre, ne décris pas</div>
+        <div class="rule-desc">Un tree de structure ou un bout de code vaut 10 paragraphes. Claude raisonne mieux sur du concret que sur de l'abstrait.</div>
+      </div>
+      <div class="rule-card">
+        <div class="rule-num">RÈGLE 03</div>
+        <div class="rule-title">🔒 Pense sécurité d'abord</div>
+        <div class="rule-desc">Une section sécurité séparée attire l'attention. Noyée dans les conventions, elle sera ignorée. L'isolation visuelle = l'attention de l'IA.</div>
+      </div>
+      <div class="rule-card">
+        <div class="rule-num">RÈGLE 04</div>
+        <div class="rule-title">🔄 Itère ton claude.md</div>
+        <div class="rule-desc">Ce fichier évolue avec votre projet. Chaque bug récurrent = une nouvelle règle. C'est un document vivant, pas un fichier écrit une fois.</div>
+      </div>
+      <div class="rule-card">
+        <div class="rule-num">RÈGLE 05</div>
+        <div class="rule-title">📖 Définis le vocabulaire</div>
+        <div class="rule-desc">Chaque sigle, enum, statut métier doit être listé et expliqué. Claude ne devine pas votre métier — CCTP, BPU, AO ne lui disent rien sans définition.</div>
+      </div>
+      <div class="rule-card">
+        <div class="rule-num">RÈGLE 06</div>
+        <div class="rule-title">⚙️ Contrôle la session</div>
+        <div class="rule-desc">/compact, commits réguliers, phases séquentielles — empêchent Claude de déraper sur les longs projets. Le garde-fou qui garantit la qualité.</div>
+      </div>
+    </div>
   </div>
 </section>
-<section class="summary">
+
+<!-- FORMULA -->
+<section class="formula-wrap wrap">
   <h2>La formule magique</h2>
-  <div class="formula">claude.md précis = moins d'hallucinations = code fiable</div>
-  <div class="summary-tips">
-    <div class="summary-tip"><div class="num">RÈGLE 01</div><h4>Sois tranchant</h4><p>"Zéro", "Jamais", "Toujours" marchent mieux que "Essayez de". Claude respecte les absolus.</p></div>
-    <div class="summary-tip"><div class="num">RÈGLE 02</div><h4>Montre, ne décris pas</h4><p>Un tree de structure ou un bout de code vaut 10 paragraphes d'explication.</p></div>
-    <div class="summary-tip"><div class="num">RÈGLE 03</div><h4>Pense sécurité d'abord</h4><p>Une section sécurité séparée attire l'attention de Claude. Noyée ailleurs, elle sera ignorée.</p></div>
-    <div class="summary-tip"><div class="num">RÈGLE 04</div><h4>Itère ton claude.md</h4><p>Ce fichier évolue avec ton projet. Chaque bug récurrent = une nouvelle règle à ajouter.</p></div>
-    <div class="summary-tip"><div class="num">RÈGLE 05</div><h4>Définis le vocabulaire</h4><p>Chaque sigle, enum, statut métier doit être listé. Claude ne devine pas ton métier.</p></div>
-    <div class="summary-tip"><div class="num">RÈGLE 06</div><h4>Contrôle la session</h4><p>Les règles de workflow (/compact, commits, phases) empêchent Claude de déraper sur les longs projets.</p></div>
+  <div class="formula">claude.md précis &nbsp;=&nbsp; moins d'hallucinations &nbsp;=&nbsp; code fiable</div>
+  <p style="color:var(--muted);max-width:560px;margin:0 auto;font-size:1rem;line-height:1.7">Mon conseil : ne cherchez pas le claude.md parfait du premier coup. Commencez par le contexte métier et la stack. Ajoutez les conventions quand vous voyez Claude faire des erreurs. Chaque minute investie ici vous fera gagner des heures de debug.</p>
+</section>
+
+<!-- Q&A -->
+<section id="qa" style="padding:3rem 0 6rem">
+  <div class="wrap">
+    <h2 class="sections-title">Q&amp;A anticipées</h2>
+    <p class="sections-lead">28:00 → 30:00</p>
+    <div class="qa-grid">
+      <div class="qa-item">
+        <div class="qa-q">Est-ce que le claude.md marche aussi avec GPT/Cursor ?</div>
+        <div class="qa-a">Oui, le concept de fichier de contexte projet existe dans tous les outils (cursor rules pour Cursor, etc.). La structure est similaire — adaptez le format à l'outil.</div>
+      </div>
+      <div class="qa-item">
+        <div class="qa-q">Faut-il le mettre dans Git ?</div>
+        <div class="qa-a">OUI, absolument. C'est un fichier partagé par toute l'équipe. Tout le monde bénéficie des règles, et elles évoluent avec le projet. Commitez-le dès le début.</div>
+      </div>
+      <div class="qa-item">
+        <div class="qa-q">C'est pas trop long pour Claude ?</div>
+        <div class="qa-a">Non — le claude.md est dans le system prompt, lu avant chaque session. Plus il est précis, mieux Claude travaille. L'important : rester sous 200 lignes pour ne pas noyer l'essentiel.</div>
+      </div>
+      <div class="qa-item">
+        <div class="qa-q">Quelle taille idéale ?</div>
+        <div class="qa-a">Entre 50 et 200 lignes. Assez pour être complet, pas assez pour noyer l'essentiel. Au-delà de 200 lignes, déléguez le surplus dans des Skills ou des fichiers tasks/.</div>
+      </div>
+    </div>
+
+    <div style="text-align:center;margin-top:3rem;padding:2rem;background:var(--surface);border:1px solid var(--border);border-radius:16px">
+      <div style="font-size:1.1rem;font-weight:700;margin-bottom:.5rem">Formation Daemon IA</div>
+      <div style="color:var(--muted);font-size:.9rem">Pour aller plus loin sur Claude Code et l'automatisation IA</div>
+      <a href="https://daemon-ia.fr" style="display:inline-block;margin-top:1rem;background:var(--orange);color:white;padding:.6rem 1.6rem;border-radius:8px;font-weight:700;font-size:.9rem;text-decoration:none">daemon-ia.fr</a>
+    </div>
   </div>
 </section>
-<script>function toggleSection(el){document.querySelectorAll('.section-block').forEach(b=>{if(b!==el)b.classList.remove('open')});el.classList.toggle('open')}</script>
+
+<script>
+function toggle(el){
+  document.querySelectorAll('.part-block').forEach(b=>{if(b!==el)b.classList.remove('open')});
+  el.classList.toggle('open');
+}
+function scrollTo(id){
+  var el=document.getElementById(id);
+  if(el)el.scrollIntoView({behavior:'smooth',block:'start'});
+}
+// Nav active highlight on scroll
+var sections=['analogy','s1','s2','s3','s4','s5','s6','s7','rules','qa'];
+var pills=document.querySelectorAll('.nav-pill');
+window.addEventListener('scroll',function(){
+  var y=window.scrollY+100;
+  sections.forEach(function(id,i){
+    var el=document.getElementById(id);
+    if(el&&el.offsetTop<=y&&(i===sections.length-1||document.getElementById(sections[i+1]).offsetTop>y)){
+      pills.forEach(function(p){p.classList.remove('active')});
+      if(pills[i])pills[i].classList.add('active');
+    }
+  });
+});
+</script>
 </body>
-</html>`;
+</html>
+`;
 
 function ClaudeMdModal({onClose}) {
   return (
@@ -1345,6 +1896,8 @@ function ClaudeMdModal({onClose}) {
     </div>
   );
 }
+
+const ChkO = () => <span style={{display:"inline-flex",alignItems:"center",justifyContent:"center",width:20,height:20,borderRadius:"50%",background:"rgba(217,119,87,0.15)",border:"1px solid rgba(217,119,87,0.4)",flexShrink:0}}>
   <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M1.5 5L4 7.5L8.5 2.5" stroke="#D97757" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/></svg>
 </span>;
 
@@ -1660,130 +2213,730 @@ function ClaudeCodeGuide({ activeId, onTocClick, onShowClaudeMd }) {
 }
 
 
-const BUILDER_TOC = [
-  {id:"b0",  label:"Introduction"},
-  {id:"b1",  label:"Partie 1 — Installation"},
-  {id:"b2",  label:"Partie 2 — CLAUDE.md"},
-  {id:"b3",  label:"Partie 3 — Mode Plan + GSD"},
-  {id:"b4",  label:"Partie 4 — Multi-agents + Ralph"},
-  {id:"b5",  label:"Partie 5 — Skills + Superpowers"},
-  {id:"b6",  label:"Partie 6 — Slash commands"},
-  {id:"b7",  label:"Partie 7 — Hooks"},
-  {id:"b8",  label:"Partie 8 — MCP Servers"},
-  {id:"b9",  label:"Partie 9 — Optimisation tokens"},
-  {id:"b10", label:"Partie 10 — Sécurité"},
-  {id:"b11", label:"Partie 11 — Workflow quotidien"},
-  {id:"b12", label:"Annexes"},
-];
+const BUILDER_HTML = `
+<!DOCTYPE html>
+<html lang="fr" data-theme="light" style=""><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Setup Claude Code — Guide Complet LeadPilot</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
+    <style>
+      /* Reset & Base */
+      :root {
+        --bg-color: #0a0a0f;
+        --card-bg: rgba(22, 27, 34, 0.7);
+        --text-primary: #e6edf3;
+        --text-secondary: #8b949e;
+        --accent-blue: #2563eb;
+        --accent-purple: #a78bfa;
+        --accent-orange: #f97316;
+        --border-color: #30363d;
+        --code-bg: #0d1117;
+      }
 
-const SB = {
-  card:  { padding:"24px 28px", borderRadius:14, background:"#0f1120", border:"1px solid #1e2235", margin:"14px 0" },
-  tip:   { borderLeft:"3px solid rgba(16,185,129,0.5)", background:"rgba(16,185,129,0.05)", padding:"14px 18px", borderRadius:"0 10px 10px 0", margin:"18px 0" },
-  warn:  { borderLeft:"3px solid rgba(239,68,68,0.5)", background:"rgba(239,68,68,0.05)", padding:"14px 18px", borderRadius:"0 10px 10px 0", margin:"18px 0" },
-  info:  { borderLeft:"3px solid rgba(99,102,241,0.5)", background:"rgba(99,102,241,0.05)", padding:"14px 18px", borderRadius:"0 10px 10px 0", margin:"18px 0" },
-  part:  { background:"linear-gradient(135deg,rgba(99,102,241,0.08),rgba(34,211,238,0.04))", border:"1px solid rgba(99,102,241,0.2)", borderRadius:16, padding:"24px 28px", margin:"32px 0 20px" },
-  tbl:   { width:"100%", borderCollapse:"collapse", margin:"14px 0", fontSize:13 },
-  th:    { background:"#0f1020", padding:"10px 14px", textAlign:"left", color:"#f4f4f5", borderBottom:"1px solid #1e2235", fontWeight:600 },
-  td:    { padding:"10px 14px", color:"#a1a1aa", borderBottom:"1px solid #13152a", lineHeight:1.6, verticalAlign:"top" },
-  chk:   { padding:"10px 16px", borderRadius:10, background:"rgba(16,185,129,0.06)", border:"1px solid rgba(16,185,129,0.15)", margin:"6px 0", display:"flex", gap:10, alignItems:"flex-start", fontSize:13, color:"#a1a1aa" },
-};
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
 
-const PrB = ({children}) => <pre style={S.pre}><code style={{...S.preC, color:"#a5b4fc"}}>{children}</code></pre>;
-const BLink = ({href, children}) => <a href={href} target="_blank" rel="noopener noreferrer" style={{color:"#818cf8", textDecoration:"none", fontFamily:"monospace", fontSize:13}}>{children}</a>;
+      html {
+        scroll-behavior: smooth;
+        overflow-x: hidden;
+      }
 
-function BuilderGuide({ activeId, onTocClick }) {
-  return (
-    <div style={{ display:"grid", gridTemplateColumns:"1fr 220px", gap:72, alignItems:"start" }}>
-      <article>
-        <div style={{ marginBottom:48 }}>
-          <div style={S.badge}>🔨 Projet HUB'AO · Next.js + Supabase + Claude Code</div>
-          <h1 style={S.h1}>Builder avec Claude Code :<br/><span style={{background:"linear-gradient(135deg,#6366f1,#22d3ee)",WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent"}}>Le Guide Complet</span></h1>
-          <p style={{...S.p, fontSize:16, fontWeight:300}}>De zéro à une équipe d'agents IA sur un vrai projet — Pipeline d'appels d'offres publics HUB'AO.</p>
+      body {
+        font-family:
+          'Inter',
+          system-ui,
+          -apple-system,
+          sans-serif;
+        background-color: var(--bg-color);
+        color: var(--text-primary);
+        line-height: 1.6;
+        width: 100%;
+        overflow-x: hidden;
+        max-width: 100%;
+      }
+
+      /* Typography */
+      h1,
+      h2,
+      h3,
+      h4 {
+        font-weight: 700;
+        line-height: 1.2;
+        margin-bottom: 1rem;
+      }
+
+      h2 {
+        font-size: 2rem;
+        margin-top: 3rem;
+        margin-bottom: 1.5rem;
+        background: linear-gradient(135deg, #60a5fa 0%, #a78bfa 50%, #f472b6 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        display: inline-block;
+        position: relative;
+      }
+
+      h3 {
+        font-size: 1.5rem;
+        color: #58a6ff;
+        margin-top: 2rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      p {
+        margin-bottom: 1rem;
+        color: #c9d1d9;
+      }
+
+      /* HERO SECTION - CRITIQUE */
+      .hero-section {
+        position: relative;
+        width: 100%;
+        height: 420px;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .hero-bg {
+        display: none;
+      }
+      .hero-section {
+        background-image: url(https://i.imgur.com/G0u8zSn.png);
+        background-size: cover;
+        background-position: center;
+      }
+
+      .hero-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          to bottom,
+          rgba(10, 10, 15, 0.5) 0%,
+          rgba(10, 10, 15, 0.8) 60%,
+          rgba(10, 10, 15, 1) 100%
+        );
+        z-index: 2;
+      }
+
+      .hero-content {
+        position: relative;
+        z-index: 3;
+        width: 90%;
+        max-width: 1200px;
+      }
+
+      .hero-title {
+        font-size: 4rem;
+        font-weight: 800;
+        margin-bottom: 0.5rem;
+        background: linear-gradient(180deg, #ffffff 0%, #a5b4fc 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        text-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        letter-spacing: -0.02em;
+      }
+
+      .hero-subtitle {
+        font-size: 1.5rem;
+        color: #94a3b8;
+        margin-bottom: 2.5rem;
+        font-weight: 500;
+      }
+
+      .hero-badges {
+        display: flex;
+        justify-content: center;
+        gap: 1.5rem;
+        flex-wrap: wrap;
+      }
+
+      .hero-badge {
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        padding: 0.75rem 1.5rem;
+        border-radius: 9999px;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        color: #ffffff;
+        font-weight: 600;
+        font-size: 1rem;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease;
+      }
+
+      .hero-badge:hover {
+        transform: translateY(-2px);
+        background: rgba(255, 255, 255, 0.15);
+        border-color: rgba(255, 255, 255, 0.4);
+      }
+
+      /* Navigation Sticky */
+      .sticky-nav {
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        background: rgba(10, 10, 15, 0.85);
+        backdrop-filter: blur(12px);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        padding: 1rem 2rem;
+        width: 100%;
+      }
+
+      .nav-container {
+        max-width: 1600px;
+        margin: 0 auto;
+        display: flex;
+        gap: 1.5rem;
+        overflow-x: auto;
+        padding-bottom: 0.5rem;
+        scrollbar-width: none;
+      }
+
+      .nav-container::-webkit-scrollbar {
+        display: none;
+      }
+
+      .nav-link {
+        color: #8b949e;
+        text-decoration: none;
+        font-size: 0.9rem;
+        font-weight: 600;
+        white-space: nowrap;
+        transition: color 0.2s;
+        padding: 0.25rem 0;
+        position: relative;
+      }
+
+      .nav-link:hover {
+        color: #ffffff;
+      }
+
+      .nav-link.active {
+        color: #60a5fa;
+      }
+
+      .nav-link.active::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 2px;
+        background: #60a5fa;
+      }
+
+      /* Layout Content */
+      .container {
+        width: 95%;
+        max-width: 1600px;
+        margin: 4rem auto;
+        padding-bottom: 4rem;
+      }
+
+      /* Cards & Sections */
+      .glass-card {
+        background: var(--card-bg);
+        backdrop-filter: blur(12px);
+        border: 1px solid var(--border-color);
+        border-radius: 12px;
+        padding: 2rem;
+        margin-bottom: 2rem;
+        transition: all 0.3s ease;
+      }
+
+      .glass-card:hover {
+        border-color: #58a6ff;
+        box-shadow: 0 0 30px rgba(37, 99, 235, 0.1);
+      }
+
+      /* Tables */
+      .table-container {
+        overflow-x: auto;
+        margin: 1.5rem 0;
+        border-radius: 8px;
+        border: 1px solid var(--border-color);
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.95rem;
+        min-width: 800px; /* Prevent squishing on small screens */
+      }
+
+      th {
+        background: linear-gradient(90deg, #1e3a5f 0%, #1e1b4b 100%);
+        color: #ffffff;
+        text-align: left;
+        padding: 1rem 1.5rem;
+        font-weight: 600;
+        border-bottom: 1px solid var(--border-color);
+      }
+
+      td {
+        padding: 1rem 1.5rem;
+        border-bottom: 1px solid rgba(48, 54, 61, 0.5);
+        color: #c9d1d9;
+      }
+
+      tr:last-child td {
+        border-bottom: none;
+      }
+
+      tr:hover td {
+        background: rgba(88, 166, 255, 0.05);
+        color: #ffffff;
+      }
+
+      /* Code Blocks */
+      pre {
+        background: var(--code-bg);
+        border: 1px solid var(--border-color);
+        border-radius: 8px;
+        padding: 1.5rem;
+        overflow-x: auto;
+        margin: 1.5rem 0;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.9rem;
+        line-height: 1.5;
+        color: #e6edf3;
+      }
+
+      code {
+        font-family: 'JetBrains Mono', monospace;
+        background: rgba(110, 118, 129, 0.4);
+        padding: 0.2em 0.4em;
+        border-radius: 4px;
+        font-size: 0.85em;
+        color: #e6edf3;
+      }
+
+      pre code {
+        background: transparent;
+        padding: 0;
+        color: inherit;
+        font-size: inherit;
+      }
+
+      /* Syntax Highlighting Simulation */
+      .token-comment {
+        color: #8b949e;
+      }
+      .token-command {
+        color: #f2cc60;
+        font-weight: bold;
+      } /* Yellow for main commands */
+      .token-string {
+        color: #a5d6ff;
+      } /* Blue for strings */
+      .token-keyword {
+        color: #ff7b72;
+      } /* Red for keywords */
+      .token-function {
+        color: #d2a8ff;
+      } /* Purple for functions */
+
+      /* Badges & Pills */
+      .badge {
+        display: inline-block;
+        padding: 0.25rem 0.75rem;
+        border-radius: 9999px;
+        font-size: 0.8rem;
+        font-weight: 600;
+        margin-right: 0.5rem;
+      }
+
+      .badge-blue {
+        background: rgba(56, 139, 253, 0.15);
+        color: #58a6ff;
+        border: 1px solid rgba(56, 139, 253, 0.4);
+      }
+      .badge-green {
+        background: rgba(46, 160, 67, 0.15);
+        color: #3fb950;
+        border: 1px solid rgba(46, 160, 67, 0.4);
+      }
+      .badge-orange {
+        background: rgba(210, 153, 34, 0.15);
+        color: #d29922;
+        border: 1px solid rgba(210, 153, 34, 0.4);
+      }
+      .badge-red {
+        background: rgba(248, 81, 73, 0.15);
+        color: #f85149;
+        border: 1px solid rgba(248, 81, 73, 0.4);
+      }
+
+      /* Grid Layouts */
+      .grid-2 {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+        gap: 2rem;
+        margin: 2rem 0;
+      }
+
+      .grid-3 {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 1.5rem;
+        margin: 2rem 0;
+      }
+
+      /* Checkboxes */
+      .checklist-item {
+        display: flex;
+        align-items: center;
+        margin-bottom: 0.75rem;
+        background: rgba(255, 255, 255, 0.03);
+        padding: 0.75rem;
+        border-radius: 6px;
+        border: 1px solid transparent;
+      }
+
+      .checklist-item:hover {
+        border-color: rgba(255, 255, 255, 0.1);
+        background: rgba(255, 255, 255, 0.05);
+      }
+
+      .check-icon {
+        color: #3fb950;
+        margin-right: 1rem;
+        font-size: 1.2rem;
+      }
+
+      /* Footer */
+      footer {
+        text-align: center;
+        padding: 4rem 2rem;
+        color: #8b949e;
+        border-top: 1px solid var(--border-color);
+        margin-top: 4rem;
+      }
+
+      /* Scrollbar Custom */
+      ::-webkit-scrollbar {
+        width: 10px;
+        height: 10px;
+      }
+      ::-webkit-scrollbar-track {
+        background: #0a0a0f;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #30363d;
+        border-radius: 5px;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: #58a6ff;
+      }
+    </style>
+  </head>
+  <body style="">
+    <!-- HERO SECTION -->
+    <div class="hero-section">
+
+      <div class="hero-overlay"></div>
+      <div class="hero-content">
+        <h1 class="hero-title">Setup Claude Code</h1>
+        <div class="hero-subtitle">Guide Complet LeadPilot</div>
+        <div class="hero-badges">
+          <div class="hero-badge">79 endpoints BeReach</div>
+          <div class="hero-badge">12 phases</div>
+          <div class="hero-badge">6 Superpowers</div>
+          <div class="hero-badge">3 MCP Servers</div>
         </div>
+      </div>
+    </div>
 
-        {/* ── INTRO ── */}
-        <hr style={S.hr}/>
-        <h2 id="b0" style={S.h2}>Introduction — Ce que tu vas construire</h2>
-        <div style={SB.info}><p style={{...S.p,margin:0}}>📖 Ce guide est rédigé pour être accessible si tu débutes avec Claude Code. Il est aussi suffisamment complet pour être utile si tu développes déjà. Chaque concept est expliqué avant d'être utilisé.</p></div>
+    <!-- STICKY NAVIGATION -->
+    <nav class="sticky-nav">
+      <div class="nav-container">
+        <a href="#phase0" class="nav-link">Vue d'ensemble</a>
+        <a href="#phase1" class="nav-link">1. Install</a>
+        <a href="#phase2" class="nav-link">2. Init</a>
+        <a href="#phase3" class="nav-link">3. Permissions</a>
+        <a href="#phase4" class="nav-link">4. CLAUDE.md</a>
+        <a href="#phase5" class="nav-link">5. Skills</a>
+        <a href="#phase6" class="nav-link">6. Hooks</a>
+        <a href="#phase7" class="nav-link">7. MCP</a>
+        <a href="#phase8" class="nav-link">8. Commands</a>
+        <a href="#phase9" class="nav-link">9. GSD</a>
+        <a href="#phase10" class="nav-link">10. Monitor</a>
+        <a href="#phase11" class="nav-link">11. Sécurité</a>
+        <a href="#phase12" class="nav-link">12. Mémoire</a>
+      </div>
+    </nav>
 
-        <h3 style={S.h3}>Le problème avec la plupart des tutos IA</h3>
-        <p style={S.p}>Tu as probablement déjà vu des démonstrations impressionnantes de Claude Code sur LinkedIn. Et quand tu essaies par toi-même, ça ressemble plutôt à : Claude qui part dans la mauvaise direction, qui casse quelque chose qu'il venait de réparer, qui oublie ce qu'il a fait à la session précédente.</p>
-        <p style={S.p}>Ce n'est pas un problème de l'outil. C'est un problème de <B c="setup"/>. Claude Code est un agent autonome — pour qu'il travaille bien, il faut lui donner un cadre, exactement comme tu le ferais avec un développeur junior qui rejoint ton équipe.</p>
+    <div class="container">
+      <!-- PHASE 0: VUE D'ENSEMBLE -->
+      <section id="phase0" class="glass-card">
+        <h2>Phase 0 : Vue d'ensemble</h2>
+        <p>
+          Avant de toucher une ligne de code, voici tout ce qu'on va mettre en place et pourquoi chaque élément est
+          nécessaire. Rien n'est superflu : chaque outil résout un problème précis.
+        </p>
 
-        <h3 style={S.h3}>Le projet fil rouge : HUB'AO</h3>
-        <p style={S.p}>Tout au long de ce guide, on va construire <B c="HUB'AO"/> : un pipeline complet d'automatisation des appels d'offres publics pour une entreprise de restauration cuisine du monde basée en Île-de-France. Les 12 étapes couvertes :</p>
-        <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:10,margin:"16px 0"}}>
-          {[
-            {label:"Veille & Ingestion", color:"#6366f1", items:["Paramétrage mots-clés et zones","Détection avis BOAMP/JOUE","Pré-filtrage automatique","Upload DCE"]},
-            {label:"Analyse", color:"#22d3ee", items:["OCR + extraction Mistral","Scoring GO/NO GO","Tableau d'analyse structuré"]},
-            {label:"Réponse (4 validations humaines)", color:"#D97757", items:["Questions acheteur → validation","Dossier candidature","Dossier offre → validation chiffrage","Contrôle conformité + pack final"]},
-          ].map(({label,color,items},i) => (
-            <div key={i} style={{padding:"16px 18px",borderRadius:12,background:`${color}0d`,border:`1px solid ${color}22`}}>
-              <div style={{color,fontWeight:700,fontSize:13,marginBottom:10}}>{label}</div>
-              {items.map((it,j) => <div key={j} style={{fontSize:13,color:"#94a3b8",marginBottom:5,display:"flex",gap:6}}><span style={{color,flexShrink:0}}>→</span>{it}</div>)}
+        <div class="grid-2">
+          <div>
+            <h3>🛠️ L'outil principal</h3>
+            <div class="table-container">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Outil</th>
+                    <th>C'est quoi</th>
+                    <th>Pourquoi</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><strong>Claude Code CLI</strong></td>
+                    <td>Agent IA autonome terminal</td>
+                    <td>Moteur principal qui construit le projet</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Extension VS Code</strong></td>
+                    <td>Interface graphique temps réel</td>
+                    <td>Visualiser les modifs en live</td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
-          ))}
+          </div>
+          <div>
+            <h3>⚙️ Configuration projet</h3>
+            <div class="table-container">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Fichier</th>
+                    <th>Rôle</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><code>CLAUDE.md</code></td>
+                    <td>Mémoire permanente (lue à chaque session)</td>
+                  </tr>
+                  <tr>
+                    <td><code>REVIEW.md</code></td>
+                    <td>Critères de validation avant merge</td>
+                  </tr>
+                  <tr>
+                    <td><code>.claude/settings.json</code></td>
+                    <td>Permissions de sécurité (allow/deny)</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
         </div>
 
-        <h3 style={S.h3}>La stack technique</h3>
-        <div style={{overflowX:"auto"}}>
-          <table style={SB.tbl}>
-            <thead><tr><th style={SB.th}>Technologie</th><th style={SB.th}>Rôle</th></tr></thead>
-            <tbody>{[
-              ["Next.js 16.2 + TypeScript + shadcn/ui","Frontend App Router"],
-              ["Supabase self-hosted (PostgreSQL + Auth + Storage)","Base de données + auth"],
-              ["Claude API via OpenRouter","Analyse, scoring, génération"],
-              ["Mistral OCR via OpenRouter","Extraction des PDF scannés"],
-              ["Docker + Coolify sur VPS Hostinger","Déploiement"],
-              ["Claude Code","L'agent qui construit tout ça"],
-            ].map(([t,r],i) => <tr key={i}><td style={SB.td}><B c={t}/></td><td style={SB.td}>{r}</td></tr>)}</tbody>
+        <div class="grid-2">
+          <div>
+            <h3>🧠 Les Skills (Connaissances)</h3>
+            <div class="table-container">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Skill</th>
+                    <th>Description</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><strong>Superpowers</strong></td>
+                    <td>Pack de 6 skills (TDD, debug, review...)</td>
+                  </tr>
+                  <tr>
+                    <td><strong>frontend-design</strong></td>
+                    <td>UI production-grade (anti-générique)</td>
+                  </tr>
+                  <tr>
+                    <td><strong>shadcn/ui</strong></td>
+                    <td>Connaissance des composants installés</td>
+                  </tr>
+                  <tr>
+                    <td><strong>skill-bereach-api</strong></td>
+                    <td>Les 79 endpoints et règles de l'API</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div>
+            <h3>🪝 Les Hooks (Automatisation)</h3>
+            <div class="table-container">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Hook</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><strong>session-start</strong></td>
+                    <td>Charge l'état du projet au démarrage</td>
+                  </tr>
+                  <tr>
+                    <td><strong>pre-bash-security</strong></td>
+                    <td>Bloque les commandes dangereuses</td>
+                  </tr>
+                  <tr>
+                    <td><strong>post-bash</strong></td>
+                    <td>Tronque les outputs trop longs</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid-3">
+          <div class="glass-card" style="margin-bottom: 0; padding: 1.5rem">
+            <h4 style="color: var(--accent-blue)">🔌 MCP Servers</h4>
+            <ul style="list-style: none; margin-top: 1rem">
+              <li style="margin-bottom: 0.5rem"><strong>Context7</strong> : Docs à jour Next.js/Supabase</li>
+              <li style="margin-bottom: 0.5rem"><strong>Playwright</strong> : Pilotage navigateur pour tests</li>
+              <li><strong>Sequential Thinking</strong> : Raisonnement par étapes</li>
+            </ul>
+          </div>
+          <div class="glass-card" style="margin-bottom: 0; padding: 1.5rem">
+            <h4 style="color: var(--accent-purple)">💾 Mémoire Persistante</h4>
+            <ul style="list-style: none; margin-top: 1rem">
+              <li style="margin-bottom: 0.5rem"><strong>Claude-Mem</strong> : Plugin essentiel</li>
+              <li style="margin-bottom: 0.5rem">SQLite + ChromaDB local</li>
+              <li>Rinjecte le contexte pertinent</li>
+            </ul>
+          </div>
+          <div class="glass-card" style="margin-bottom: 0; padding: 1.5rem">
+            <h4 style="color: var(--accent-orange)">🛡️ Sécurité</h4>
+            <ul style="list-style: none; margin-top: 1rem">
+              <li style="margin-bottom: 0.5rem"><strong>.gitignore</strong> : Clés API</li>
+              <li style="margin-bottom: 0.5rem"><strong>Deny rules</strong> : Bloque lecture .env</li>
+              <li><strong>mcp-scan</strong> : Scan vulnérabilités</li>
+            </ul>
+          </div>
+        </div>
+
+        <div style="
+            background: rgba(248, 81, 73, 0.1);
+            border: 1px solid rgba(248, 81, 73, 0.3);
+            padding: 1rem;
+            border-radius: 8px;
+            margin-top: 2rem;
+          ">
+          <strong>⚠️ Hooks vs CLAUDE.md :</strong> Le CLAUDE.md c'est des "instructions" que Claude peut oublier quand
+          le contexte se remplit. Les hooks c'est du code qui s'exécute à chaque fois, sans exception. C'est la
+          différence entre "pense à fermer la porte" et une porte qui se ferme automatiquement.
+        </div>
+      </section>
+
+      <!-- PHASE 1: INSTALLATION -->
+      <section id="phase1" class="glass-card">
+        <h2>Phase 1 : Installation Claude Code</h2>
+
+        <h3>1.1 Vérifier les prérequis</h3>
+        <pre><code class="language-bash"><span class="token-comment"># Vérifications initiales</span>
+node --version   <span class="token-comment"># v18+ minimum (v20+ recommandé)</span>
+npm --version    <span class="token-comment"># 9+</span>
+git --version    <span class="token-comment"># installé</span></code></pre>
+
+        <h3>1.2 Installer jq (nécessaire pour les hooks)</h3>
+        <pre><code class="language-bash">brew install jq          <span class="token-comment"># Mac</span>
+winget install jqlang.jq <span class="token-comment"># Windows PowerShell</span>
+sudo apt-get install jq  <span class="token-comment"># Ubuntu/Debian</span></code></pre>
+
+        <h3>1.3 Installer Claude Code</h3>
+        <pre><code class="language-bash"><span class="token-comment"># Le CLI (le moteur)</span>
+npm install -g @anthropic-ai/claude-code
+claude --version   <span class="token-comment"># &gt;= 2.1.x</span>
+claude update      <span class="token-comment"># si en dessous</span>
+
+<span class="token-comment"># L'extension VS Code (l'interface visuelle)</span>
+code --install-extension anthropic.claude-code</code></pre>
+
+        <h3>1.4 Se connecter</h3>
+        <pre><code class="language-bash">claude login       <span class="token-comment"># ouvre le navigateur pour l'auth</span>
+claude "Dis bonjour"   <span class="token-comment"># test de connexion</span></code></pre>
+
+        <h3>1.5 Commandes essentielles</h3>
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>Commande</th>
+                <th>Description</th>
+                <th>Commande</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>/help</code></td>
+                <td>Liste toutes les commandes</td>
+                <td><code>/compact</code></td>
+                <td>Compresser le contexte (à faire à 70%)</td>
+              </tr>
+              <tr>
+                <td><code>/status</code></td>
+                <td>État du contexte, modèle, session</td>
+                <td><code>/clear</code></td>
+                <td>Reset contexte (à faire à 90%+)</td>
+              </tr>
+              <tr>
+                <td><code>/cost</code></td>
+                <td>Coût estimé de la session</td>
+                <td><code>/model</code></td>
+                <td>Changer de modèle</td>
+              </tr>
+              <tr>
+                <td><code>/config</code></td>
+                <td>Configuration</td>
+                <td><code>Shift+Tab</code></td>
+                <td>Activer le Plan Mode</td>
+              </tr>
+              <tr>
+                <td><code>/doctor</code></td>
+                <td>Diagnostiquer les problèmes</td>
+                <td><code>Esc+Esc</code></td>
+                <td>Revenir en arrière (rewind)</td>
+              </tr>
+            </tbody>
           </table>
         </div>
+      </section>
 
-        <h3 style={S.h3}>Ce que tu vas avoir à la fin</h3>
-        <div style={{display:"flex",flexDirection:"column",gap:6,margin:"12px 0"}}>
-          {["Un CLAUDE.md qui donne à Claude une connaissance permanente du projet","Un système tasks/ avec boucle d'amélioration continue","GSD installé — spec-driven development : discuss → plan → execute → verify → ship","Une équipe de 5 agents spécialisés (PM, Scraper, Analyser, Scorer, Reviewer)","Ralph — boucle autonome qui implémente des PRDs sans ton intervention","Des Skills — expertise portable chargée automatiquement","Des Slash commands de développement","Des Hooks qui automatisent commits, contexte et sécurité","Des MCP servers — Context7, Playwright, ccguide, review-flow"].map((it,i)=>(
-            <div key={i} style={SB.chk}><span style={{color:"#6366f1",flexShrink:0}}>✓</span>{it}</div>
-          ))}
-        </div>
+      <!-- PHASE 2: INIT PROJET -->
+      <section id="phase2" class="glass-card">
+        <h2>Phase 2 : Initialiser le projet</h2>
+        <pre><code class="language-bash">mkdir leadpilot &amp;&amp; cd leadpilot
+git init
+git branch -M main
+code .</code></pre>
+        <p>Premier lancement :</p>
+        <pre><code class="language-bash">claude
+/init   <span class="token-comment"># analyse le projet et génère un CLAUDE.md de base</span></code></pre>
+      </section>
 
-        <hr style={S.hr}/>
-
-        {/* ── PARTIE 1 ── */}
-        <h2 id="b1" style={S.h2}>Partie 1 — Installation et premier lancement</h2>
-        <div style={SB.part}><p style={{...S.p,margin:0,color:"#a5b4fc",fontSize:13}}>⏱ Durée : 15 à 20 minutes · À la fin : Claude Code fonctionnel + projet Next.js 16.2 créé</p></div>
-
-        <h3 style={S.h3}>1.1 — Vérifier les prérequis</h3>
-        <PrB>{`node --version   # v18.x.x minimum\nnpm --version    # 9.x.x ou supérieur\ngit --version    # doit être installé\n\n# jq — outil JSON pour le terminal (nécessaire pour Ralph et les hooks)\nbrew install jq          # Mac\nwinget install jqlang.jq # Windows PowerShell\nsudo apt-get install jq  # Ubuntu/Debian`}</PrB>
-
-        <h3 style={S.h3}>1.2 — VS Code + terminal intégré</h3>
-        <div style={SB.info}><p style={{...S.p,margin:0,fontSize:13}}>L'<B c="extension VS Code"/> = interface graphique qui affiche en temps réel les fichiers que Claude modifie. Le <B c="Claude Code CLI"/> = le moteur qui tourne dans le terminal. C'est lui qui fait le travail.</p></div>
-        <PrB>code --install-extension anthropic.claude-code</PrB>
-
-        <h3 style={S.h3}>1.3 — Installer Claude Code CLI</h3>
-        <PrB>{`npm install -g @anthropic-ai/claude-code\nclaude --version   # doit être >= 2.1.x\nclaude update      # si en dessous`}</PrB>
-        <div style={SB.tip}><p style={{...S.p,margin:0,fontSize:13}}>Claude Code sort des mises à jour plusieurs fois par semaine. Reste à jour — des CVEs critiques ont été patchés en 2025-2026.</p></div>
-
-        <h3 style={S.h3}>1.4 — Se connecter à Anthropic</h3>
-        <PrB>{`claude login\n# Ouvre le navigateur pour l'authentification\n\nclaude "Dis bonjour en français"  # test de connexion`}</PrB>
-        <div style={SB.warn}><p style={{...S.p,margin:0,fontSize:13}}><B c="Pro 20€"/> : suffisant pour suivre ce tuto, sessions de 5h avec quota limité. <B c="Max 100€"/> : usage intensif, Opus 4.6 avec contexte 1M tokens.</p></div>
-
-        <h3 style={S.h3}>1.5 — Créer le projet</h3>
-        <PrB>{`mkdir hubao && cd hubao\ngit init\ngit branch -M main\ncode .`}</PrB>
-
-        <h3 style={S.h3}>1.6 — Premier lancement et commandes essentielles</h3>
-        <PrB>claude</PrB>
-        <div style={{overflowX:"auto"}}>
-          <table style={SB.tbl}>
-            <thead><tr><th style={SB.th}>Commande</th><th style={SB.th}>Description</th></tr></thead>
-            <tbody>{[["/help","Liste toutes les commandes"],["/status","État du contexte, modèle, session"],["/cost","Coût estimé de la session"],["/config","Ouvrir la configuration"],["/doctor","Diagnostiquer les problèmes"]].map(([c,d],i)=><tr key={i}><td style={SB.td}><CdO c={c}/></td><td style={SB.td}>{d}</td></tr>)}</tbody>
-          </table>
-        </div>
-
-        <h3 style={S.h3}>1.7 — Configurer les permissions (.claude/settings.json)</h3>
-        <PrB>mkdir -p .claude</PrB>
-        <p style={S.p}>Crée <CdO c=".claude/settings.json"/> :</p>
-        <PrB>{`{
+      <!-- PHASE 3: PERMISSIONS -->
+      <section id="phase3" class="glass-card">
+        <h2>Phase 3 : Permissions (.claude/settings.json)</h2>
+        <pre><code class="language-bash">mkdir -p .claude</code></pre>
+        <p>Créer <code>.claude/settings.json</code> :</p>
+        <pre><code class="language-json">{
   "permissions": {
     "allow": [
       "Bash(npm:*)",
@@ -1794,484 +2947,519 @@ function BuilderGuide({ activeId, onTocClick }) {
     "deny": [
       "Bash(rm -rf /*)",
       "Bash(curl * | bash)",
-      "Bash(wget * | bash)"
+      "Bash(wget * | bash)",
+      "Read(.env*)",
+      "Bash(cat .env*)"
     ]
   }
-}`}</PrB>
+}</code></pre>
+        <p>
+          <span class="badge badge-green">Recommandé</span> <strong>Auto Mode</strong> :
+          <code>claude --permission-mode auto</code>. Un classifier bloque le risqué, laisse passer le reste.
+        </p>
+      </section>
 
-        <hr style={S.hr}/>
+      <!-- PHASE 4: CLAUDE.MD -->
+      <section id="phase4" class="glass-card">
+        <h2>Phase 4 : CLAUDE.md</h2>
+        <p><strong>Règle des 200 lignes :</strong> au-delà, Claude ignore les règles. Dégrade le surplus en Skills.</p>
 
-        {/* ── PARTIE 2 ── */}
-        <h2 id="b2" style={S.h2}>Partie 2 — CLAUDE.md : le cerveau persistant du projet</h2>
-        <div style={SB.part}><p style={{...S.p,margin:0,color:"#a5b4fc",fontSize:13}}>⏱ Durée : 20 à 30 minutes · À la fin : Claude a une connaissance permanente du projet HUB'AO</p></div>
-
-        <p style={S.p}><B c="CLAUDE.md"/> est le fichier le plus important du projet. Claude le lit à chaque démarrage de session et lors du chargement du contexte. C'est là que tu définis les règles, les conventions, et tout ce que Claude doit savoir sur ton projet.</p>
-
-        <div style={SB.warn}><p style={{...S.p,margin:0,fontSize:13}}><B c="Règle des 200 lignes :"/> Au-delà, CLAUDE.md devient contre-productif. Dégrade le surplus en Skills (section 2.5) ou en fichiers tasks/.</p></div>
-
-        <h3 style={S.h3}>2.1 — Structure CLAUDE.md HUB'AO</h3>
-        <PrB>{`# CLAUDE.md — HUB'AO
+        <pre><code class="language-markdown"># CLAUDE.md : LeadPilot
 
 ## Identité du projet
-Pipeline d'automatisation des appels d'offres publics.
-Stack : Next.js 16.2 + Supabase self-hosted + Claude via OpenRouter.
+LeadPilot : SaaS de prospection LinkedIn automatisée.
+Recherche de prospects, connexions, messages personnalisés et relances via l'API BeReach.
+Stack : Next.js 16 + TypeScript strict + Supabase self-hosted + shadcn/ui + BeReach API.
 
 ## Règles absolues
 - TypeScript strict, pas de \`any\`
 - Toujours vérifier les erreurs Supabase : if (error) throw error
-- Ne jamais exposer SUPABASE_SERVICE_ROLE_KEY côté client
+- Ne jamais exposer SUPABASE_SERVICE_ROLE_KEY ou BEREACH_API_KEY côté client
 - Commits atomiques après chaque tâche terminée
+- Toujours vérifier /me/limits et /me/credits avant les actions BeReach en masse
+- Cooldown minimum 30-60s entre chaque action LinkedIn
+- Maximum 25 connexions par batch, 80/jour, 150 messages/jour
 
 ## Architecture
-- src/app/         -> Pages et API Routes (App Router)
-- src/components/  -> Composants UI (shadcn/ui)
-- src/lib/         -> Logique métier (supabase/, boamp/, scoring/)
-- src/types/       -> Types TypeScript partagés
+- src/app/            -&gt; Pages et API Routes (App Router)
+- src/app/api/bereach -&gt; Routes proxy vers l'API BeReach
+- src/components/     -&gt; Composants UI (shadcn/ui)
+- src/lib/bereach/    -&gt; Client API BeReach typé
+- src/lib/campaigns/  -&gt; Logique campagnes et séquences
+- src/lib/prospects/  -&gt; Gestion des prospects
+- src/types/          -&gt; Types TypeScript partagés
+
+## Commandes projet
+- npm run dev       -&gt; Serveur de développement
+- npm run build     -&gt; Build production
+- npm run test      -&gt; Tests
+- npm run lint      -&gt; ESLint
 
 ## Compaction Instructions
 Quand tu compactes le contexte, priorité à :
 1. Les décisions d'architecture prises
 2. Les bugs résolus et leur cause racine
-3. Les patterns Supabase spécifiques à HUB'AO
+3. Les patterns BeReach spécifiques (rate limits, séquences)
 4. L'état des tâches en cours
-Ignore : logs de commandes réussies, discussions abandonnées`}</PrB>
+Ignore : logs de commandes réussies, discussions abandonnées</code></pre>
 
-        <h3 style={S.h3}>2.2 — CLAUDE.md par sous-dossier</h3>
-        <p style={S.p}>Tu peux créer des CLAUDE.md spécifiques dans chaque dossier. Claude les charge automatiquement quand il travaille dans ce contexte :</p>
-        <PrB>{`src/app/api/CLAUDE.md       <- règles API Routes\nsrc/components/CLAUDE.md   <- règles composants\nsrc/lib/CLAUDE.md          <- patterns Supabase et logique métier`}</PrB>
+        <h3>CLAUDE.md par sous-dossier</h3>
+        <ul style="list-style: none; padding-left: 1rem; border-left: 2px solid var(--border-color)">
+          <li><code>src/app/api/CLAUDE.md</code> : règles API Routes + proxy BeReach</li>
+          <li><code>src/components/CLAUDE.md</code> : règles composants + design system</li>
+          <li><code>src/lib/bereach/CLAUDE.md</code> : patterns client BeReach, retry, rate limits</li>
+        </ul>
+      </section>
 
-        <h3 style={S.h3}>2.3 — Fichiers complémentaires</h3>
-        <div style={{display:"flex",flexDirection:"column",gap:8,margin:"12px 0"}}>
-          {[
-            ["REVIEW.md","Critères de review que Claude applique avant chaque merge : TypeScript strict, tests, sécurité RLS"],
-            ["PROJECT.md","Vision, roadmap, décisions d'architecture — pour le contexte long terme"],
-            ["REQUIREMENTS.md","Spécifications fonctionnelles détaillées du pipeline HUB'AO"],
-            ["AGENTS.md","Généré nativement par create-next-app avec Next.js 16.x — mis à jour par Ralph"],
-          ].map(([f,d],i) => (
-            <div key={i} style={{...SB.card,display:"flex",gap:14,padding:"14px 18px"}}>
-              <span style={{color:"#6366f1",fontFamily:"monospace",fontSize:13,flexShrink:0,minWidth:140}}>{f}</span>
-              <span style={{fontSize:13,color:"#94a3b8"}}>{d}</span>
-            </div>
-          ))}
+      <!-- PHASE 5: SKILLS -->
+      <section id="phase5" class="glass-card">
+        <h2>Phase 5 : Skills</h2>
+
+        <h3>5.1 Skills communautaires</h3>
+        <pre><code class="language-bash"><span class="token-comment"># Superpowers : TDD, debugging, brainstorming, code review, worktrees, subagents</span>
+npx @anthropic-ai/claude-code-skills add superpowers
+
+<span class="token-comment"># Frontend Design : UI production-grade, anti-style-générique</span>
+npx @anthropic-ai/claude-code-skills add frontend-design
+
+<span class="token-comment"># shadcn/ui : lit ton components.json</span>
+npx shadcn skill add</code></pre>
+
+        <h3>5.2 Skill BeReach API (79 endpoints)</h3>
+        <pre><code class="language-bash">mkdir -p .claude/skills/skill-bereach-api</code></pre>
+        <p>Créer <code>.claude/skills/skill-bereach-api/SKILL.md</code> :</p>
+
+        <div class="grid-3">
+          <div class="glass-card" style="margin: 0; padding: 1rem; font-size: 0.9rem">
+            <h4 style="color: #60a5fa; margin-top: 0">LinkedIn Search (7)</h4>
+            /search/linkedin<br>
+            /search/linkedin/people<br>
+            /search/linkedin/companies<br>
+            /search/linkedin/posts<br>
+            /search/linkedin/jobs<br>
+            /search/linkedin/url<br>
+            /search/linkedin/parameters
+          </div>
+          <div class="glass-card" style="margin: 0; padding: 1rem; font-size: 0.9rem">
+            <h4 style="color: #a78bfa; margin-top: 0">Scrapers (9)</h4>
+            /visit/linkedin/profile<br>
+            /visit/linkedin/company<br>
+            /collect/linkedin/posts<br>
+            /collect/linkedin/likes<br>
+            /collect/linkedin/comments<br>
+            /collect/linkedin/hashtag<br>
+            /feed/linkedin
+          </div>
+          <div class="glass-card" style="margin: 0; padding: 1rem; font-size: 0.9rem">
+            <h4 style="color: #f472b6; margin-top: 0">Sales Navigator (3)</h4>
+            /search/linkedin/sales-nav<br>
+            /search/linkedin/sales-nav/people<br>
+            /search/linkedin/sales-nav/companies
+          </div>
+          <div class="glass-card" style="margin: 0; padding: 1rem; font-size: 0.9rem">
+            <h4 style="color: #3fb950; margin-top: 0">Actions (23)</h4>
+            /connect/linkedin/profile<br>
+            /message/linkedin<br>
+            /follow/linkedin/profile<br>
+            /like/linkedin/post<br>
+            /comment/linkedin/post<br>
+            /publish/linkedin/post<br>
+            /invitations/linkedin...
+          </div>
+          <div class="glass-card" style="margin: 0; padding: 1rem; font-size: 0.9rem">
+            <h4 style="color: #d29922; margin-top: 0">Chat (16)</h4>
+            /chats/linkedin<br>
+            /chats/linkedin/messages<br>
+            /chats/linkedin/typing<br>
+            /chats/linkedin/unread<br>
+            /chats/linkedin/search...
+          </div>
+          <div class="glass-card" style="margin: 0; padding: 1rem; font-size: 0.9rem">
+            <h4 style="color: #f85149; margin-top: 0">Campaigns &amp; Profile</h4>
+            /campaigns/{slug}/status<br>
+            /campaigns/{slug}/sync<br>
+            /me/linkedin<br>
+            /me/limits<br>
+            /me/credits<br>
+            /analytics/linkedin...
+          </div>
         </div>
 
-        <hr style={S.hr}/>
+        <h4 style="margin-top: 2rem">Patterns TypeScript Critiques</h4>
+        <pre><code class="language-typescript"><span class="token-comment">// Headers standard</span>
+const headers = {
+  'Authorization': \`Bearer \${process.env.BEREACH_API_KEY}\`,
+  'Content-Type': 'application/json'
+};
 
-        {/* ── PARTIE 3 ── */}
-        <h2 id="b3" style={S.h2}>Partie 3 — Mode Plan + GSD : spec-driven development</h2>
-        <div style={SB.part}><p style={{...S.p,margin:0,color:"#a5b4fc",fontSize:13}}>⏱ Durée : 25 à 35 minutes · À la fin : GSD installé + premier plan HUB'AO généré</p></div>
+<span class="token-comment">// Vérification pré-action (OBLIGATOIRE)</span>
+const limits = await fetch('https://api.berea.ch/me/limits', { method: 'POST', headers });
+const credits = await fetch('https://api.berea.ch/me/credits', { method: 'POST', headers });
 
-        <h3 style={S.h3}>3.1 — Le mode Plan</h3>
-        <p style={S.p}>Shift+Tab active le <B c="plan mode"/>. Claude explique tout ce qu'il va faire avant d'agir. Obligatoire pour toute tâche qui touche plus de 2 fichiers.</p>
-        <div style={SB.tip}><p style={{...S.p,margin:0,fontSize:13}}>Un plan validé en 30 secondes vaut mieux que 30 minutes de code à défaire.</p></div>
+<span class="token-comment">// Séquence "Human-like" pour message</span>
+await fetch('https://api.berea.ch/chats/linkedin/typing', { ... }); <span class="token-comment">// 1. Typing</span>
+await sleep(randomBetween(2000, 5000)); <span class="token-comment">// 2. Pause humaine</span>
+await fetch('https://api.berea.ch/message/linkedin', { ... }); <span class="token-comment">// 3. Envoi</span></code></pre>
 
-        <h3 style={S.h3}>3.2 — GSD : Get Shit Done</h3>
-        <p style={S.p}>GSD est un framework de spec-driven development pour Claude Code. Il structure chaque feature en 5 phases :</p>
-        <div style={{display:"grid",gridTemplateColumns:"repeat(5,1fr)",gap:8,margin:"16px 0"}}>
-          {[["discuss","Clarifier le besoin","#6366f1"],["plan","Concevoir la solution","#8b5cf6"],["execute","Implémenter","#D97757"],["verify","Valider les livrables","#06b6d4"],["ship","Merger + déployer","#3dd68c"]].map(([phase,desc,color],i)=>(
-            <div key={i} style={{padding:"12px",borderRadius:10,background:`${color}0d`,border:`1px solid ${color}22`,textAlign:"center"}}>
-              <div style={{color,fontWeight:700,fontSize:12,marginBottom:4}}>{phase}</div>
-              <div style={{fontSize:11,color:"#94a3b8"}}>{desc}</div>
-            </div>
-          ))}
+        <h3>5.3 Skills custom additionnels</h3>
+        <pre><code class="language-bash">mkdir -p .claude/skills/{skill-supabase,skill-nextjs,skill-design-leadpilot,skill-security,skill-optimizer}</code></pre>
+      </section>
+
+      <!-- PHASE 6: HOOKS -->
+      <section id="phase6" class="glass-card">
+        <h2>Phase 6 : Hooks</h2>
+        <pre><code class="language-bash">mkdir -p .claude/hooks</code></pre>
+
+        <div class="grid-3">
+          <div>
+            <h4>session-start.sh</h4>
+            <pre><code class="language-bash">#!/bin/bash
+echo "=== LeadPilot : État ==="
+if [ -f "tasks/STATE.md" ]; then
+  cat tasks/STATE.md
+fi
+git status --short
+grep -r "TODO\|FIXME" src/ -l</code></pre>
+          </div>
+          <div>
+            <h4>pre-bash-security.sh</h4>
+            <pre><code class="language-bash">#!/bin/bash
+CMD="$1"
+if echo "$CMD" | grep -qE "rm -rf /|curl.*\| bash|cat \.env"; then
+  echo "BLOCKED: danger"
+  exit 1
+fi</code></pre>
+          </div>
+          <div>
+            <h4>post-bash.sh</h4>
+            <pre><code class="language-bash">#!/bin/bash
+<span class="token-comment"># Tronque outputs &gt; 100 lignes</span>
+head -100</code></pre>
+          </div>
         </div>
 
-        <h3 style={S.h3}>3.3 — Installer GSD</h3>
-        <PrB>{`# Télécharger GSD\ncurl -fsSL https://raw.githubusercontent.com/gsd-build/get-shit-done/main/install.sh | bash\n\n# Vérifier dans Claude Code\n/gsd:new-project`}</PrB>
+        <pre><code class="language-bash">chmod +x .claude/hooks/*.sh</code></pre>
+        <p>Configurer dans <code>.claude/settings.json</code> :</p>
+        <pre><code class="language-json">"hooks": {
+  "SessionStart": [{ "command": "bash .claude/hooks/session-start.sh" }],
+  "PreToolUse": [{ "command": "bash .claude/hooks/pre-bash-security.sh" }],
+  "PostToolUse": [{ "command": "bash .claude/hooks/post-bash.sh" }]
+}</code></pre>
+      </section>
 
-        <h3 style={S.h3}>3.4 — Premier lancement sur HUB'AO</h3>
-        <PrB>{`# Phase discuss — clarifier les besoins\n/gsd:discuss-phase\n\n# Phase plan — concevoir l'architecture\n/gsd:plan-phase\n\n# Phase execute — implémenter\n/gsd:execute-phase\n\n# Vérifier les livrables\n/gsd:verify-work`}</PrB>
-
-        <hr style={S.hr}/>
-
-        {/* ── PARTIE 4 ── */}
-        <h2 id="b4" style={S.h2}>Partie 4 — Architecture multi-agents + Ralph</h2>
-        <div style={SB.part}><p style={{...S.p,margin:0,color:"#a5b4fc",fontSize:13}}>⏱ Durée : 40 à 60 minutes · À la fin : 5 agents spécialisés + Ralph opérationnel</p></div>
-
-        <h3 style={S.h3}>4.1 — Agents vs Skills vs Slash commands</h3>
-        <div style={{overflowX:"auto"}}>
-          <table style={SB.tbl}>
-            <thead><tr><th style={SB.th}>Concept</th><th style={SB.th}>Ce que c'est</th><th style={SB.th}>Exemple HUB'AO</th></tr></thead>
-            <tbody>{[
-              ["Agent","Une slash command qui donne une identité et des instructions spécialisées à Claude","/pm-hubao → Chef de projet qui gère le PRD"],
-              ["Skill","Un SKILL.md chargé automatiquement selon le contexte","skill-scoring-hubao → règles GO/NO GO"],
-              ["Slash command","Un raccourci vers un prompt complexe ou un workflow","/gsd:plan-phase → lance la phase de planification"],
-            ].map(([c,e,ex],i)=><tr key={i}><td style={SB.td}><B c={c}/></td><td style={SB.td}>{e}</td><td style={SB.td}>{ex}</td></tr>)}</tbody>
-          </table>
-        </div>
-
-        <h3 style={S.h3}>4.2 — Les 5 agents HUB'AO</h3>
-        <PrB>mkdir -p .claude/commands</PrB>
-        <div style={{display:"flex",flexDirection:"column",gap:8,margin:"12px 0"}}>
-          {[
-            ["/pm-hubao","Chef de projet","Gère le PRD, crée les stories, prioritise les tâches","#6366f1"],
-            ["/scraper-hubao","Scraping","Scrape BOAMP/JOUE, parse les notices, gère la déduplication","#D97757"],
-            ["/analyser-hubao","Analyse DCE","Extrait les infos clés des RC, CCTP, CCAP, BPU/DQE","#22d3ee"],
-            ["/scorer-hubao","Scoring","Évalue GO/NO GO, calcule le fit, produit le tableau d'analyse","#3dd68c"],
-            ["/reviewer-hubao","Code Review","Vérifie TypeScript, tests, sécurité RLS, conventions HUB'AO","#f59e0b"],
-          ].map(([cmd,name,desc,color],i)=>(
-            <div key={i} style={{...SB.card,display:"flex",gap:14,padding:"14px 18px",borderLeft:`3px solid ${color}`}}>
-              <span style={{color,fontFamily:"monospace",fontSize:12,flexShrink:0,minWidth:140}}>{cmd}</span>
-              <div><div style={{color:"#e4e4e7",fontWeight:600,fontSize:13,marginBottom:3}}>{name}</div><div style={{fontSize:13,color:"#94a3b8"}}>{desc}</div></div>
-            </div>
-          ))}
-        </div>
-
-        <h3 style={S.h3}>4.3 — Ralph : la boucle autonome</h3>
-        <p style={S.p}>Ralph est un script bash qui lance Claude Code en boucle sur un fichier <CdO c="prd.json"/>. Il implémente chaque user story dans une instance fraîche, teste, commit, et passe à la suivante.</p>
-        <PrB>{`# Installer Ralph\ncurl -fsSL https://raw.githubusercontent.com/snarktank/ralph/main/install.sh | bash\n\n# Lancer Ralph sur le PRD HUB'AO (10 itérations max)\n./scripts/ralph/ralph.sh --tool claude 10`}</PrB>
-
-        <h3 style={S.h3}>4.4 — Structure d'un prd.json</h3>
-        <PrB>{`{
-  "feature": "Veille automatique BOAMP",
-  "branchName": "feat/scraping-boamp",
-  "userStories": [
-    {
-      "id": "001",
-      "title": "Client API BOAMP",
-      "priority": 1,
-      "description": "Créer src/lib/boamp/client.ts avec fetch de l'API officielle",
-      "acceptanceCriteria": [
-        "L'API BOAMP répond avec les AOs des 24 dernières heures",
-        "Les erreurs réseau sont gérées avec retry",
-        "TypeScript strict, pas de any"
-      ],
-      "passes": false
-    }
-  ]
-}`}</PrB>
-        <div style={SB.tip}><p style={{...S.p,margin:0,fontSize:13}}><B c="Règle des stories bien dimensionnées :"/> Chaque story doit être implémentable dans une seule fenêtre de contexte. Si une story touche plus de 5 fichiers ou prend plus de 2h, divise-la.</p></div>
-
-        <hr style={S.hr}/>
-
-        {/* ── PARTIE 5 ── */}
-        <h2 id="b5" style={S.h2}>Partie 5 — Skills + Superpowers</h2>
-        <div style={SB.part}><p style={{...S.p,margin:0,color:"#a5b4fc",fontSize:13}}>⏱ Durée : 30 à 40 minutes · À la fin : Superpowers + 7 Skills custom opérationnels</p></div>
-
-        <h3 style={S.h3}>5.1 — Comment fonctionnent les Skills</h3>
-        <p style={S.p}>Un Skill est un dossier avec un fichier <CdO c="SKILL.md"/>. Claude scanne les Skills au démarrage et les charge intelligemment selon le contexte, en 3 étapes :</p>
-        <div style={{display:"flex",flexDirection:"column",gap:8,margin:"12px 0"}}>
-          {[["Scan métadonnées","~100 tokens","Claude lit juste les titres et descriptions"],["Chargement complet","<5k tokens","Quand Claude détecte que la tâche est pertinente"],["Ressources associées","À la demande","Scripts, exemples, templates dans le dossier"]].map(([step,cost,desc],i)=>(
-            <div key={i} style={{display:"flex",gap:12,alignItems:"center",padding:"10px 14px",borderRadius:8,background:"rgba(99,102,241,0.05)",border:"1px solid rgba(99,102,241,0.1)"}}>
-              <span style={{color:"#818cf8",fontWeight:700,fontSize:13,flexShrink:0,minWidth:160}}>{step}</span>
-              <span style={{color:"#6366f1",fontFamily:"monospace",fontSize:12,flexShrink:0}}>{cost}</span>
-              <span style={{fontSize:13,color:"#94a3b8"}}>{desc}</span>
-            </div>
-          ))}
-        </div>
-
-        <h3 style={S.h3}>5.2 — Installer Superpowers</h3>
-        <PrB>npx @anthropic-ai/claude-code-skills add superpowers</PrB>
-        <div style={{overflowX:"auto"}}>
-          <table style={SB.tbl}>
-            <thead><tr><th style={SB.th}>Skill Superpowers</th><th style={SB.th}>Quand l'utiliser sur HUB'AO</th></tr></thead>
-            <tbody>{[
-              ["test-driven-development","Avant de coder le scoring GO/NO GO, la logique de filtrage"],
-              ["systematic-debugging","Quand le scraping BOAMP retourne des résultats inattendus"],
-              ["brainstorming","Avant de designer une nouvelle feature du pipeline"],
-              ["requesting-code-review","Avant chaque merge de feature importante"],
-              ["using-git-worktrees","Développer le scraping et le dashboard en parallèle"],
-              ["subagent-driven-development","Implémenter plusieurs composants en parallèle"],
-            ].map(([s,u],i)=><tr key={i}><td style={SB.td}><CdO c={s}/></td><td style={SB.td}>{u}</td></tr>)}</tbody>
-          </table>
-        </div>
-
-        <h3 style={S.h3}>5.3 — Skills design officiels</h3>
-        <PrB>{`# Skill frontend-design Anthropic (277 000+ installs)\nnpx @anthropic-ai/claude-code-skills add frontend-design\n\n# Skill shadcn/ui — lit ton components.json\nnpx shadcn skill add`}</PrB>
-
-        <h3 style={S.h3}>5.4 — 7 Skills custom HUB'AO</h3>
-        <PrB>{`mkdir -p .claude/skills/skill-supabase-hubao\nmkdir -p .claude/skills/skill-dce-parsing\nmkdir -p .claude/skills/skill-scoring-hubao\nmkdir -p .claude/skills/skill-nextjs-hubao\nmkdir -p .claude/skills/skill-design-hubao\nmkdir -p .claude/skills/skill-optimizer-hubao\nmkdir -p .claude/skills/skill-security-hubao`}</PrB>
-        <div style={{display:"flex",flexDirection:"column",gap:6,margin:"12px 0"}}>
-          {[["skill-design-hubao","Palette AO, typographie, composants Dashboard — empêche le style générique IA"],["skill-supabase-hubao","Patterns upsert, gestion erreurs, clients server/client, RLS"],["skill-dce-parsing","Structure RC/CCTP/CCAP/BPU, extraction Mistral OCR, types de documents"],["skill-scoring-hubao","Règles GO/NO GO, grille d'évaluation, format de sortie scoring"],["skill-nextjs-hubao","App Router patterns, API Routes, Server Components, Server Actions"],["skill-optimizer-hubao","Seuils de contexte, /compact, choix de modèle, subagents isolation"],["skill-security-hubao","Règles .env, RLS Supabase, headers Next.js, OWASP top 10"]].map(([name,desc],i)=>(
-            <div key={i} style={{...SB.card,display:"flex",gap:14,padding:"12px 16px"}}>
-              <span style={{color:"#6366f1",fontFamily:"monospace",fontSize:12,flexShrink:0,minWidth:200}}>{name}</span>
-              <span style={{fontSize:13,color:"#94a3b8"}}>{desc}</span>
-            </div>
-          ))}
-        </div>
-
-        <hr style={S.hr}/>
-
-        {/* ── PARTIE 6 ── */}
-        <h2 id="b6" style={S.h2}>Partie 6 — Slash commands custom</h2>
-        <div style={SB.part}><p style={{...S.p,margin:0,color:"#a5b4fc",fontSize:13}}>⏱ Durée : 20 à 25 minutes</p></div>
-
-        <p style={S.p}>Les slash commands sont des fichiers Markdown dans <CdO c=".claude/commands/"/>. Chaque fichier = une commande <CdO c="/nom-du-fichier"/> accessible dans Claude Code.</p>
-
-        <h3 style={S.h3}>Exemples de commandes HUB'AO</h3>
-        <PrB>{`# Créer les commandes\ntouch .claude/commands/new-ao.md      # /new-ao\ntouch .claude/commands/analyse-dce.md # /analyse-dce\ntouch .claude/commands/daily-review.md # /daily-review\ntouch .claude/commands/ship-feature.md # /ship-feature`}</PrB>
-
-        <h3 style={S.h3}>Structure d'une commande /ship-feature</h3>
-        <PrB>{`# /ship-feature — Préparer et merger une feature HUB'AO
-
-## Ce que cette commande fait
-1. Vérifie TypeScript : npx tsc --noEmit
-2. Lance les tests : npm run test
-3. Vérifie REVIEW.md
-4. Crée un commit conventionnel
-5. Prépare la PR
-
-## Utilisation
-/ship-feature [nom-de-la-feature]
-
-## Critères de merge
-- 0 erreur TypeScript
-- Tests passent
-- REVIEW.md validé`}</PrB>
-
-        <div style={SB.tip}><p style={{...S.p,margin:0,fontSize:13}}><B c="/simplify"/> est une commande native Claude Code — elle simplifie et nettoie le code produit en session. Utile après une longue session de dev.</p></div>
-
-        <hr style={S.hr}/>
-
-        {/* ── PARTIE 7 ── */}
-        <h2 id="b7" style={S.h2}>Partie 7 — Hooks : automatiser les actions répétitives</h2>
-        <div style={SB.part}><p style={{...S.p,margin:0,color:"#a5b4fc",fontSize:13}}>⏱ Durée : 20 à 25 minutes · À la fin : 5 hooks actifs</p></div>
-
-        <p style={S.p}>Les hooks sont des scripts qui se déclenchent automatiquement à des moments précis du cycle Claude Code.</p>
-
-        <div style={{overflowX:"auto"}}>
-          <table style={SB.tbl}>
-            <thead><tr><th style={SB.th}>Hook</th><th style={SB.th}>Déclencheur</th><th style={SB.th}>Action</th></tr></thead>
-            <tbody>{[
-              ["session-start","Démarrage de Claude Code","Charge STATE.md, affiche les tâches en cours"],
-              ["pre-bash-security","Avant chaque commande bash","Bloque rm -rf, curl | bash, accès .env"],
-              ["post-bash","Après chaque commande bash","Tronque les outputs > 100 lignes"],
-              ["post-compact","Après /compact","Met à jour tasks/lessons.md avec les décisions"],
-              ["clean-code-check","Après chaque modification","Si fichier > 400 lignes → lance subagent refactoring"],
-            ].map(([h,d,a],i)=><tr key={i}><td style={SB.td}><CdO c={h}/></td><td style={SB.td}>{d}</td><td style={SB.td}>{a}</td></tr>)}</tbody>
-          </table>
-        </div>
-
-        <h3 style={S.h3}>Configurer dans settings.json</h3>
-        <PrB>{`{
-  "hooks": {
-    "SessionStart": [
-      { "command": "bash .claude/hooks/session-start.sh" }
-    ],
-    "PreBash": [
-      { "command": "bash .claude/hooks/pre-bash-security.sh" }
-    ],
-    "PostBash": [
-      { "command": "bash .claude/hooks/post-bash.sh" }
-    ]
-  }
-}`}</PrB>
-        <PrB>chmod +x .claude/hooks/*.sh</PrB>
-
-        <hr style={S.hr}/>
-
-        {/* ── PARTIE 8 ── */}
-        <h2 id="b8" style={S.h2}>Partie 8 — MCP Servers</h2>
-        <div style={SB.part}><p style={{...S.p,margin:0,color:"#a5b4fc",fontSize:13}}>⏱ Durée : 20 à 30 minutes · À la fin : 4 MCP servers connectés</p></div>
-
-        <p style={S.p}>Les MCP servers connectent Claude Code à des outils externes. Ils tournent en arrière-plan et Claude les appelle via des prompts naturels.</p>
-
-        <div style={SB.warn}><p style={{...S.p,margin:0,fontSize:13}}><B c="Checklist sécurité avant installation :"/> Vérifie le repo GitHub (stars, date du dernier commit), lis le code si tu passes une clé API, ajoute <CdO c=".mcp.json"/> dans <CdO c=".gitignore"/> si tu y mets des clés.</p></div>
-
-        <h3 style={S.h3}>Les 4 MCP servers HUB'AO</h3>
-        <PrB>{`// .mcp.json
-{
+      <!-- PHASE 7: MCP -->
+      <section id="phase7" class="glass-card">
+        <h2>Phase 7 : MCP Servers</h2>
+        <p>Fichier <code>.mcp.json</code> à la racine :</p>
+        <pre><code class="language-json">{
   "mcpServers": {
     "context7": {
       "type": "stdio",
       "command": "npx",
-      "args": ["-y", "@upstash/context7-mcp@latest"],
-      "description": "Documentation à jour Next.js, Supabase, shadcn/ui"
+      "args": ["-y", "@upstash/context7-mcp@latest"]
     },
     "playwright": {
       "type": "stdio",
       "command": "npx",
-      "args": ["@playwright/mcp@latest"],
-      "description": "Tests UI et screenshots automatiques"
-    },
-    "ccguide": {
-      "type": "stdio",
-      "command": "npx",
-      "args": ["-y", "claude-code-ultimate-guide-mcp"],
-      "description": "Templates et ressources Claude Code"
+      "args": ["@playwright/mcp@latest"]
     },
     "sequential-thinking": {
       "type": "stdio",
       "command": "npx",
-      "args": ["-y", "@modelcontextprotocol/server-sequential-thinking"],
-      "description": "Raisonnement structuré pour les problèmes complexes"
+      "args": ["-y", "@modelcontextprotocol/server-sequential-thinking"]
     }
   }
-}`}</PrB>
+}</code></pre>
+        <p>Vérifier avec <code>/mcp</code> et <code>/doctor</code>.</p>
+      </section>
 
-        <h3 style={S.h3}>Activer et vérifier</h3>
-        <PrB>{`/exit\nclaude\n/mcp  # vérifier que les 4 servers sont connectés\n/doctor  # si un server ne répond pas`}</PrB>
+      <!-- PHASE 8: COMMANDS -->
+      <section id="phase8" class="glass-card">
+        <h2>Phase 8 : Slash Commands Custom</h2>
 
-        <h3 style={S.h3}>Utilisation concrète sur HUB'AO</h3>
-        <div style={{display:"flex",flexDirection:"column",gap:8,margin:"12px 0"}}>
-          {[
-            ["Context7","En utilisant Context7 pour la doc Supabase Storage, crée un composant React d'upload de fichiers ZIP qui extrait les documents DCE."],
-            ["Playwright","Lance npm run dev, ouvre le dashboard sur localhost:3000, prends un screenshot de la page d'upload DCE et vérifie le drag-and-drop sur mobile."],
-            ["Sequential Thinking","Utilise le Sequential Thinking MCP pour analyser l'architecture optimale du pipeline de scoring HUB'AO. Explore plusieurs approches avant de proposer."],
-          ].map(([server,prompt],i)=>(
-            <div key={i} style={SB.card}>
-              <div style={{color:"#818cf8",fontWeight:700,fontSize:13,marginBottom:8}}>{server}</div>
-              <div style={{fontSize:13,color:"#94a3b8",fontStyle:"italic"}}>"{prompt}"</div>
+        <div class="grid-2">
+          <div>
+            <h3>/ship-feature</h3>
+            <p><strong>Ce que ça fait :</strong></p>
+            <ol style="margin-left: 1.5rem">
+              <li>Vérifie TypeScript (tsc --noEmit)</li>
+              <li>Lance les tests (npm run test)</li>
+              <li>Vérifie les critères REVIEW.md</li>
+              <li>Crée un commit conventionnel</li>
+              <li>Prépare la PR</li>
+            </ol>
+            <p style="margin-top: 1rem; color: #f85149">
+              <strong>Critères :</strong> 0 erreur, Tests OK, Pas de clés API.
+            </p>
+          </div>
+          <div>
+            <h3>/daily-review</h3>
+            <p><strong>Ce que ça fait :</strong></p>
+            <ol style="margin-left: 1.5rem">
+              <li>Git log des commits du jour</li>
+              <li>Vérifie les TODO/FIXME restants</li>
+              <li>Lance le typecheck</li>
+              <li>Résumé des tâches complétées vs à faire</li>
+            </ol>
+          </div>
+        </div>
+      </section>
+
+      <!-- PHASE 9: GSD -->
+      <section id="phase9" class="glass-card">
+        <h2>Phase 9 : GSD Framework (Optionnel)</h2>
+        <pre><code class="language-bash">curl -fsSL https://raw.githubusercontent.com/gsd-build/get-shit-done/main/install.sh | bash</code></pre>
+        <div style="display: flex; justify-content: space-between; margin-top: 2rem; text-align: center">
+          <div class="badge badge-blue">1. DISCUSS</div>
+          →
+          <div class="badge badge-blue">2. PLAN</div>
+          →
+          <div class="badge badge-orange">3. EXECUTE</div>
+          →
+          <div class="badge badge-green">4. VERIFY</div>
+          →
+          <div class="badge badge-green">5. SHIP</div>
+        </div>
+      </section>
+
+      <!-- PHASE 10: MONITORING -->
+      <section id="phase10" class="glass-card">
+        <h2>Phase 10 : Monitoring &amp; Optimisation</h2>
+        <pre><code class="language-bash">npm install -g ccusage                    <span class="token-comment"># stats consommation</span>
+npm install -g claude-code-usage-monitor  <span class="token-comment"># monitoring temps réel</span>
+/statusline                               <span class="token-comment"># barre métriques native</span></code></pre>
+
+        <div class="grid-2">
+          <div>
+            <h3>Seuils d'action</h3>
+            <div class="table-container">
+              <table>
+                <tbody>
+                  <tr>
+                    <td><strong>CLAUDE.md</strong></td>
+                    <td>&lt; 200 lignes</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Contexte 70%</strong></td>
+                    <td><code>/compact</code></td>
+                  </tr>
+                  <tr>
+                    <td><strong>Contexte 90%+</strong></td>
+                    <td><code>/clear</code></td>
+                  </tr>
+                  <tr>
+                    <td><strong>Session</strong></td>
+                    <td>~5h (reset quota)</td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
-          ))}
-        </div>
-
-        <hr style={S.hr}/>
-
-        {/* ── PARTIE 9 ── */}
-        <h2 id="b9" style={S.h2}>Partie 9 — Optimisation tokens et mémoire</h2>
-        <div style={SB.part}><p style={{...S.p,margin:0,color:"#a5b4fc",fontSize:13}}>⏱ Durée : 15 à 20 minutes</p></div>
-
-        <h3 style={S.h3}>9.1 — Le problème des tokens</h3>
-        <PrB>{`Session de développement typique sans optimisation :
-  npm install                    -> 400 tokens de logs
-  supabase migration run         -> 800 tokens de logs
-  git status + diff              -> 300 tokens
-  next build                     -> 1200 tokens de logs
-  -------------------------------------------
-  Total "bruit" sur une session  -> ~15 000 tokens`}</PrB>
-
-        <h3 style={S.h3}>9.2 — Prompt Caching (automatique)</h3>
-        <p style={S.p}>Le Prompt Caching est natif et automatique. Les éléments stables (CLAUDE.md, Skills, system prompt) sont mis en cache après la première requête.</p>
-        <div style={SB.tip}><p style={{...S.p,margin:0,fontSize:13}}>Mets le maximum d'instructions stables dans CLAUDE.md et dans les Skills plutôt que de les répéter dans chaque prompt. Tout ce qui est dans CLAUDE.md bénéficie du cache.</p></div>
-
-        <h3 style={S.h3}>9.3 — Les seuils de contexte</h3>
-        <div style={{display:"flex",flexDirection:"column",gap:8,margin:"12px 0"}}>
-          {[["0–50%","#3dd68c","Travail libre, maximum de précision"],["50–70%","#f59e0b","Surveille /status régulièrement"],["70–90%","#f97316","Lance /compact maintenant"],["90%+","#f87171","/clear obligatoire, nouvelle session recommandée"]].map(([range,color,action],i)=>(
-            <div key={i} style={{display:"flex",gap:12,alignItems:"center",padding:"10px 14px",borderRadius:8,background:`${color}0a`,border:`1px solid ${color}22`}}>
-              <span style={{color,fontWeight:700,fontFamily:"monospace",fontSize:13,flexShrink:0,minWidth:60}}>{range}</span>
-              <span style={{fontSize:13,color:"#94a3b8"}}>{action}</span>
+          </div>
+          <div>
+            <h3>Choix du modèle</h3>
+            <div class="table-container">
+              <table>
+                <tbody>
+                  <tr>
+                    <td><strong>Opus 4.6</strong></td>
+                    <td>Architecture, complexe</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Sonnet 4.6</strong></td>
+                    <td>Dev quotidien, features</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Haiku 4.5</strong></td>
+                    <td>Tâches répétitives, batch</td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
-          ))}
+          </div>
         </div>
+      </section>
 
-        <h3 style={S.h3}>9.4 — /compact avec instructions</h3>
-        <PrB>{`/compact Focus sur les décisions d'architecture, les bugs résolus
-et les patterns Supabase. Ignore les détails d'implémentation
-des composants UI et les logs de commandes.`}</PrB>
+      <!-- PHASE 11: SECURITE -->
+      <section id="phase11" class="glass-card">
+        <h2>Phase 11 : Sécurité</h2>
 
-        <h3 style={S.h3}>9.5 — Choix du modèle</h3>
-        <div style={{overflowX:"auto"}}>
-          <table style={SB.tbl}>
-            <thead><tr><th style={SB.th}>Modèle</th><th style={SB.th}>Usage optimal</th><th style={SB.th}>Commande</th></tr></thead>
-            <tbody>{[
-              ["Opus 4.6","Planification GSD, architecture, décisions complexes","/model claude-opus-4-6"],
-              ["Sonnet 4.6","Développement quotidien, features, debugging","/model claude-sonnet-4-6"],
-              ["Haiku 4.5","Tâches répétitives, agents batch, Ralph en boucle","/model claude-haiku-4-5-20251001"],
-            ].map(([m,u,c],i)=><tr key={i}><td style={SB.td}><B c={m}/></td><td style={SB.td}>{u}</td><td style={SB.td}><CdO c={c}/></td></tr>)}</tbody>
-          </table>
-        </div>
-
-        <h3 style={S.h3}>9.6 — Outils de monitoring</h3>
-        <PrB>{`# ccusage — stats de consommation\nnpm install -g ccusage\nccusage\n\n# claude-monitor — monitoring temps réel\nnpm install -g claude-code-usage-monitor\ncmonitor\n\n# Statusline — métriques en permanence dans le terminal\n/statusline  # activer la statusline native Claude Code`}</PrB>
-
-        <hr style={S.hr}/>
-
-        {/* ── PARTIE 10 ── */}
-        <h2 id="b10" style={S.h2}>Partie 10 — Sécurité</h2>
-        <div style={SB.part}><p style={{...S.p,margin:0,color:"#a5b4fc",fontSize:13}}>⏱ Durée : 20 à 30 minutes · À faire avant la production</p></div>
-
-        <h3 style={S.h3}>10.1 — Règles .env et secrets</h3>
-        <PrB>{`# .gitignore — obligatoire
-.env
+        <h3>Fichiers ignorés</h3>
+        <pre><code>.env
 .env.local
 .env.production
-.mcp.json  # si contient des clés
+.mcp.json</code></pre>
 
-# Dans settings.json — empêcher Claude de lire les secrets
-{
-  "permissions": {
-    "deny": ["Read(.env*)", "Bash(cat .env*)"]
-  }
-}`}</PrB>
+        <h3>Variables d'environnement (.env.local)</h3>
+        <pre><code class="language-bash">BEREACH_API_KEY=br_xxx
+NEXT_PUBLIC_SUPABASE_URL=xxx
+SUPABASE_SERVICE_ROLE_KEY=xxx
+OPENROUTER_API_KEY=xxx</code></pre>
 
-        <h3 style={S.h3}>10.2 — RLS Supabase</h3>
-        <p style={S.p}>Toutes les tables HUB'AO doivent avoir des policies RLS. Ne jamais utiliser <CdO c="service_role"/> côté client.</p>
-        <PrB>{`-- Exemple policy RLS pour ao_fiches
-ALTER TABLE ao_fiches ENABLE ROW LEVEL SECURITY;
+        <h3>Actions de sécurité</h3>
+        <ul style="list-style: none; padding-left: 0">
+          <li class="checklist-item">
+            <span class="check-icon">✓</span> <strong>Scan MCP :</strong> <code>npx mcp-scan@latest</code>
+          </li>
+          <li class="checklist-item">
+            <span class="check-icon">✓</span> <strong>RLS Supabase :</strong> Row Level Security sur toutes les tables
+          </li>
+          <li class="checklist-item">
+            <span class="check-icon">✓</span> <strong>Client Side :</strong> Ne jamais utiliser
+            <code>service_role</code> côté client
+          </li>
+        </ul>
+      </section>
 
-CREATE POLICY "Users can only see their org AOs"
-ON ao_fiches FOR SELECT
-USING (org_id = auth.jwt() ->> 'org_id');`}</PrB>
+      <!-- PHASE 12: CLAUDE-MEM -->
+      <section id="phase12" class="glass-card">
+        <h2>Phase 12 : Claude-Mem (Mémoire Persistante)</h2>
+        <p>
+          <strong>Le problème :</strong> Claude Code n'a aucune mémoire entre les sessions. Quand tu fermes le terminal,
+          tout est perdu.<br>
+          <strong>La solution :</strong> Claude-Mem capture, compresse et réinjecte automatiquement le contexte.
+        </p>
 
-        <h3 style={S.h3}>10.3 — Scanner les MCP servers</h3>
-        <PrB>{`# mcp-scan — détecte les prompt injections dans les MCP servers\nnpx mcp-scan@latest`}</PrB>
+        <h3>12.1 Installation</h3>
+        <pre><code class="language-bash">/plugin marketplace add thedotmack/claude-mem
+/plugin install claude-mem</code></pre>
+        <p><em>Ne PAS utiliser npm install -g. Toujours passer par /plugin.</em></p>
 
-        <hr style={S.hr}/>
+        <h3>12.2 Config Provider IA (réduction coûts)</h3>
+        <p>Option A : OpenRouter (Recommandé)</p>
+        <pre><code class="language-json">{
+  "provider": "openrouter",
+  "model": "anthropic/claude-sonnet-4-6",
+  "openrouterApiKey": "sk-or-xxx"
+}</code></pre>
+        <p>Option B : Gemini (Gratuit)</p>
+        <pre><code class="language-json">{
+  "provider": "gemini",
+  "geminiApiKey": "AIza-xxx"
+}</code></pre>
 
-        {/* ── PARTIE 11 ── */}
-        <h2 id="b11" style={S.h2}>Partie 11 — Workflow quotidien</h2>
-        <div style={SB.part}><p style={{...S.p,margin:0,color:"#a5b4fc",fontSize:13}}>Le workflow quotidien HUB'AO avec 3 agents en parallèle</p></div>
+        <h3>12.3 Vérification</h3>
+        <pre><code class="language-bash">curl http://localhost:37777/health
+<span class="token-comment"># Interface web : http://localhost:37777</span></code></pre>
+      </section>
 
-        <h3 style={S.h3}>Démarrage de session</h3>
-        <PrB>{`cd hubao\nclaude\n# Le hook session-start charge automatiquement STATE.md\n\n/status  # vérifier le contexte disponible\n/model claude-sonnet-4-6  # modèle par défaut`}</PrB>
+      <!-- CHECKLIST FINALE -->
+      <section class="glass-card" style="border-color: #3fb950">
+        <h2>Checklist Finale</h2>
+        <div class="grid-2">
+          <div>
+            <div class="checklist-item"><span class="check-icon">✓</span> Phase 1 : Installation Claude Code</div>
+            <div class="checklist-item"><span class="check-icon">✓</span> Phase 2 : Init projet leadpilot</div>
+            <div class="checklist-item"><span class="check-icon">✓</span> Phase 3 : Permissions sécurisées</div>
+            <div class="checklist-item"><span class="check-icon">✓</span> Phase 4 : CLAUDE.md complet</div>
+            <div class="checklist-item"><span class="check-icon">✓</span> Phase 5 : Skills &amp; API BeReach</div>
+            <div class="checklist-item"><span class="check-icon">✓</span> Phase 6 : Hooks installés</div>
+          </div>
+          <div>
+            <div class="checklist-item"><span class="check-icon">✓</span> Phase 7 : MCP Servers connectés</div>
+            <div class="checklist-item"><span class="check-icon">✓</span> Phase 8 : Slash commands custom</div>
+            <div class="checklist-item"><span class="check-icon">✓</span> Phase 9 : GSD Framework</div>
+            <div class="checklist-item"><span class="check-icon">✓</span> Phase 10 : Monitoring actif</div>
+            <div class="checklist-item"><span class="check-icon">✓</span> Phase 11 : Sécurité validée</div>
+            <div class="checklist-item"><span class="check-icon">✓</span> Phase 12 : Claude-Mem opérationnel</div>
+          </div>
+        </div>
+      </section>
 
-        <h3 style={S.h3}>Workflow feature complète</h3>
-        <div style={{display:"flex",flexDirection:"column",gap:8,margin:"12px 0"}}>
-          {[["1","Discuss","/gsd:discuss-phase — clarifier le besoin avec le PM Agent"],["2","Plan","/gsd:plan-phase avec Opus — concevoir l'architecture (Shift+Tab)"],["3","Execute","Ralph ou agents en parallèle — implémenter les stories"],["4","Verify","/gsd:verify-work — valider chaque livrable"],["5","Review","/reviewer-hubao — code review avant merge"],["6","Ship","/ship-feature — TypeScript + tests + commit + PR"]].map(([step,phase,desc],i)=>(
-            <div key={i} style={{display:"flex",gap:12,alignItems:"flex-start",padding:"10px 14px",borderRadius:8,background:"rgba(99,102,241,0.04)",border:"1px solid rgba(99,102,241,0.1)"}}>
-              <span style={{color:"#6366f1",fontWeight:700,fontSize:13,flexShrink:0,minWidth:20}}>{step}</span>
-              <span style={{color:"#818cf8",fontWeight:600,fontSize:13,flexShrink:0,minWidth:80}}>{phase}</span>
-              <span style={{fontSize:13,color:"#94a3b8"}}>{desc}</span>
+      <!-- STRUCTURE FINALE -->
+      <section class="glass-card">
+        <h2>Structure Finale du Projet</h2>
+        <pre><code class="language-bash">leadpilot/
+├── .claude/
+│   ├── settings.json              <span class="token-comment"># permissions + hooks</span>
+│   ├── commands/
+│   │   ├── ship-feature.md
+│   │   └── daily-review.md
+│   ├── hooks/
+│   │   ├── session-start.sh
+│   │   ├── pre-bash-security.sh
+│   │   └── post-bash.sh
+│   └── skills/
+│       ├── skill-bereach-api/     <span class="token-comment"># SKILL.md 79 endpoints</span>
+│       ├── skill-supabase/
+│       ├── skill-nextjs/
+│       ├── skill-design-leadpilot/
+│       └── skill-security/
+├── .mcp.json                      <span class="token-comment"># 3 MCP servers</span>
+├── CLAUDE.md                      <span class="token-comment"># cerveau du projet</span>
+├── REVIEW.md
+├── PROJECT.md
+├── .env.local
+├── .gitignore
+├── src/
+│   ├── app/
+│   │   ├── api/bereach/
+│   │   ├── (dashboard)/
+│   │   ├── (campaigns)/
+│   │   └── (inbox)/
+│   ├── components/
+│   │   ├── prospects/
+│   │   └── campaigns/
+│   ├── lib/
+│   │   ├── bereach/
+│   │   └── supabase/
+│   └── types/
+└── package.json
+
+~/.claude-mem/
+├── claude-mem.db                  <span class="token-comment"># SQLite mémoire</span>
+├── chroma/                        <span class="token-comment"># Vector DB</span>
+├── settings.json
+└── logs/</code></pre>
+      </section>
+
+      <!-- 5 REFLEXES -->
+      <section>
+        <h2>Les 5 Réflexes en Session</h2>
+        <div class="grid-3" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr))">
+          <div class="glass-card" style="text-align: center; padding: 1.5rem; margin: 0">
+            <div style="font-size: 2rem; margin-bottom: 0.5rem">📝</div>
+            <h4 style="margin: 0; color: #58a6ff">Plan avant code</h4>
+            <div style="color: #8b949e; font-size: 0.9rem; margin-top: 0.5rem">
+              <code>Shift+Tab</code> avant toute tâche
             </div>
-          ))}
+          </div>
+          <div class="glass-card" style="text-align: center; padding: 1.5rem; margin: 0">
+            <div style="font-size: 2rem; margin-bottom: 0.5rem">💾</div>
+            <h4 style="margin: 0; color: #3fb950">Commits fréquents</h4>
+            <div style="color: #8b949e; font-size: 0.9rem; margin-top: 0.5rem">Après chaque petite tâche</div>
+          </div>
+          <div class="glass-card" style="text-align: center; padding: 1.5rem; margin: 0">
+            <div style="font-size: 2rem; margin-bottom: 0.5rem">🥊</div>
+            <h4 style="margin: 0; color: #f85149">Challenger</h4>
+            <div style="color: #8b949e; font-size: 0.9rem; margin-top: 0.5rem">"Prouve-moi que ça marche"</div>
+          </div>
+          <div class="glass-card" style="text-align: center; padding: 1.5rem; margin: 0">
+            <div style="font-size: 2rem; margin-bottom: 0.5rem">🧹</div>
+            <h4 style="margin: 0; color: #a78bfa">Gérer contexte</h4>
+            <div style="color: #8b949e; font-size: 0.9rem; margin-top: 0.5rem">/status, /compact, /clear</div>
+          </div>
+          <div class="glass-card" style="text-align: center; padding: 1.5rem; margin: 0">
+            <div style="font-size: 2rem; margin-bottom: 0.5rem">🛑</div>
+            <h4 style="margin: 0; color: #d29922">Git avant auto</h4>
+            <div style="color: #8b949e; font-size: 0.9rem; margin-top: 0.5rem">Commit avant autonomie</div>
+          </div>
         </div>
-
-        <h3 style={S.h3}>Les 5 règles d'or</h3>
-        <div style={{display:"flex",flexDirection:"column",gap:8,margin:"12px 0"}}>
-          {[["Plan avant code","Shift+Tab avant toute tâche qui touche plus de 2 fichiers"],["Commits atomiques fréquents","Après chaque tâche terminée — même petite"],["Challenger Claude","\"Prouve-moi que ça fonctionne\" avant tout merge"],["Jamais de clé dans le repo",".env dans .gitignore, rotation régulière"],["Gestion du contexte dès le départ","Surveille /status, /compact à 70%, /clear à 90%"]].map(([rule,desc],i)=>(
-            <div key={i} style={{...SB.card,display:"flex",gap:14,padding:"14px 18px",borderLeft:"3px solid #6366f1"}}>
-              <div><div style={{color:"#e4e4e7",fontWeight:600,fontSize:13,marginBottom:3}}>{rule}</div><div style={{fontSize:13,color:"#94a3b8"}}>{desc}</div></div>
-            </div>
-          ))}
-        </div>
-
-        <hr style={S.hr}/>
-
-        {/* ── ANNEXES ── */}
-        <h2 id="b12" style={S.h2}>Annexes</h2>
-
-        <h3 style={S.h3}>Checklist de démarrage de projet</h3>
-        <div style={{display:"flex",flexDirection:"column",gap:4,margin:"12px 0"}}>
-          {["Partie 1 — Claude Code + projet Next.js 16.2 + shadcn/ui","Partie 2 — CLAUDE.md + REVIEW.md + .env complet","Partie 7 — Hooks (chmod +x) : session-start, pre-bash-security, post-bash, post-compact, clean-code-check","Partie 9 — Statusline + claude-monitor installés","Partie 8 — MCP servers : context7, playwright, ccguide, sequential-thinking","Partie 5 — Skills : Superpowers + frontend-design + shadcn/ui + 7 Skills custom","Partie 3 — GSD installé → /gsd:new-project","Partie 4 — Agents + Ralph quand le projet grandit","Partie 10 — Hardening sécurité avant la prod"].map((it,i)=>(
-            <div key={i} style={SB.chk}><span style={{color:"#6366f1",flexShrink:0}}>✓</span>{it}</div>
-          ))}
-        </div>
-
-        <h3 style={S.h3}>Ressources</h3>
-        <div style={{overflowX:"auto"}}>
-          <table style={SB.tbl}>
-            <thead><tr><th style={SB.th}>Ressource</th><th style={SB.th}>URL</th></tr></thead>
-            <tbody>{[
-              ["Claude Code docs","https://docs.anthropic.com/en/docs/claude-code"],
-              ["GSD","https://github.com/gsd-build/get-shit-done"],
-              ["Superpowers","https://github.com/obra/superpowers"],
-              ["Ralph","https://github.com/snarktank/ralph"],
-              ["ccusage","https://github.com/ryoppippi/ccusage"],
-              ["Context7","https://context7.com"],
-              ["awesome-claude-code","https://github.com/hesreallyhim/awesome-claude-code"],
-            ].map(([r,u],i)=><tr key={i}><td style={SB.td}><B c={r}/></td><td style={SB.td}><BLink href={u}>{u.replace("https://","")}</BLink></td></tr>)}</tbody>
-          </table>
-        </div>
-
-        <h3 style={S.h3}>Seuils à connaître</h3>
-        <div style={{overflowX:"auto"}}>
-          <table style={SB.tbl}>
-            <thead><tr><th style={SB.th}>Métrique</th><th style={SB.th}>Seuil</th><th style={SB.th}>Action</th></tr></thead>
-            <tbody>{[
-              ["CLAUDE.md","< 200 lignes","Au-delà : dégrader en Skills ou tasks/"],
-              ["Contexte","70%","Lancer /compact"],
-              ["Contexte","90%+","/clear obligatoire"],
-              ["Fenêtre de session","5h","Reset automatique du quota"],
-              ["Stories Ralph","< 2h d'implémentation","Au-delà : découper en sous-stories"],
-            ].map(([m,s,a],i)=><tr key={i}><td style={SB.td}>{m}</td><td style={SB.td}><B c={s}/></td><td style={SB.td}>{a}</td></tr>)}</tbody>
-          </table>
-        </div>
-
-        <div style={S.bq}><p style={{ ...S.p, margin:0 }}>Ce guide a été rédigé par <B c="Daemon IA"/>. Pour des formations sur Claude Code et l'automatisation IA : <a href="https://daemon-ia.fr" target="_blank" rel="noopener noreferrer" style={{color:"#6366f1",fontFamily:"monospace",textDecoration:"none"}}>daemon-ia.fr</a></p></div>
-      </article>
-      <Toc items={BUILDER_TOC} activeId={activeId} onTocClick={onTocClick} accentColor="#6366f1"/>
+      </section>
     </div>
+
+    <footer>Guide rédigé par Daemon IA — daemon-ia.fr</footer>
+  
+
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js/v8c78df7c7c0f484497ecbca7046644da1771523124516" integrity="sha512-8DS7rgIrAmghBFwoOTujcf6D9rXvH8xm8JQ1Ja01h9QX8EzXldiszufYa4IFfKdLUKTTrnSFXLDkUEOTrZQ8Qg==" data-cf-beacon='{"version":"2024.11.0","token":"4edd5f8ec12a48cfa682ab8261b80a79","server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
+</body></html>`;
+
+function BuilderGuide() {
+  return (
+    <iframe
+      srcDoc={BUILDER_HTML}
+      style={{width:"100%", height:"calc(100vh - 64px)", border:"none", display:"block"}}
+      title="Builder avec Claude Code"
+    />
   );
 }
 
@@ -2313,7 +3501,7 @@ export default function App() {
               ["guide", <><img src="https://i.imgur.com/YPq9o8G.png" style={{width:16,height:16,objectFit:"contain",borderRadius:3}}/> Guide d'installation OpenClaw</>, false],
               ["offer", "Service & Offre", true],
               ["costs", "Optimisation des Coûts", false],
-              ["claudecode", <><img src="https://i.imgur.com/c70pItt.png" style={{width:16,height:16,objectFit:"contain",borderRadius:3}}/> Guide Claude Code</>, false],
+              ["claudecode", <><img src="https://i.imgur.com/BiG2k09.png" style={{width:18,height:18,objectFit:"contain",borderRadius:"50%"}}/> Guide Claude Code</>, false],
               ["builder", <><img src="https://i.imgur.com/c70pItt.png" style={{width:16,height:16,objectFit:"contain",borderRadius:3}}/> Builder avec Claude Code</>, false],
             ].map(([id,label,isOffer])=>{
               const on = tab===id;
@@ -2323,8 +3511,8 @@ export default function App() {
           </div>
         </div>
       </div>
-      <div style={(tab==="costs") ? {padding:0} : S.main}>
-        {tab==="guide" ? <GuideContent activeId={activeId} onTocClick={handleTocClick}/> : tab==="offer" ? <OfferPage/> : tab==="costs" ? <CostGuide/> : tab==="claudecode" ? <ClaudeCodeGuide activeId={activeId} onTocClick={handleTocClick} onShowClaudeMd={()=>setShowClaudeMd(true)}/> : <BuilderGuide activeId={activeId} onTocClick={handleTocClick}/>}
+      <div style={(tab==="costs"||tab==="builder") ? {padding:0} : S.main}>
+        {tab==="guide" ? <GuideContent activeId={activeId} onTocClick={handleTocClick}/> : tab==="offer" ? <OfferPage/> : tab==="costs" ? <CostGuide/> : tab==="claudecode" ? <ClaudeCodeGuide activeId={activeId} onTocClick={handleTocClick} onShowClaudeMd={()=>setShowClaudeMd(true)}/> : <BuilderGuide/>}
       </div>
       {tab !== "costs" && <>
       <a
